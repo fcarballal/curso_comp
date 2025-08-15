@@ -1,0 +1,180 @@
+\documentclass[a4paper,12pt]{book}
+\usepackage{etex}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fullpage}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{txfonts}
+\usepackage{latexsym}
+\usepackage{stmaryrd}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{hyperref}
+%\usepackage[all]{xy}
+\usepackage{proof}
+\usepackage[sans]{dsfont}
+\usepackage[spanish]{babel}
+
+
+\newcommand{\Ra}{\Rightarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\te}{\text}
+\newcommand{\Lra}{\Leftrightarrow}
+\newcommand{\lra}{\leftrightarrow}
+
+
+%%%
+\theoremstyle{definition}
+\newtheorem{ejercicio}{Ejercicio}
+\outer\long\def\COUIC#1{}
+\outer\long\def\Solucion#1{\par
+	{\sl\small\noindent\textbf{Solución:}\quad#1\par}}
+%%% Comentar la siguiente línea para mostrar las soluciones
+\outer\long\def\Solucion#1{}
+
+\begin{document}
+	
+	\noindent
+	\centerline{\sc
+		Facultad de Ciencias\hfill---\hfill
+		Computación\hfill---\hfill
+		Segundo semestre de 2025}\smallbreak\hrule
+	
+	\bigbreak
+	\centerline{\Large\textbf{Práctico 1: Introducción a la programación en python}}
+	\bigbreak
+	
+	La idea de este práctico es comenzar a utilizar python y prácticar un poco los conceptos básicos.
+	
+	Aquí y en todos los siguientes prácticos, cuando se pide escribir un programa, está de más decir que hay que luego hacer pruebas de que el programa hace lo que debería. A esto se le llama {\sl testing}.
+	\center{\textbf{Uso del intérprete y ejecución de programas}}
+	
+	\begin{ejercicio}
+		\begin{enumerate}
+			\item Ejecutar en una terminal el comando {\tt python -V}, que retorna la versión de python que está instalada, en caso de que haya alguna.
+			\item Ejecutar el intérprete y calcular lo siguiente.
+			\begin{enumerate}\parskip-.5ex
+				\item El resto de dividir $123^{123}$ entre $127$.
+				\item $5^{5^3}$ y $(5^5)^3$.
+				\item $\pi^e$.
+			\end{enumerate}
+			Para la última parte, investigar cómo usar $\pi$ y $e$ en python. Por ejemplo, buscar en internet. Sug: usar la biblioteca math. Documentación de la biblioteca math (con mucha más información de lo que se precisa aquí): \href{https://docs.python.org/es/3.13/library/math.html}{https://docs.python.org/es/3.13/library/math.html}. Por cierto, leer documentación suele llevar más trabajo que simplemente buscar en internet y entrar a las primeras páginas que aparecen (aunque puede ser recomendable si se quiere entender más profundamente).
+		\end{enumerate}
+		
+		
+	\end{ejercicio}
+	\begin{ejercicio}
+		Escribir un programa de python en un archivo y ejecutarlo desde la terminal. Se sugiere el siguiente contenido para el programa:
+		\begin{verbatim}
+print("Hola, me llamo python.")
+print("No, no viene de reptiles.")
+print("Es por el grupo inglés de comediantes 'Monty Python'.")
+		\end{verbatim}
+	\end{ejercicio}
+	
+	\begin{ejercicio}\label{ejer-pythonInteractive}
+		Escribiendo en la terminal {\tt python -i nombre.py} se ejecuta el programa {\tt nombre.py} y luego de eso se pasa al intérprete para que se siga pudiendo ejecutar instrucciones. Si se definieron cosas en el programa (variables, por ejemplo), estas siguen definidas en el intérprete.
+		
+		Hacer un programa que defina ciertas variables y con esto anterior, ejecutar el programa y luego en el intérprete hacer operaciones con las variables.
+		Por ejemplo, el programa podría ser:
+		\begin{verbatim}
+a = 100
+b = 124
+c = "Hola"
+d = [1,2,3]
+		\end{verbatim}
+		y luego de ejecutarlo, en el intérprete se podría hacer {\tt a+b}, {\tt c[2]} y {\tt d[0]}.
+	\end{ejercicio}
+
+	\center{\textbf{Primeros programas}}
+	\begin{ejercicio}\label{ejer-polSegGrado}
+		Escribir un programa que reciba como entrada tres números de punto flotante $a$, $b$ y $c$ y calcule las raíces de la ecuación cuadrática $ax^2+bx+c$. Luego el programa debe mostrar en la terminal las dos raíces calculadas (no importa si las dos son iguales). Después de eso, verificar las raíces son correctas evaluando el polinomio y mostrando los resultados. Para las entradas, tener en cuenta que la función {\tt float()} convierte un string en un número de punto flotante.
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		\begin{enumerate}
+			\item La función {\tt range(\_)} de python retorna una lista con todos los números naturales menores a su argumento. Por ejemplo, {\tt range(3)=[0,1,2]}. Probar esta función en el intérprete.
+			\item Escribir un programa que reciba como entrada un entero positivo $n$, construya una lista con los números de $0$ a $n$, le agregue los números $2n$ y $3n$ al final e imprima la lista en la terminal.
+			\item Investigar sobre la función {\tt range()} y usarla para escribir un programa que haga lo mismo que el anterior, pero que la lista inicial en vez de tener todos los números de $0$ a $n$ tenga solamente los que son múltiplos de $3$ (incluyendo a $0$).
+		\end{enumerate}
+	\end{ejercicio}
+	
+	\center{\textbf{Condicionales}}
+	\begin{ejercicio}
+		Escribir un programa que halle raíces de polinomios de segundo grado como el del ejercicio \ref{ejer-polSegGrado}, pero que esta vez distinga según si hay dos raíces reales, una sola o dos raíces complejas y lo escriba en la terminal. En caso de raiz doble, debe imprimirla una sola vez.
+	\end{ejercicio}
+	
+	\begin{ejercicio}[Número par]
+		Escribir un programa que le pida al usuario que ingrese un número par. Si el usuario lo ingresa, el programa escribe <<Gracias.>> y termina. En caso de que el número sea impar, el programa le vuelve a pedir que ingrese un número par y sigue del mismo modo. Si el usuario ingresa números impares tres veces, el programa escribe <<Me aburrí.>> y termina.
+	\end{ejercicio}
+	
+	\begin{ejercicio}[Truco]
+		En el truco se juega con cartas españolas. Cada carta puede ser de espada, basto, oro o copa y tiene asociado un valor entre $1$ y $12$. Representaremos las cartas con listas de dos elementos {\tt [$a$,$b$]}, dónde $a$ es un número entre $0$ y $3$ que indica el palo (espada, basto, oro o copa) y $b$ es el valor. En el truco las cartas con valor $8$ y $9$ no se usan.
+		
+		Cada jugador tiene tres cartas. Decimos que un jugador tiene {\bf flor} si sus tres cartas tienen el mismo palo. Decimos que un jugador tiene {\bf envido} si no tiene flor y dos de sus cartas tienen el mismo palo.
+		
+		\begin{enumerate}
+			\item Escribir un programa que reciba como entrada tres cartas (pidiendo para cada una primero el palo y después el valor) y determine si hay flor o envido y lo imprima en la terminal, diciendo también de qué palo son las cartas que conforman la flor o el envido.
+			
+			\item Tanto la flor como el envido tienen un valor, que es 20 más la suma de los valores de las cartas del mismo palo, con la sutileza de que los $10$, $11$ y $12$ no aportan a la suma. Por ejemplo, una flor con un $2$, un $5$ y un $11$ vale $27$, mientras que un envido con un $10$ y un $11$ vale $20$. Agregar al programa anterior que en caso de haber flor o envido, calcule y muestre el valor.
+			
+			\item (Opcional) Adaptar las partes anteriores al truco con muestra (\href{https://es.wikipedia.org/wiki/Truco_uruguayo}{EnlaceAWikipedia}). Pedir al principio una carta más para la muestra.
+		\end{enumerate}
+	\end{ejercicio}
+	
+	\center{\textbf{Iteraciones}}
+	\begin{ejercicio}
+		Escribir un programa que pida dos entradas $a$ y $b$ y retorne la suma de todos los números $n$ tales que $a\leq n\leq b$. Notar que queremos incluir a $b$ en la suma.
+	\end{ejercicio}
+	\begin{ejercicio}[Asteriscos]
+		Escribir un programa que reciba como entradas dos números $n$ y $m$ y luego imprima un rectángulo de símbolos * de largo $n$ y alto $m$ en la terminal (es decir, $m$ líneas cada una con $n$ asteriscos).
+	\end{ejercicio}
+	\begin{ejercicio}
+		Escribir un programa que reciba números naturales del usuario de forma iterativa hasta que este ingrese un número negativo. Luego, por cada número que el usuario ingresó, en el mismo orden que los ingresó, imprimir una línea de esa cantidad de asteriscos. Tener en cuenta que en el curso {\tt 0} se considera un natural.
+	\end{ejercicio}
+	\begin{ejercicio}
+		Tomar alguno de los programas hechos hasta ahora y modificarlo para que permita al usuario repetirlo tantas veces como quiera antes de culminar la ejecución, mediante una pregunta de respuesta {\tt 0} o {\tt 1}.
+	\end{ejercicio}
+	\begin{ejercicio}
+		Escribir un programa que para determinar si termina o no haya que resolver algún problema abierto.
+	\end{ejercicio}
+	
+	\center{\textbf{Funciones}}
+	\begin{ejercicio}
+		\begin{enumerate}
+			\item Escribir una función que reciba un número $n$ como entrada y retorne un booleano que dice si el número el primo o no. Poniendo comandos {\tt return} en distintos lugares, se puede hacer con un {\tt for} y aún así evitar el problema de seguir haciendo cosas tras haber encontrado un divisor.
+			\item Utilizando lo visto en el ejercicio \ref{ejer-pythonInteractive}, evaluar la función en distintos números desde el intérprete.
+			\item Utilizando la función ya escrita, hacer programas con los siguientes comportamientos:
+			\begin{enumerate}
+				\item Dados dos números, imprime la lista de los números primos comprendidos entre estos dos.
+				\item Dados dos números, imprime los primos gemelos que haya en ese rango (si los hay).
+				\item Dado un número, $n$, imprime una linea de asteriscos del largo de cada uno de los primeros $n$ primos, en orden creciente.
+			\end{enumerate}
+			Estos programas pueden hacerse con input, o pueden escribirse como otras funciones y ejecutarse desde el intérprete usando nuevamente lo visto en el ejercicio \ref{ejer-pythonInteractive}.
+		\end{enumerate}
+	\end{ejercicio}
+	\begin{ejercicio}[Testing automático]
+		El testing consiste en hacer pruebas con un programa para ver si funciona bien. No sirven como demostración de que el programa es correcto, porque en general que funcione en ciertos casos no implica que funcione en todos, pero suele ser una práctica muy recomendable.
+		
+		El testing se puede hacer ejecutando ejemplos uno a uno, como venimos haciendo hasta ahora, o también con verificación automática para casos en los que sabemos la respuesta.
+		
+		Para la función que determina si un número es primo, verificar que retorna {\tt False} para $n=abc$ para todas las ternas $a,b,c$ tales que $2\leq a\leq 10$, $2\leq b\leq 10$ y $1\leq c\leq 10$. Por supuesto que la idea es automatizar esta verificación. La función pasa el test solamente si siempre reotorna {\tt False}.
+	\end{ejercicio}
+	\begin{ejercicio}[hipertruco]
+		Generalicemos el truco.
+		
+		Los valores de las cartas pueden ser cualquier entero positivo y la cantidad de cartas por jugador es un número $n$ arbitrario. Digamos que un {\bf $k$-envido}, para $k\geq 2$, se da cuando el jugador tiene $k$ cartas de un mismo palo y no tiene $k+1$. En el truco estándar, la flor es el 3-envido y el envido es el 2-envido.
+		
+		\begin{enumerate}
+			\item Probar que si $n/4>k_0\geq 1$ entonces hay $k$-envido para algún $k> k_0$.
+			\item Escribir una función que reciba una mano (lista de cartas) y determine si hay $k$-envido para algún $k$. En ese caso, determinar cuántos $k$-envidos hay (puede haber hasta uno por palo). Recordar que una carta es {\tt [a,b]}, donde {\tt a} es el palo y {\tt b} es el valor.
+			\item Hacer que la función también retorne (o imprima) el valor del $k$-envido en caso de que haya (si hay muchos, se imprime el mayor valor). Quitemos la regla de que el $10$, $11$ y $12$ no suman y simplemente hagamos que cada carta sume su valor.
+			\item Generalicemos más. Ahora hay un palo para cada entero natural. Repetir las últimas dos partes. Sugerencia: primero obtener la lista de los palos que aparecen en la mano.
+		\end{enumerate}
+	\end{ejercicio}
+	
+\end{document}
+
