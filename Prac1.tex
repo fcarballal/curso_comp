@@ -48,6 +48,8 @@
 	\bigbreak
 	
 	Aquí y en todos los siguientes prácticos, cuando se pide escribir un programa, está de más decir que hay que luego hacer pruebas de que el programa hace lo que debería. A esto se le llama {\sl testing}.
+	
+	Los títulos son para indicar el concepto más avanzado (respecto al orden de las notas) que se usa en los ejercicios que siguen, pero no significa que sea lo único que se use. Por ejemplo, los ejercicios después del título {\bf Funciones}, pueden requerir también todo lo anterior.
 	\center{\textbf{Uso del intérprete y ejecución de programas}}
 	
 	\begin{ejercicio}
@@ -93,6 +95,10 @@ d = [1,2,3]
 	\end{ejercicio}
 	
 	\begin{ejercicio}
+		¿Cómo se puede intercambiar los valores de dos variables {\tt x} e {\tt y}? Notar que simplemente hacer {\tt x = y} y después {\tt y = x} no funciona.
+	\end{ejercicio}
+	
+	\begin{ejercicio}
 		\begin{enumerate}
 			\item La función {\tt range(\_)} de python retorna una lista con todos los números naturales menores a su argumento. Por ejemplo, {\tt range(3)=[0,1,2]}. Probar esta función en el intérprete.
 			\item Escribir un programa que reciba como entrada un entero positivo $n$, construya una lista con los números de $0$ a $n$, le agregue los números $2n$ y $3n$ al final e imprima la lista en la terminal.
@@ -130,6 +136,15 @@ d = [1,2,3]
 	\begin{ejercicio}[Asteriscos]
 		Escribir un programa que reciba como entradas dos números $n$ y $m$ y luego imprima un rectángulo de símbolos * de largo $n$ y alto $m$ en la terminal (es decir, $m$ líneas cada una con $n$ asteriscos).
 	\end{ejercicio}
+	\begin{ejercicio}\label{ejer-elemMax}
+		Escribir un programa que dada una lista de números retorne el máximo. Hacer lo mismo con el mínimo.
+	\end{ejercicio}
+	\begin{ejercicio} Dadas dos listas de números, queremos determinar si todos los elementos de la primera son menores a todos los de la segunda.
+		\begin{enumerate}
+			\item Escribir un programa que resuelva el problema.
+			\item Supongamos que las listas son de largo $n$ y $m$. Si el programa lo que hace es comparar cada elemento de la primera con cada elementos de la segunda, la cantidad de opereaciones es del orden de $nm$ y por lo tanto el tiempo de ejecución es proporcional a ese número. Pensar un algoritmo (y escribir el programa) que lo resuelva con cantidad de operaciones del orden de $n+m$. Sug: recordar el ejercicio \ref{ejer-elemMax}.
+		\end{enumerate}
+	\end{ejercicio}
 	\begin{ejercicio}
 		Escribir un programa que reciba números naturales del usuario de forma iterativa hasta que este ingrese un número negativo. Luego, por cada número que el usuario ingresó, en el mismo orden que los ingresó, imprimir una línea de esa cantidad de asteriscos. Tener en cuenta que en el curso {\tt 0} se considera un natural.
 	\end{ejercicio}
@@ -155,16 +170,33 @@ d = [1,2,3]
 		\end{enumerate}
 	\end{ejercicio}
 	\begin{ejercicio}[Testing automático]
-		El testing consiste en hacer pruebas con un programa para ver si funciona bien. No sirven como demostración de que el programa es correcto, porque en general que funcione en ciertos casos no implica que funcione en todos, pero suele ser una práctica muy recomendable.
+		El testing consiste en hacer pruebas con un programa para ver si funciona bien. No sirve como demostración de que el programa es correcto, porque en general que funcione en ciertos casos no implica que funcione en todos, pero suele ser una práctica muy recomendable.
 		
 		El testing se puede hacer ejecutando ejemplos uno a uno, como venimos haciendo hasta ahora, o también con verificación automática para casos en los que sabemos la respuesta.
 		
 		Para la función que determina si un número es primo, verificar que retorna {\tt False} para $n=abc$ para todas las ternas $a,b,c$ tales que $2\leq a\leq 10$, $2\leq b\leq 10$ y $1\leq c\leq 10$. Por supuesto que la idea es automatizar esta verificación. La función pasa el test solamente si siempre reotorna {\tt False}.
 	\end{ejercicio}
+	
+	\begin{ejercicio}[Fibonacci]
+		Escribir una función que dado un $n$ retorne el $n$-ésimo paso de la sucesión de Fibonacci.
+	\end{ejercicio}
+	
+	\begin{ejercicio}[Punto flotante haciendo agua]
+		Definimos una sucesión $(p_n)_{n\in\N}$ de modo que $p_n = \int_0^1x^ne^xdx$. Queremos determinar cuanto vale para cada $n$.
+		\begin{enumerate}
+			\item (opcional) Probar que $p_0=e-1$ y que para todo $n\in\N$, se tiene $p_{n+1}=e-(n+1)p_n$.
+			\item Usando la parte anterior, escribir una función que a partir de $n$ calcule $p_n$ de modo iterativo. Verificar que al menos para $0$, $1$ y $2$ de bien.
+			\item ¿Qué da la función para $n=19,20,21$? ¿Tiene sentido? Tener en cuenta que $p_n$ es el area bajo la curva de $x^ne^x$ entre $0$ y $1$.
+			\item Intentemos entender lo que pasa, al menos por arriba. Como la representación en punto flotante usa una cantidad finita de información, al escribir un número real hay un cierto error de representación. En la computadora, en vez de comenzar con el $p_0 = e-1$, se comienza con un $p_0' = p_0 +\varepsilon$ para algún $\varepsilon$ pequeño. Analizar qué ocurre con el $\varepsilon$ al iterar la recurrencia.
+		\end{enumerate}
+		La conclusión es que esta estrategia para calcular la integral es muy mala. Esto ilustra el tipo de problemas que pueden darse al trabajar con punto flotante. Dentro del análisis numérico este tipo de problemas se estudian a fondo. Más adelante veremos herramientas disponibles en python para determinar numéricamente el valor de integrales como estas de modo satisfactorio.
+	\end{ejercicio}
+	
+
 	\begin{ejercicio}[hipertruco]
 		Generalicemos el truco.
 		
-		Los valores de las cartas pueden ser cualquier entero positivo y la cantidad de cartas por jugador es un número $n$ arbitrario. Digamos que un {\bf $k$-envido}, para $k\geq 2$, se da cuando el jugador tiene $k$ cartas de un mismo palo y no tiene $k+1$. En el truco estándar, la flor es el 3-envido y el envido es el 2-envido.
+		Los valores de las cartas pueden ser cualquier entero positivo y la cantidad de cartas por jugador es un número $n$ arbitrario. Digamos que un {\bf $k$-envido}, para $k\geq 2$, se da cuando el jugador tiene $k$ cartas de un mismo palo y no tiene $k+1$ (de ese u otro palo). En el truco estándar, la flor es el 3-envido y el envido es el 2-envido.
 		
 		\begin{enumerate}
 			\item Probar que si $n/4>k_0\geq 1$ entonces hay $k$-envido para algún $k> k_0$.
