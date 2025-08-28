@@ -196,7 +196,7 @@ En el sistema operativo linux, en general python ya viene instalado por defecto.
 
 Vamos a ejecutar python desde una ventana de comandos (o terminal). Esto es una ventana a través de la cual se le escriben comandos al sistema operativo. En windows se llama Windows PowerShell o símbolo del sistema.
 
-Si hicimos bien la instalación de python, al abrir una ventana de comandos, si se escribe python y se toca enter, comienza a ejecutarse el intérprete, el cual nos permite ir ingresando instrucciones una a una. Los tres símbolos de >~significan que el intérprete está listo para recibir instrucciones. Una primera cosa que se puede hacer es usarlo como calculadora, escribiendo expresiones aritméticas y tocando enter (figura \ref{fig-cmdPython}).
+Si hicimos bien la instalación de python, al abrir una ventana de comandos, si se escribe python y se toca enter, comienza a ejecutarse el intérprete, el cual nos permite ir ingresando instrucciones una a una. Los tres símbolos de >~significan que el intérprete está listo para recibir instrucciones. Una primera cosa que se puede hacer es usarlo como calculadora, escribiendo expresiones aritméticas y tocando enter (figura \ref{fig-cmdPython}). Para salir del intérprete se puede escribir {\tt quit()} y tocar enter.
 
 Al escribir python, lo que se hace es ejecutar el intérprete. Para que esto funcione, el sistema operativo debe tener la dirección en la que python está instalado dentro de una cierta lista. Esto es lo que se hace al marcar la opción <<Add python.exe to PATH>> durante la instlación. Luego de haber ejecutado python en la ventana de comandos, el uso del intérprete ocurre dentro de esta misma ventana, sin usarse ninguna interfaz gráfica (a diferencia de la mayoría de los programas que utilizamos). En general no hay necesidad de nada más sofisticado.
 
@@ -219,11 +219,11 @@ Para todo lo que mencionamos en esta sección, buscando en internet (motores de 
 \end{figure}
 \section{Tipos de datos}
 
-Una de las abstracciones que aportan los lenguajes de programación consiste en los tipos de datos. Se trata de la abstracción de distintos tipos de objetos, como enteros, texto o listas, cada uno de los cuales tiene distintos posibles valores y distintas operaciones que se pueden aplicar. Por supuesto que todos estos objetos se codifican como secuencias de bits, pero poder trabajar pensando en términos de objetos de distinto tipo hace que programar sea más intuitivo. Veamos algunos de los tipos de datos que tiene python.
+Una de las abstracciones que aportan los lenguajes de programación consiste en los tipos de datos. Se trata de la abstracción de distintos tipos de objetos, como enteros, texto o listas, cada uno de los cuales tiene distintos posibles valores y distintas operaciones que se pueden aplicar. Por supuesto que todos estos objetos se codifican como secuencias de bits, pero poder trabajar pensando en términos de objetos de distinto tipo hace que programar sea más intuitivo. Se puede saber el tipo de datos de un objeto escribiendo {\tt type()} con el objeto entre paréntesis. Veamos algunos de los tipos de datos que tiene python con algunas de las operaciones disponibles. 
 
 \subsection{Booleanos}
 
-Los booleanos conforman un tipo de datos que representa valores de verdad. Tiene solo dos objetos: {\tt True} y {\tt False}. Se tienen las operaciones booleanas básicas: {\tt not}, {\tt and} y {\tt or}. Hay algunos ejemplos en la figura \ref{fig-ejemploBool}. En general los booleanos por sí solos no suelen ser de mucha utilidad. Su principal aplicación es en condicionales e iteraciones, que estudiaremos en lo siguiente.
+Los booleanos conforman un tipo de datos que representa valores de verdad. Tiene solo dos objetos: {\tt True} y {\tt False}. Se tienen las operaciones lógicas básicas: {\tt not}, {\tt and} y {\tt or}. Hay algunos ejemplos en la figura \ref{fig-ejemploBool}. Si aplicamos {\tt type()} a un boolano, retorna {\tt class bool}. En general los booleanos por sí solos no suelen ser de mucha utilidad. Su principal aplicación es en condicionales e iteraciones, que estudiaremos en lo siguiente. 
 
 \begin{figure}
 	\centering
@@ -234,7 +234,7 @@ Los booleanos conforman un tipo de datos que representa valores de verdad. Tiene
 
 \subsection{Enteros}
 
-Se trata de un tipo de datos para representar enteros naturales. Los objetos son {\tt 0}, {\tt 1} {\tt -1}, {\tt 2}, {\tt -2}, etc. Tienen las operaciones aritméticas elementales, que se muestran en la figura \ref{fig-ejemploInt}. Notar que la división entera es con dos barras. Una barra sola es otra operación que veremos en la brevedad. Por otra parte se tienen las operaciones de comparación, que reciben dos enteros y retornan un booleano. Se muestran en la figura \ref{fig-ejemploComp}. En el caso de la igualdad, si se escribe un solo símbolo <<=>> es una asignación, lo cual veremos más adelante.
+Se trata de un tipo de datos para representar enteros naturales. Los objetos son {\tt 0}, {\tt 1} {\tt -1}, {\tt 2}, {\tt -2}, etc. Si aplicamos {\tt type()} a un boolano, retorna {\tt class int} por {\sl integer}. Tienen las operaciones aritméticas elementales, que se muestran en la figura \ref{fig-ejemploInt}. Notar que la división entera es con dos barras. Una barra sola es otra operación que veremos en la brevedad. Por otra parte se tienen las operaciones de comparación, que reciben dos enteros y retornan un booleano. Se muestran en la figura \ref{fig-ejemploComp}. En el caso de la igualdad, si se escribe un solo símbolo <<=>> es una asignación, lo cual veremos más adelante.
 
 \begin{figure}
 	\centering
@@ -252,13 +252,13 @@ Se trata de un tipo de datos para representar enteros naturales. Los objetos son
 
 \subsection{Números de punto flotante}
 
-Se trata de una representación para operar con números reales usando información finita. De hecho lo que representan es un conjunto finito de números racionales, pero a menos de cierta aproximación se opera con ellos igual que con números reales. Estos números se escriben con la notación usual para números con parte fraccionaria o con notación científica, en ambos casos separando la parte fraccionaria con un punto. Están las mismas operaciones aritméticas y comparaciones, salvo por la división. Con punto flotante no se pueden usar // ni \%. En su lugar se usa un único / para la división de números reales. Un detalle importante es que si aplicamos la operación / a enteros, el resultado es de punto flotante, independientemente de que la división de exacta o no. Se presentan ejemplos en la figura \ref{fig-ejemploFloat}.
+Se trata de una representación para operar con números reales usando información finita. De hecho lo que representan es un conjunto finito de números racionales, pero a menos de cierta aproximación se opera con ellos igual que con números reales. Estos números se escriben con la notación usual para números con parte fraccionaria o con notación científica, en ambos casos separando la parte fraccionaria con un punto. Están las mismas operaciones aritméticas y comparaciones, salvo por la división. En punto flotante tenemos el operador / para la división de números reales. Un detalle importante es que si aplicamos la operación / a enteros, el resultado es de punto flotante, independientemente de que la división de exacta o no. Se presentan ejemplos en la figura \ref{fig-ejemploFloat}.
 
 Los números de punto flotante tienen limitaciones debido al hecho de que se pueden representar solo finitos números. Por ejemplo, si a {\tt 1.0} le sumamos un número muy chico, se redondea a {\tt 1.0}, lo cual puede ser problemático en algunas situaciones. Ignoraremos este problema, pero es un tema relevante dentro del área de análisis numérico.
 
 Hay más operaciones sobre punto flotante que se pueden realizar si importamos la biblioteca {\tt math}. Más adelante en el curso nos centraremos más en las bibliotecas, pero por ahora alcanza con saber que es algo que permite extender el lenguaje con más operaciones. Para incluir el contenido de la biblioteca {\tt math} hay que escribir la instrucción {\tt import math}. Después de eso se pueden utilizar las operaciones incluidas en esta biblioteca. Esto se hace escribiendo el nombre de la biblioteca, un punto y el nombre de la operación. Por ejemplo, tiene una operación de raiz cuadrada que se utiliza escribiendo {\tt math.sqrt()}, donde al argumento lo ponemos entre los paréntesis. Por otra parte, está la operación {\tt math.floor()} que retorna el entero más cercano a la izquierda. Esta última función retorna efectivamente un objeto de tipo entero y no un objeto de tipo punto flotante con valor entero. Se presentan ejemplos en la figura \ref{fig-ejemploMath}.
 
-Se pueden realizar la mayoría de las operaciones aritméticas entre enteros y números de punto flotante. En ese caso, el resultado es de punto flotante.
+En general se pueden realizar operaciones aritméticas entre enteros y números de punto flotante. En ese caso, el resultado es de punto flotante. Lo que ocurre en estos casos es que (al menos conceptualmente) se convierten automáticamente enteros a punto flotante. Al aplicar / a enteros ocurre lo mismo (al menos conceptualmente): primero los enteros se transforman a punto flotante y luego se aplica la operación. Por otra parte, en general no hay conversión automática de punto flotante a entero, aunque el número no tenga parte fraccionaria.
 
 \begin{figure}
 	\centering
@@ -277,11 +277,11 @@ Se pueden realizar la mayoría de las operaciones aritméticas entre enteros y n
 
 \subsection{Texto}
 
-En python se puede representar texto. Esto se hace encerrándolo entre comillas simples o dobles. En general se les llama strings. Algunos ejemplos son ``Hola.'', ``345'' y ``''. No hay que confundir al string ``345'' con el entero {\tt 345}, pues el primero es simplemente una secuencia de caracteres. Con el símbolo + se puede concatenar caracteres.
+En python se puede representar texto, es decir, secuencias de caracteres. Esto se hace delimitando con comillas simples o dobles. En general se les llama {\sl strings} y de hecho {\tt type()} retorna {\tt class str}. Algunos ejemplos son ``Hola.'', ``345'', `` '' (espacio)  y ``'' (string vacío). No hay que confundir, por ejemplo, al string ``345'' con el entero {\tt 345}, pues son objetos de distintos tipos (se lo puede verificar con {\tt type()}). Con el símbolo + se realiza la operación de concatenación, es decir ``Hola.'' + ``345'' da ``Hola.325''. Notar que el símbolo + tiene varios usos. Cual de todos se usa depende del tipo de los argumentos. Por ejemplo, {\tt 12 + 12} da {\tt 24} (los argumentos son enteros, por lo que se los suma), mientras que {\tt ``12'' + ``12''} da {\tt ``1212''} (los argumentos son strings, por lo que se los concatena).
 
 \subsection{Listas}
 
-Las listas conforman un tipo de datos compuesto. Cada lista es, como su nombre sugiere, una lista de objetos. Una lista se comienza y se termina con <<[>> y <<]>>. Los distintos elementos se separan con comas. Por ejemplo: {\tt[0,1,4]}, {\tt[``aa'',``a'',``'']}, {\tt [3.5, ``a'']} y {\tt[]}. Las listas pueden tener cualquier cantidad de elementos (a partir de cero) y estos elementos pueden ser de cualquier tipo, incluso otras listas. Por ejemplo {\tt [[],[]]} es una lista con dos elementos, que los dos son la lista vacía. Con + se puede concatenar listas, de modo que {\tt [[],[]] + [1]} es {\tt [[],[],1]}.
+Las listas conforman un tipo de datos compuesto. Cada lista es, como su nombre sugiere, una lista de objetos. Una lista se comienza y se termina con <<[>> y <<]>>. Los distintos elementos se separan con comas. Por ejemplo: {\tt[0,1,4]}, {\tt[``aa'',``a'',``'']}, {\tt [3.5, ``a'']} y {\tt[]}. Las listas pueden tener cualquier cantidad de elementos (a partir de cero) y estos elementos pueden ser de cualquier tipo, incluso otras listas. Por ejemplo {\tt [[],[]]} es una lista con dos elementos, que los dos son la lista vacía. Con + se puede concatenar listas, de modo que {\tt [[],[]] + [1]} da {\tt [[],[],1]}.
 
 
 \section{Variables y asignaciones}
@@ -318,7 +318,7 @@ NameError: name 'x2' is not defined. Did you mean: 'x'?
 >>> lista3
 ['a', 'b', 'c', 1, 2, 3]
 \end{verbatim}
-Es importante que en python las variables no guardan un valor dentro de ellas, sino que en realidad referencian a un objeto que está fuera en otro lado. Volveremos esto en la sección \ref{sec-memoriaCompartida}.
+En python las variables no guardan un valor dentro de ellas, sino que en realidad referencian a un objeto que está fuera en otro lado. Esto es un detalle técnico al que volveremos en la sección \ref{sec-memoriaCompartida}.
 \section{Indizado y slicing}
 
 El indizado se trata de cómo acceder a elementos de ciertos lugares en estructuras de datos compuestas. Vamos a introducirlo para listas y strings (aunque pensando los strings como listas de caracteres es muy análogo).
@@ -327,9 +327,9 @@ Dada una variable {\tt x} que tiene una lista y un entero $n$ (o una variable qu
 
 Tanto para listas como para strings, si el índice se pasa del último elemento, se produce un error. En python se puede usar la función {\tt len()} para determinar el largo de una lista o un string. Los índices válidos de {\tt x} van desde {\tt 0} hasta {\tt len(x)-1}.
 
-Por otra parte, el {\sl slicing} consiste en indizar por rangos, obteniéndose sublistas o substrings. La versión más sencilla, dada una lista {\tt x} y dos enteros $n,m$, es {\tt x[$n:m$]}, que resulta en la sublista de todos los elementos con índice $i$ tal que $n\leq i < m$. Notar que el extremo de abajo usa orden inclusivo y el de arriba estricto. En este caso no hay problemas si nos pasamos del último elemento. En todo caso puede quedar la lista vacía o el string vacío.
+Por otra parte, el {\sl slicing} consiste en indizar por rangos, obteniéndose sublistas o substrings. La versión más sencilla, dada una lista {\tt x} y dos enteros $n,m$, es {\tt x[$n:m$]}, que resulta en la sublista de todos los elementos con índice $i$ tal que $n\leq i < m$. Notar que el extremo de abajo usa orden inclusivo y el de arriba estricto. En este caso no hay problemas si nos pasamos del último elemento. El resultado puede ser la lista vacía o el string vacío.
 
-También se pueden hacer asignaciones a elementos de cierto íncide, permitiendo modificar el valor de cierto lugar de una lista. Con strings no se permite hacer esto.
+También se pueden hacer asignaciones a elementos de cierto índice, permitiendo modificar el valor de cierto lugar de una lista. Con strings no se permite hacer esto.
 
 Veamos ejemplos de todo lo anterior.
 \begin{verbatim}
@@ -366,9 +366,34 @@ IndexError: list index out of range
 [1, 40, 3, 4, 5]
 \end{verbatim}
 
+Con listas de listas se puede concatenar indizados. Es decir, si {\tt l} es una lista cuyos elementos son listas, {\tt l[i][j]} es el {\tt j}ésimo elemento de la {\tt i}ésima lista. Los paréntesis implícitos van de la siguiente forma: {\tt (l[i])[j]}, pues {\tt l[i]} es una lista a la cual se aplica el índice {\tt j}. A modo de ejemplo:
+\begin{verbatim}
+>>> l = [[1,2],[3,4],[5,6]]
+>>> len(l) #Tiene 3 elementos que son las listas de adentro
+3
+>>> l[0] # Retorna la primera lista
+[1, 2]
+>>> l[1] # Retorna la segunda lista
+[3, 4]
+>>> l[2] # Retorna la tercera lista
+[5, 6]
+>>> l[3] # Produzcamos un error de índice
+Traceback (most recent call last):
+File "<stdin>", line 1, in <module>
+IndexError: list index out of range
+>>> len(l[0]) #Largo de la lista [1,2]
+2
+>>> l[0][0] #Elemento 0 de lista 0
+1
+>>> l[0][1] #Elemento 1 de lista 0
+2
+>>> l[1][0] #Elemento 0 de lista 1
+3
+\end{verbatim}
+
 \subsection{Referencias múltiples}\label{sec-memoriaCompartida}
 
-Vamos a tratar un detalle un poco térnico. La mayoría de las veces no es relevante, pero a veces puede ser fuente de errores inesperados.
+Vamos a tratar un detalle un poco técnico. La mayoría de las veces no es relevante, pero a veces puede ser fuente de errores inesperados.
 
 Recordar que las variables no contienen los objetos, sino que los referencian. Esto es particularmente importante con listas porque estas se pueden modificar, entonces si dos variables referencian la misma lista y desde una la modificamos, esto se reflejará en la otra variable. Veamos un ejemplo.
 \begin{verbatim}
@@ -409,16 +434,18 @@ Digamos que programa en python es una secuencia de instrucciones que se almacena
 
 Al ejecutar un programa (ver figura \ref{fig-ejecPython}) se ejecutan las instrucciones en el orden que están escritas.
 
-Los siguientes son otros ejemplos de instrucciones que pueden ser útiles.
+La siguiente lista contiene otros ejemplos de instrucciones que pueden ser útiles.
 \begin{itemize}
 	\item {\tt print()}. Se trata de una instrucción que imprime en la consola lo que se le pasa como parámetro. Es la instrucción por excelencia para mostrar algo en la consola. Si se le pasa un valor directamente imprime ese valor, mientras que si se le pasa una variable imprime el contenido de la variable. Por ejemplo, la instrucción {\tt print("Hola")} imprime <<Hola>>, mientras que {\tt print(x)} imprime el valor de la variable {\tt x} (y si esta variable no tiene ningún valor, da error).
 	
 	\item {\tt input()}. Se trata de una instrucción que permite leer algo que el usuario escriba en la terminal. Es una herramienta rudimentaria para hacer programas interactivos. Lo que se escribe entre paréntesis es un texto que se le muestra al usuario antes de esperar a que este escriba algo. La forma de uso es en general  {\tt x=input()}. De esta forma, lo que escriba el usuario se guarda como un string en la variable {\tt x}. En caso de ser necesario, se puede convertirlo a otro tipo de dato, como veremos en el ejemplo a continuación. Al llegar a una instrucción de este tipo, la ejecución del programa se detiene hasta que el usuario escriba algo y presione enter.
 	
 	\item {\tt append()}. Esta instrucción es para agregar un elemento al final de una lista. A diferencia de las anteriores, es formalmente lo que se llama un {\sl método} de las listas. Dada una lista {\tt l} y un objeto $x$ que queremos agregar al final, la instrucción es {\tt l.append($x$)}. Se escribe el nombre de la lista, un punto y luego {\tt append()} con lo que querramos agregar adentro de los paréntesis. 
+	
+	\item {\tt del}. Permite (entre otras cosas) quitar el elemento de cierto índice de una lista. Dada una lista {\tt l}, la instrucción {\tt del l[i]} quita el elemento de índice {\tt i}. Si hay elementos después del {\tt i}ésimo, sus índices se decrementan.
 \end{itemize}
 
-Veamos un ejemplo de programa en el que se usan estás dos instrucciones de entrada/salida mencionadas.
+Existen muchas otras instrucciones en python, pero no es el foco del curso aprender una gran cantidad. En general hay muchas que hacen cosas que con un poco de trabajo se pueden realizar utilizando otras. Veamos un ejemplo de programa en el que se usan estás dos instrucciones de entrada/salida mencionadas.
 \begin{verbatim}
 print("Hola.")
 x = input("Ingrese su numero favorito por favor: ")
@@ -435,7 +462,7 @@ Ingrese su número favorito por favor: 5
 Su número favorito es 5
 El doble de su número favorito es  10
 \end{verbatim}
-La ejecución del programa se detuvo después de mostrar <<{\tt Ingrese su número favorito por favor: }>>. Luego yo escribí <<5>>, presioné enter y ahí continuó. Si escribiera algo que no sea un entero válido, la operación {\tt int(x)} fallaría. En ese caso se imprime en la terminal una explicación del error y la ejecución se cancela.
+La ejecución del programa se detuvo después de mostrar <<{\tt Ingrese su número favorito por favor: }>>. Luego escribí <<5>>, presioné enter y ahí continuó. Si escribiera algo que no sea un entero válido, la operación {\tt int(x)} fallaría. En ese caso se imprime en la terminal una explicación del error y la ejecución se corta en ese punto.
 
 Recomiendo ejecutar este ejemplo por uno mismo. Alcanza con copiar y pegar el código escrito arriba en un archivo y ejecutarlo.
 
@@ -640,6 +667,8 @@ print(valor1, valor2, valor3)
 \end{verbatim}
 Si se ejecuta este programa lo que se ve en consola es que imprime <<0 6 46>>. Notar que escribimos la función una vez y pudimos ejecutarla para tres argumentos distintos; en esto radica la utilidad de las funciones.
 
+Si una función tiene varios parámetros, al ejecutarla el orden de los argumentos es el mismo. Por ejemplo, si escribimos una función {\tt f(x,y)} y luego ejecutamos {\tt f(1,2)}, entonces {\tt x} será 1 y {\tt y} será 2.
+
 Hagamos un ejemplo un poco más complejo vinculado con números primos. A partir del código que ya hicimos en la sección de iteraciones podemos escribir una función que reciba como parámetro un número y retorne un booleano que diga si es primo o no.
 \begin{verbatim}
 def es_primo(n):
@@ -722,6 +751,196 @@ def f1(n):
 def f2(x):
     return 5*f1(x)
 \end{verbatim}
+
+\section{Metodología de resolución de problemas}
+
+Cuando tenemos un problema complejo no suele ser una buena idea ir directamente a programar. De hecho, en general el desarrollo de software tiene muchas etapas, en varias de las cuales no se programa. Veamos una metodología sencilla, la cual se recomienda usar para resolver problemas en el curso. De hecho, de modo más abstracto puede ser útil para resolver problemas en general, no necesariamente de programación. La metodología consta de cuatro etapas: análisis, diseño, implementación y verificación.
+\begin{itemize}
+	\item Análisis. Se trata de estudiar el problema a resolver, asegurándose de entender qué es exactamente lo que se debe hacer. Es importante entender los conceptos y definiciones pertinentes al contexto donde está el problema. Esta etapa puede ser de las más complejas en aplicaciones de software en la vida real. Imaginarse por un momento hacer un programa para ser usado en medicina; primero habría que entender qué cosas se hacen exactamente, junto con mucha terminología específica del rubro. En problemas como los que veremos en el curso no suele hacer falta mucho trabajo en esta etapa, pero si no se hace correctamente (o sea, si no se entiende bien lo que se debe hacer), independientemente del esfuerzo que se haga después, el resultado no será correcto.
+	
+	\item Diseño. Se trata de diseñar una solución al problema, pensando a grandes rasgos la estrategia que se utilizará, sin meterse aún a programar nada. En general la estrategia incluye descomponer al problema como una secuencia de subproblemas más fáciles.
+	
+	\item Implementación. Se programa la solución al problema, siguiendo la estrategia que se definió en la etapa de diseño.
+	
+	\item Verificación. Es común que se use la palabra en inglés: {\sl testing}. Se hacen pruebas para verificar si la solución tiene el comportamiento esperado. No se trata de una demostración formal de que el programa funciona, sino que de experimentos puntuales que aseguran solamente que el programa funciona en ciertos casos. La verificación no es infalible, pero si se hace bien, hay buenas chances de que en caso de que haya un error lo detectemos, así que es recomendable hacerlo.
+\end{itemize}
+
+Claramente el análisis y el diseño deben ser lo primero que se hace. Por otra parte, cuando la estrategia tiene varias etapas, es recomendable ir intercalando implementación y verificación, es decir, escribir una parte del programa, hacer pruebas para ver si está bien (en caso de que hayan errores corregirlos) y recién después de tener cierta certeza de esto, pasar a la siguiente etapa.
+
+Para la verificación se pueden hacer casos concretos ingresados a mano o un programa que chequee automáticamente muchos casos para los que sabemos la respuesta. En el ejemplo que viene ahora haremos ambas cosas (y hay un ejercicio de esto en el práctico 1, titulado {\sl testing automático}).
+
+\subsection{Ejemplo}
+
+Veamos un ejemplo (bastante artificial), para le cual aplicaremos la metodología. Supongamos que un cliente nos pide un programa que resuelve el siguiente problema.
+
+{\it Sea {\tt l} una lista de enteros positivos. Determinar si la cantidad de números $n\in\mathtt{l}$ tales que su cantidad de dígitos también está en {\tt l} es un número primo.}
+
+{\bf Análisis}. Hay que asegurarnos de entender bien lo que se pide. En caso de que algo no esté claro, habría que consultar al cliente (salvo que sea evidente que sea irrelevante). Después de haber leído {\sl bien} la consigna, puede ser una  buena idea pensar en algunos ejemplos. La lista {\tt [10,11,12,2]} cumple la propiedad, porque la cantidad es $3$, mientras que la lista {\tt [1,2,3,4]} no la cumple, porque la cantidad es $1$. Que en la segunda lista sea $1$ es porque la cantidad de dígitos de $1$ es $1$ mismo, el cual está en la lista. Sin embargo, esta característica de $1$ ¿será la idea considerarlo o no? Por otra parte, a priori la lista podría tener números repetidos. ¿En ese caso los contamos varias veces o no? Hacemos las preguntas al cliente y nos responde lo siguiente.
+
+{\it Primero, está bien que $1$ cuente. Segundo, de hecho la lista no tiene números repetidos.}
+
+Ahora que resolvimos esas dudas, parece ser una buena idea pasar a la siguiente etapa, aunque si llegáramos a darnos cuenta de algún otro detalle, podríamos volver a preguntarle al cliente.
+
+{\bf Diseño}. La idea es determinar subproblemas más sencillos tales que si los resolvemos a todos, tenemos una solución al problema original. Por ejemplo, podemos considerar los siguientes:
+\begin{enumerate}
+	\item Determinar la cantidad de dígitos de un número.
+	\item Determinar si un número está en una lista.
+	\item Determinar si un número es primo.
+\end{enumerate}
+Juntando los items 1 y 2, podemos determinar si la cantidad de dígitos de un número está en la lista. Podemos entonces iterar a lo largo de la lista y para cada número determinar si su cantidad de dígitos está o no, llevando la cuenta de cuántos son. Finalmente, determinamos si ese número es primo.
+
+{\bf Implementación y verificación}. Escribamos funciones para cada una de los tres items de arriba. Después de cada función, haremos algo de verificación antes de continuar. Para la parte de determinar si un número es primo usamos la función que ya tenemos de antes.
+
+\begin{verbatim}
+	def es_primo(n):
+	    if n<2:
+	        return False
+	    puede_ser_primo = True
+	    potencial_divisor = 2
+	    while puede_ser_primo and potencial_divisor < n:
+	        if n % potencial_divisor == 0: #Es un divisor de n
+	            puede_ser_primo = False
+	        potencial_divisor = potencial_divisor + 1
+	    return puede_ser_primo
+\end{verbatim}
+
+Ingresamos esta función en un archivo llamado {\tt programa.py} y hacemos algunas pruebas desde la terminal.
+\begin{verbatim}
+PS C:\Users\...\Ejemplo metodología> python -i programa.py
+>>> es_primo(1)
+False
+>>> es_primo(2)
+True
+>>> es_primo(3)
+True
+>>> es_primo(4)
+False
+>>> es_primo(5)
+True
+>>> es_primo(12)
+False
+>>> es_primo(41)
+True
+>>> es_primo(49)
+False
+\end{verbatim}
+Hasta ahí parece estar andando bien. Para pruebas automáticas podríamos ver por ejemplo si para todos los pares entre $4$ y $100$ retorna falso. Escribimos por ejemplo el siguiente programa.
+\begin{verbatim}
+pasa_test = True
+for i in range(2,101):
+    if es_primo(2*i):
+        pasa_test = False
+if pasa_test:
+    print("Pasa el test")
+else:
+    print("No pasa el test.")
+\end{verbatim}
+Agregamos ese programa al final del archivo {\tt programa.py} y lo ejecutamos. Obtenemos la siguiente salida.
+\begin{verbatim}
+PS C:\Users\...\Ejemplo metodología> python programa.py
+Pasa el test
+\end{verbatim}
+Por lo tanto, el test fue satisfactorio. Nos quedamos conformes con esto y seguimos con el resto (qué tanto testing hacer es a decisión de cada uno). Borramos del archivo {\tt programa.py} este caso de prueba, o lo guardamos en otro archivo distinto.
+
+Escribamos ahora una función para determinar la cantidad de dígitos de un número. Podemos hacer lo siguiente.
+\begin{verbatim}
+# la entrada es un entero positivo.
+# retorna la cantidad de dígitos del número escrito en base 10.
+def cant_digitos(n):
+    cant = 1
+    q = n // 10
+    while q > 0:
+        cant = cant + 1
+        q = q // 10
+    return cant
+\end{verbatim}
+Notar que arriba de la función escribimos un comentario que aclara lo que hace. Esto es una muy buena práctica que se recomienda aplicar en general (aunque aquí lo hacemos solo con esta función). Si bien ahora tenemos claro lo que hace, si volvemos a mirar la función dentro de un tiempo, el comentario nos vendrá muy bien. Agregamos esta función al archivo {\tt programa.py} y hacemos pruebas del mismo modo que con la función anterior. Hacemos algunas pruebas a mano. Para testing automático podemos verificar por ejemplo que para cada $a$ entre $1$ y $9$ y para cada $n$ menor a $100$, la función retorna $n+1$.
+\begin{verbatim}
+pasa_test = True
+for a in range(1,10):
+    for n in range(100):
+        if cant_digitos(a*10**n) != n+1:
+            pasa_test = False
+if pasa_test:
+    print("Pasa el test")
+else:
+    print("No pasa el test.")
+\end{verbatim}
+Verificamos que se pasa el test y continuamos con la siguiente. Vamos a escribir una función que diga si un número está en una lista.
+\begin{verbatim}
+def pertenece(n,l):
+    for i in l:
+        if i == n:
+            return True
+    return False #Si llega acá es porque no está
+\end{verbatim}
+Queda como ejercicio hacer un poco de testing para esta función.
+
+Finalmente, usando lo anterior como dijimos en la etapa de diseño podemos escribir una función que resuelva el problema.
+\begin{verbatim}
+def problema(l):
+    cant = 0
+    for n in l:
+        if pertenece(cant_digitos(n),l):
+            cant = cant + 1
+    return es_primo(cant)
+\end{verbatim}
+Notar que al haber separado el problema en subproblemas, la función final quedó muy sencilla. Finalmente el contenido del archivo {\tt programa.py} es:
+
+\begin{verbatim}
+def es_primo(n):
+    if n<2:
+        return False
+    puede_ser_primo = True
+    potencial_divisor = 2
+    while puede_ser_primo and potencial_divisor < n:
+        if n % potencial_divisor == 0: #Es un divisor de n
+            puede_ser_primo = False
+        potencial_divisor = potencial_divisor + 1
+    return puede_ser_primo
+# la entrada es un entero positivo.
+# retorna la cantidad de dígitos del número escrito en base 10.
+def cant_digitos(n):
+    cant = 1
+    q = n // 10
+    while q > 0:
+        cant = cant + 1
+        q = q // 10
+    return cant
+
+def pertenece(n,l):
+    for i in l:
+        if i == n:
+            return True
+    return False #Si llega acá es porque no está
+
+def problema(l):
+    cant = 0
+    for n in l:
+        if pertenece(cant_digitos(n),l):
+            cant = cant + 1
+    return es_primo(cant)
+\end{verbatim}
+
+Lo siguiente son algunas pruebas.
+\begin{verbatim}
+PS C:\Users\...\Ejemplo metodología> python -i programa.py
+>>> l = [1,2,3] 
+>>> problema(l) #Hay 3
+True
+>>> l.append(4)
+>>> problema(l) # Hay 4
+False
+>>> l.append(10) # Hay 5
+>>> problema(l)
+True
+>>> l.append(123123123) 
+>>> problema(l) #El número nuevo no afecta
+True
+\end{verbatim}
+Queda como ejercicio para quien quiera hacer pruebas automatizadas. Si fuera un problema real claramente habría que verificar bien a la función final.
+
+Respecto a la función {\tt pertenece(n,l)}, si bien para este ejemplo escribimos una función, de hecho en python escribir {\tt n in l} tiene el mismo resultado. Es decir, {\tt in} es un operador que dado un objeto y una lista retorna el booleano que indica si pertenece o no.
 \end{document}
 
 
