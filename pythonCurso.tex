@@ -1,0 +1,101 @@
+\documentclass[a4paper, 12pt]{article}
+
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel} 
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{bbm}
+%\usepackage[shortlabels]{enumitem}
+\usepackage{enumerate}
+\usepackage{array,tabularx}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage[export]{adjustbox}
+\usepackage[rightcaption]{sidecap}
+\usepackage{multirow}
+\usepackage{subfig}
+\usepackage{capt-of}
+\usepackage{captdef}
+\usepackage{color}
+\usepackage{ebproof}
+\usepackage{soul}
+\usepackage{hyperref}
+\usepackage{stmaryrd}
+\usepackage{fullpage}
+\usepackage{xcolor}
+\usepackage{listings}
+
+\newcommand{\Ra}{\Rightarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\te}{\text}
+\newcommand{\Lra}{\Leftrightarrow}
+\newcommand{\lra}{\leftrightarrow}
+
+\theoremstyle{definition}
+\newtheorem{ejercicio}{Ejercicio}[section]
+
+\begin{document}
+
+\centerline{\Huge\bf Reducción de python}
+
+\vspace{2em}
+
+El lenguaje de programación python tiene una gran cantidad de cosas disponibles. Durante la primera parte del curso (hasta el parcial y el primer obligatorio) se usa una versión reducida que se considerará como lo oficial, para solucionar dos aspectos negativos de esta gran cantidad de contenido del lenguaje. Uno de estos aspectos negativos es que puede sentirse abrumador para quien está empezando. El otro es que hay muchas cosas que ya están implementadas en python pero que en la primera parte del curso se espera que el estudiante aprenda a programarlas por sí mismo. A modo de ejemplo, en python se puede ordenar una lista con una instrucción de una sola línea, {\tt lista.sort()}, pero aquí se pretende que el estudiante aprenda a programar algoritmos de ordenamiento por sí mismo. En la segunda parte del curso, esencialmente después del parcial, sí veremos como aprovechar la gran cantidad de cosas que python tiene disponibles.
+
+Esta versión reducida de python es lo mínimo que se espera que el estudiante comprenda y sea capaz de usar tanto escribiendo programas en papel como en la computadora.
+
+Esta versión reducida de python es precisamente lo que se presenta en el capítulo 2 de las notas del teórico. El contenido de este documento es un resumen. Cabe aclarar que en el capítulo 2 de las notas, en general solamente se presenta los conceptos y se da algunos ejemplos. El nivel al que se espera que se los maneje está dado también por el resto de las notas y el práctico.
+
+
+\section{Tipos de datos y operaciones}
+\begin{itemize}
+	\item Booleanos y sus operadores lógicos: {\tt and, or, not}.
+	\item Enteros con las operaciones aritméticas y comparaciones:
+	+, -, *, //, \%, **, <, <=, >, <=, ==, !=.
+	\item Números en punto flotante con las mismas operaciones y comparaciones que los enteros, salvo que se remplazan // y \% por solo /. Importar la biblioteca {\tt math} para usar {\tt math.sqrt()}, {\tt math.e} y {\tt math.pi}.
+	\item Strings con la concatenación + y las comparaciones.
+	\item Listas con la concatenación +.
+\end{itemize}
+\section{Variables, asignaciones, indizado y slicing}
+Variables y asignación.
+
+Indizado {\tt x[i]} y slicing {\tt x[a:b]}. 
+
+Asignación de elemento en lista {\tt x[i]=y}.
+
+Manejo de listas de listas, por ejemplo {\tt x[i][j]}.
+
+\section{Instrucciones básicas}
+
+\begin{itemize}
+	\item {\tt print()}
+	\item {\tt input()}, {\tt int(x)}, {\tt float(x)}
+	\item {\tt l.append()}
+	\item {\tt del l[i]}
+	
+\end{itemize}
+
+\section{Estructuras de control}
+\begin{itemize}
+	\item Condicionales. {\tt if}, con o sin {\tt else} y {\tt elif}.
+	\item Iteraciones. {\tt for}, con listas o {\tt range(b)} o {\tt range(a,b)} y {\tt while}.
+\end{itemize}
+
+\section{Funciones}
+
+Definición y llamado de funciones.
+
+Variables locales y globales.
+
+Funciones recursivas.
+
+\end{document}
+
+

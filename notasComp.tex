@@ -279,6 +279,8 @@ En general se pueden realizar operaciones aritméticas entre enteros y números 
 
 En python se puede representar texto, es decir, secuencias de caracteres. Esto se hace delimitando con comillas simples o dobles. En general se les llama {\sl strings} y de hecho {\tt type()} retorna {\tt class str}. Algunos ejemplos son ``Hola.'', ``345'', `` '' (espacio)  y ``'' (string vacío). No hay que confundir, por ejemplo, al string ``345'' con el entero {\tt 345}, pues son objetos de distintos tipos (se lo puede verificar con {\tt type()}). Con el símbolo + se realiza la operación de concatenación, es decir ``Hola.'' + ``345'' da ``Hola.325''. Notar que el símbolo + tiene varios usos. Cual de todos se usa depende del tipo de los argumentos. Por ejemplo, {\tt 12 + 12} da {\tt 24} (los argumentos son enteros, por lo que se los suma), mientras que {\tt ``12'' + ``12''} da {\tt ``1212''} (los argumentos son strings, por lo que se los concatena).
 
+Por otra parte, se pueden realizar con strings las mismas comparaciones que con números. La igualdad {\tt ==} y la desigualdad {\tt !=} determinan si se trata de exactamente el mismo string o no, mientras que las desigualdades usan orden lexicográfico.
+
 \subsection{Listas}
 
 Las listas conforman un tipo de datos compuesto. Cada lista es, como su nombre sugiere, una lista de objetos. Una lista se comienza y se termina con <<[>> y <<]>>. Los distintos elementos se separan con comas. Por ejemplo: {\tt[0,1,4]}, {\tt[``aa'',``a'',``'']}, {\tt [3.5, ``a'']} y {\tt[]}. Las listas pueden tener cualquier cantidad de elementos (a partir de cero) y estos elementos pueden ser de cualquier tipo, incluso otras listas. Por ejemplo {\tt [[],[]]} es una lista con dos elementos, que los dos son la lista vacía. Con + se puede concatenar listas, de modo que {\tt [[],[]] + [1]} da {\tt [[],[],1]}.
@@ -286,11 +288,11 @@ Las listas conforman un tipo de datos compuesto. Cada lista es, como su nombre s
 
 \section{Variables y asignaciones}
 
-Las variables son abstracciones que consisten en un nombre que se puede usar para referenciar objetos de distintos tipos de datos. Se puede pensar que el objeto referenciado por la variable es su valor. Nombres válidos de variable son secuencias de caracteres alfanuméricos y <<\_>> en los que el primer carácter no es un número, como por ejemplo {\tt x, x1, total} y {\tt altura\_caja}.
+Las variables son abstracciones que consisten en un nombre que se puede usar para referenciar objetos de distintos tipos de datos. Se puede pensar que el objeto referenciado por la variable es su valor. Nombres válidos de variable son secuencias de caracteres alfanuméricos y <<\_>> en los que el primer carácter no es un número, como por ejemplo {\tt x, x1, total} y {\tt altura\_caja}. Hay ciertas palabras reservadas para usos especiales, las cuales no pueden ser usadas como variables. Algunos ejemplos son {\tt if, for} y {\tt while}, cuyos usos veremos más adelante en este capítulo.
 
 La asignación es la instrucción básica de python para dar un nuevo valor a una variable. La sintaxis es:
 $$\mathtt{var}~=~\mathtt{expr}$$
-donde $\mathtt{var}$ es el nombre de la variable a la que queremos asignar un objeto (es decir, hacer que la variable referencia al objeto) y $\mathtt{expr}$ es una expresión que determina el objeto a asignar.  Es distinto al uso que se le da al símbolo <<$=$>> en matemáticas (en particular, los lados tienen roles distintos), asemejándose más al de <<$:=$>>. La expresión puede ser un objeto fijo, una variable o algo más elaborado, por ejemplo con operaciones. Incluso puede contener la misma variable {\tt var}. En ese caso para evaluar la la expresión se usa el valor actual de la variable y luego se le asigna el resultado. Si en la expresión ponemos alguna variable aún no definida, se produce un error. Los siguientes son algunos ejemplos.
+donde $\mathtt{var}$ es el nombre de la variable a la que queremos asignar un objeto (es decir, hacer que la variable referencia al objeto) y $\mathtt{expr}$ es una expresión que determina el objeto a asignar.  Es distinto al uso que se le da al símbolo <<$=$>> en matemáticas (en particular, los lados tienen roles distintos), asemejándose más al de <<$:=$>>. La expresión puede ser un objeto fijo, una variable o algo más elaborado, por ejemplo con operaciones. Incluso puede contener la misma variable {\tt var}. En ese caso para evaluar la la expresión se usa el valor actual de la variable y luego se le asigna el resultado. Si en la expresión ponemos alguna variable aún no definida, se produce un error. Los siguientes son algunos ejemplos. Lo que se escribe después del \# es un {\bf comentario}: está solo para aclarar algo a la persona que lee; python lo ignora.
 
 \begin{verbatim}
 >>> x = 10
@@ -434,15 +436,21 @@ Digamos que programa en python es una secuencia de instrucciones que se almacena
 
 Al ejecutar un programa (ver figura \ref{fig-ejecPython}) se ejecutan las instrucciones en el orden que están escritas.
 
+Además de las instrucciones, se pueden agregar comentarios, los cuales no afectan el funcionamiento del programa, sino que están para quienes leen el código. Para escribir comentarios se usa el símbolo {\tt\#}. Todo lo que lo sigue en esa línea se vuelve un comentario.
+
 La siguiente lista contiene otros ejemplos de instrucciones que pueden ser útiles.
 \begin{itemize}
 	\item {\tt print()}. Se trata de una instrucción que imprime en la consola lo que se le pasa como parámetro. Es la instrucción por excelencia para mostrar algo en la consola. Si se le pasa un valor directamente imprime ese valor, mientras que si se le pasa una variable imprime el contenido de la variable. Por ejemplo, la instrucción {\tt print("Hola")} imprime <<Hola>>, mientras que {\tt print(x)} imprime el valor de la variable {\tt x} (y si esta variable no tiene ningún valor, da error).
 	
-	\item {\tt input()}. Se trata de una instrucción que permite leer algo que el usuario escriba en la terminal. Es una herramienta rudimentaria para hacer programas interactivos. Lo que se escribe entre paréntesis es un texto que se le muestra al usuario antes de esperar a que este escriba algo. La forma de uso es en general  {\tt x=input()}. De esta forma, lo que escriba el usuario se guarda como un string en la variable {\tt x}. En caso de ser necesario, se puede convertirlo a otro tipo de dato, como veremos en el ejemplo a continuación. Al llegar a una instrucción de este tipo, la ejecución del programa se detiene hasta que el usuario escriba algo y presione enter.
+	\item {\tt input()}. Se trata de una instrucción que permite leer algo que el usuario escriba en la terminal. Es una herramienta rudimentaria para hacer programas interactivos. Lo que se escribe entre paréntesis es un texto que se le muestra al usuario antes de esperar a que este escriba algo. La forma de uso es en general  {\tt x=input()}. De esta forma, lo que escriba el usuario se guarda como un string en la variable {\tt x}. Al llegar a una instrucción de este tipo, la ejecución del programa se detiene hasta que el usuario escriba algo y presione enter.
 	
-	\item {\tt append()}. Esta instrucción es para agregar un elemento al final de una lista. A diferencia de las anteriores, es formalmente lo que se llama un {\sl método} de las listas. Dada una lista {\tt l} y un objeto $x$ que queremos agregar al final, la instrucción es {\tt l.append($x$)}. Se escribe el nombre de la lista, un punto y luego {\tt append()} con lo que querramos agregar adentro de los paréntesis. 
+	\item {\tt int()} y {\tt float()}. Estas funciones, respectivamente, al aplicarse a un string $x$ que representa un entero o un número de punto flotante, retornan este entero o número en punto flotante. Por ejemplo, {\tt int(``-1")} retorna el entero {\tt -1}. En general usaremos estas funciones junto con el comando {\tt input()}, como en el ejemplo que viene a continuación, para convertir el string que ingresa el usuario a un número. En caso de que el string no represente un objeto válido del tipo de datos, como por ejemplo al ejecutar {\tt int("123a")}, se produce un error.
 	
-	\item {\tt del}. Permite (entre otras cosas) quitar el elemento de cierto índice de una lista. Dada una lista {\tt l}, la instrucción {\tt del l[i]} quita el elemento de índice {\tt i}. Si hay elementos después del {\tt i}ésimo, sus índices se decrementan.
+	\item {\tt append()}. Esta instrucción es para agregar un elemento al final de una lista. A diferencia de las anteriores, es formalmente lo que se llama un {\sl método} de las listas. Dada una lista {\tt l} y un objeto $x$ que queremos agregar al final, la instrucción es {\tt l.append($x$)}. Se escribe el nombre de la lista, un punto y luego {\tt append()} con lo que querramos agregar adentro de los paréntesis.
+	
+	\item {\tt insert()} Permite agregar un elemento en un lugar particular de una lista. Al igual que {\tt append}, es un método. Dada una lista {\tt l}, un índice {\tt i} y un objeto $x$, la instrucción {\tt l.append(i,$x$)} agrega al objeto $x$ en la posición de índice {\tt i} de la lista, moviendo a todos los elementos posteriores (en caso de que los haya) un índice adelante (por ejemplo, el {\tt i}-ésimo pasa a ser el nuevo {\tt(i+1)}-ésimo). A modo de ejempo, si {\tt l = [5,6,7]}, entonces si hacemos {\tt l.insert(1,0)} pasa a ser {\tt l = [5,0,6,7]}.
+	
+	\item {\tt del}. Permite (entre otras cosas) quitar el elemento de cierto índice de una lista. Dada una lista {\tt l}, la instrucción {\tt del l[i]} quita el elemento de índice {\tt i}. Si hay elementos después del {\tt i}ésimo, sus índices se decrementan (por ejemplo, el {\tt i+1} pasa a ser el nuevo {\tt i}). A modo de ejempo, si {\tt l = [5,6,7]}, entonces si hacemos {\tt del~l[1]} pasa a ser {\tt l = [5,7]}.
 \end{itemize}
 
 Existen muchas otras instrucciones en python, pero no es el foco del curso aprender una gran cantidad. En general hay muchas que hacen cosas que con un poco de trabajo se pueden realizar utilizando otras. Veamos un ejemplo de programa en el que se usan estás dos instrucciones de entrada/salida mencionadas.
@@ -466,14 +474,34 @@ La ejecución del programa se detuvo después de mostrar <<{\tt Ingrese su núme
 
 Recomiendo ejecutar este ejemplo por uno mismo. Alcanza con copiar y pegar el código escrito arriba en un archivo y ejecutarlo.
 
+Veamos algunos ejemplos de las instrucciones de listas mencionadas. Notar en particular como los índices de los elementos cambian si se insertan o eliminan elementos en la mitad de la lista.
+\begin{verbatim}
+>>> l = [10,20,30]
+>>> l[2] # el elemento de índice 2 es 30
+30
+>>> l.append(40) # Agrega 4 al final de la lista
+>>> l
+[10, 20, 30, 40]
+>>> l.insert(2,9) # Inserta 9 en el lugar de índice 2 (tercero)
+>>> l
+[10, 20, 9, 30, 40]
+>>> l[3] #Notar que ahora el elemento de índice 3 es 30
+30
+>>> del l[1] #Elimina el elemento de índice 1
+>>> l
+[10, 9, 30, 40]
+>>> l[2] # 30 volvió a ser el elemento de índice 2 
+30
+\end{verbatim}
+
 \section{Condicionales}
 
-Con lo que tenemos hasta ahora, la secuencia de instrucciones que se ejecuta en un programa es algo estático. Independientemente de lo que ocurra, las instrucciones se ejecutan de la primera hasta la última. Las instrucciones, por otra parte, permiten escribir código que se ejecute o no en función de cierta condición. La sintaxis es la siguiente:
+Con lo que tenemos hasta ahora, la secuencia de instrucciones que se ejecuta en un programa es algo estático. Independientemente de lo que ocurra, las instrucciones se ejecutan de la primera hasta la última. Las instrucciones condicionales, por otra parte, permiten escribir código que se ejecute o no en función de cierta condición. La sintaxis (es decir, la estructura de cómo se escribe) es la siguiente:
 \begin{lstlisting}[language=python]
 if cond:
     code
 \end{lstlisting}
-Se escribe la palabra clave <<if>>, luego se escribe una condición, que es cualquier cosa que se evalue en algo de tipo booleano, luego se escribe un símbolo <<:>> y abajo, con una sangría de 4 espacios, se escribe el código que debe ejecutarse en caso de que la condición se cumpla. La sangría es muy importante, pues delimita lo que está sujeto a la condición. Ejemplifiquemos esto. En el siguiente código:
+Se escribe la palabra clave <<if>>, luego se escribe una condición, que es cualquier cosa que se evalue en algo de tipo booleano, luego se escribe un símbolo <<:>> y abajo, con una sangría de 4 espacios, se escribe el código que debe ejecutarse en caso de que la condición se cumpla, el cual se denomina {\sl cuerpo} del if. La sangría es muy importante, pues delimita lo que está sujeto a la condición. Ejemplifiquemos esto. En el siguiente código:
 \begin{verbatim}
 if cond:
     instr1
@@ -528,7 +556,7 @@ else:
         else:
             instr4
 \end{verbatim}
-Dicho sea de paso, se puede poner ifs adentro del cuerpo de otros ifs, como acabamos de hacer para escribir algo equivalente a los elif.
+Dicho sea de paso, se puede poner ifs adentro del cuerpo de otros ifs, como acabamos de hacer para escribir algo equivalente a los elif. De hecho dentro del cuerpo de los if se puede poner cualquier tipo de instrucción, incluyendo también las iteraciones que veremos a continuación.
 
 A modo de ejemplo, podemos escribir el siguiente programa que pide un entero al usuario y le dice si este entero es negativo, cero o positivo.
 \begin{verbatim}
@@ -644,7 +672,7 @@ En programación se le llama función a un fragmento de código separado del res
 def nombre_fun(p_1,...,p_n):
     code	
 \end{lstlisting}
-Se escribe la palabra reservada {\tt def}, luego el nombre de la función, luego una secuencia de parámetros (cero o más), que son nombres de variables, luego un <<:>> y luego el código con sangría. En este código se puede usar la instrucción especial {\tt return} para que la función retorne un valor. La idea es que en términos matemáticos es una función que se aplica a los parámetros y su imagen es lo que se indica con {\tt return}. A modo de ejemplo, la función valor absoluto se puede escribir de la siguiente forma:
+Se escribe la palabra reservada {\tt def}, luego el nombre de la función, luego una secuencia de parámetros (cero o más), que son nombres de variables, luego un <<:>> y luego cierto código con sangría, el cual es denominado {\sl cuerpo} de la función. En el cuerpo se puede usar la instrucción especial {\tt return} para que la función retorne un valor. La idea es que en términos matemáticos es una función que se aplica a los parámetros y su imagen es lo que se indica con {\tt return}. A modo de ejemplo, la función valor absoluto se puede escribir de la siguiente forma:
 \begin{verbatim}
 def val_abs(x):
     if x >= 0:
@@ -712,9 +740,11 @@ Una función puede no tener parámetros y también puede no retornar nada. En lo
 \begin{verbatim}
 def bienvenida():
     t = input("Hola, ¿cómo te llamas? ")
-    print("Bienvenid@, ",t)
+    print("Bienvenid@,",t)
 \end{verbatim}
 Se trata de una función que le da la bienvenida al usuario. Dentro de un programa podría ejecutarse al principio, poniendo <<{\tt bienvenida()}>> como primera línea y no afectaría en nada para el resto del programa.
+
+Una función puede llamarse a ella misma dentro de su cuerpo. En este caso es lo que se llama una {\bf función recursiva}. Esto será profundizado en el capítulo siguiente.
 
 \subsection{Variables locales y globales}
 Veamos un par de detalles técnicos sobre nombres de variables y funciones. Primero, las variables que se definen dentro de una función se llaman {\bf locales} y solo están definidas dentro del cuerpo de la función. Esto es para que el funcionamiento interno de la función sea bastante independiente al resto del código. En general la idea es que la función interactúa con el resto del programa solamente (o principalmente) mediante los parámetros y el valor que retorna. Veamos un ejemplo.
