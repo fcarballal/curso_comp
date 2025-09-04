@@ -434,17 +434,13 @@ Los números son objetos {\bf inmutables}: no se pueden modificar. Las listas, p
 
 Digamos que programa en python es una secuencia de instrucciones que se almacena en un archivo de formato <<{\tt .py}>>. Un ejemplo básico de instrucción es la asignación, que ya vimos. Por otra parte, cuando escribimos una expresión o una variable en el intérprete y damos enter para que imprima el valor, también se trata de una instrucción. Estas últimas en general se usan solamente haciendo experimentos sencillos en el intérprete; no es común incluirlas en programas.
 
-Al ejecutar un programa (ver figura \ref{fig-ejecPython}) se ejecutan las instrucciones en el orden que están escritas.
+Al ejecutar un programa (ver figura \ref{fig-ejecPython}) se ejecutan las instrucciones en el orden que están escritas, es decir, de la primera línea en adelante, o desde arriba hacia abajo. No obstante, veremos que hay instrucciones de tipo condicional y de iteraciones que adentro permiten hacer bifurcaciones o ciclos en la ejecución, respectivamente.
 
-Además de las instrucciones, se pueden agregar comentarios, los cuales no afectan el funcionamiento del programa, sino que están para quienes leen el código. Para escribir comentarios se usa el símbolo {\tt\#}. Todo lo que lo sigue en esa línea se vuelve un comentario.
+Digamos que las instrucciones pueden ser simples o compuestas. No es una distinción general, pero la introduzco porque me parece pedagógicamente útil en este punto. Las instrucciones simples son las que se escriben en una línea y representan una acción específica, mientras que las compuestas son instrucciones con cierta estructura que contienen adentro otras instrucciones. Las asignaciones son instrucciones simples y en esta sección presentamos algunas otras. En secciones posteriores presentaremos algunas instrucciones compuestas que son los condicionales y las iteraciones: {\tt if}, {\tt for} y {\tt while}.
 
-La siguiente lista contiene otros ejemplos de instrucciones que pueden ser útiles.
+Además de asignaciones, utilizaremos las siguientes instrucciones simples.
 \begin{itemize}
 	\item {\tt print()}. Se trata de una instrucción que imprime en la consola lo que se le pasa como parámetro. Es la instrucción por excelencia para mostrar algo en la consola. Si se le pasa un valor directamente imprime ese valor, mientras que si se le pasa una variable imprime el contenido de la variable. Por ejemplo, la instrucción {\tt print("Hola")} imprime <<Hola>>, mientras que {\tt print(x)} imprime el valor de la variable {\tt x} (y si esta variable no tiene ningún valor, da error).
-	
-	\item {\tt input()}. Se trata de una instrucción que permite leer algo que el usuario escriba en la terminal. Es una herramienta rudimentaria para hacer programas interactivos. Lo que se escribe entre paréntesis es un texto que se le muestra al usuario antes de esperar a que este escriba algo. La forma de uso es en general  {\tt x=input()}. De esta forma, lo que escriba el usuario se guarda como un string en la variable {\tt x}. Al llegar a una instrucción de este tipo, la ejecución del programa se detiene hasta que el usuario escriba algo y presione enter.
-	
-	\item {\tt int()} y {\tt float()}. Estas funciones, respectivamente, al aplicarse a un string $x$ que representa un entero o un número de punto flotante, retornan este entero o número en punto flotante. Por ejemplo, {\tt int(``-1")} retorna el entero {\tt -1}. En general usaremos estas funciones junto con el comando {\tt input()}, como en el ejemplo que viene a continuación, para convertir el string que ingresa el usuario a un número. En caso de que el string no represente un objeto válido del tipo de datos, como por ejemplo al ejecutar {\tt int("123a")}, se produce un error.
 	
 	\item {\tt append()}. Esta instrucción es para agregar un elemento al final de una lista. A diferencia de las anteriores, es formalmente lo que se llama un {\sl método} de las listas. Dada una lista {\tt l} y un objeto $x$ que queremos agregar al final, la instrucción es {\tt l.append($x$)}. Se escribe el nombre de la lista, un punto y luego {\tt append()} con lo que querramos agregar adentro de los paréntesis.
 	
@@ -453,7 +449,19 @@ La siguiente lista contiene otros ejemplos de instrucciones que pueden ser útil
 	\item {\tt del}. Permite (entre otras cosas) quitar el elemento de cierto índice de una lista. Dada una lista {\tt l}, la instrucción {\tt del l[i]} quita el elemento de índice {\tt i}. Si hay elementos después del {\tt i}ésimo, sus índices se decrementan (por ejemplo, el {\tt i+1} pasa a ser el nuevo {\tt i}). A modo de ejempo, si {\tt l = [5,6,7]}, entonces si hacemos {\tt del~l[1]} pasa a ser {\tt l = [5,7]}.
 \end{itemize}
 
-Existen muchas otras instrucciones en python, pero no es el foco del curso aprender una gran cantidad. En general hay muchas que hacen cosas que con un poco de trabajo se pueden realizar utilizando otras. Veamos un ejemplo de programa en el que se usan estás dos instrucciones de entrada/salida mencionadas.
+Además de estas instrucciones hay algunas operaciones (me refiero a instrucciones que en lugar de hacer algo, retornan un valor que se puede usar para algo más) que junto con asignaciones forman instrucciones útiles, en particular para obtener datos del usuario. Son las siguientes.
+
+\begin{itemize}
+	\item {\tt input()}. Se trata de una operación que espera a que el usuario escriba algo en la terminal y luego retorna eso como un string. Es una herramienta rudimentaria para hacer programas interactivos. Lo que se escribe entre paréntesis es un texto que se le muestra al usuario antes de esperar a que este escriba algo. Una forma de uso común es  {\tt x=input()}. De este modo, lo que escriba el usuario se guarda como un string en la variable {\tt x}. Al llegar a una instrucción de este tipo, la ejecución del programa se detiene hasta que el usuario escriba algo y presione enter.
+	
+	\item {\tt int()} y {\tt float()}. Estas operaciones, respectivamente, al aplicarse a un string $x$ que representa un entero o un número de punto flotante, retornan este entero o número en punto flotante. Por ejemplo, {\tt int(``-1")} retorna el entero {\tt -1}. En general usaremos estas funciones junto con el comando {\tt input()}, como en el ejemplo que viene a continuación, para convertir el string que ingresa el usuario a un número. En caso de que el string no represente un objeto válido del tipo de dato, como por ejemplo al ejecutar {\tt int("123a")}, se produce un error.
+\end{itemize}
+
+Existen muchas otras instrucciones en python, pero no es el foco del curso aprender una gran cantidad. En general hay muchas que hacen cosas que con un poco de trabajo se pueden realizar utilizando otras.
+
+Además de las instrucciones, se pueden agregar comentarios, los cuales no afectan el funcionamiento del programa, sino que están para quienes leen el código. El compilador, al traducir el código a instrucciones de máquina, ignora totalmente los comentarios. En python se escriben usando el símbolo <<{\tt\#}>>. Todo lo que hay después de ese símbolo en esa línea es un comentario; al pasar a la siguiente línea el comentario se termina y en caso de querer que siga hay que ingresar otro <<{\tt\#}>>. Los comentarios en general se usan para dejar aclaraciones de lo que hace el código, de modo que si alguien más lo lee (o uno mismo después de un tiempo) sea más fácil entenderlo.
+
+Veamos un ejemplo de programa en el que se usan las herramientas de entrada/salida ({\tt input} y {\tt print}) presentadas.
 \begin{verbatim}
 print("Hola.")
 x = input("Ingrese su numero favorito por favor: ")
@@ -494,6 +502,8 @@ Veamos algunos ejemplos de las instrucciones de listas mencionadas. Notar en par
 30
 \end{verbatim}
 
+
+
 \section{Condicionales}
 
 Con lo que tenemos hasta ahora, la secuencia de instrucciones que se ejecuta en un programa es algo estático. Independientemente de lo que ocurra, las instrucciones se ejecutan de la primera hasta la última. Las instrucciones condicionales, por otra parte, permiten escribir código que se ejecute o no en función de cierta condición. La sintaxis (es decir, la estructura de cómo se escribe) es la siguiente:
@@ -501,21 +511,23 @@ Con lo que tenemos hasta ahora, la secuencia de instrucciones que se ejecuta en 
 if cond:
     code
 \end{lstlisting}
-Se escribe la palabra clave <<if>>, luego se escribe una condición, que es cualquier cosa que se evalue en algo de tipo booleano, luego se escribe un símbolo <<:>> y abajo, con una sangría de 4 espacios, se escribe el código que debe ejecutarse en caso de que la condición se cumpla, el cual se denomina {\sl cuerpo} del if. La sangría es muy importante, pues delimita lo que está sujeto a la condición. Ejemplifiquemos esto. En el siguiente código:
+Se escribe la palabra clave <<if>>, luego se escribe una condición, que es cualquier cosa que se evalue en algo de tipo booleano, luego se escribe un símbolo <<:>> y abajo, con una sangría de 4 espacios, se escribe el código que debe ejecutarse en caso de que la condición se cumpla, el cual se denomina {\sl cuerpo} del if. El cuerpo del if es una secuencia de una o más instrucciones. No hay restricciones respecto al tipo de estas instrucciones, pudiendo ser simples o compuestas. Es decir, en el cuerpo del if pueden haber otros if o iteraciones (las cuales veremos en la siguiente sección).
+
+La sangría es muy importante, pues delimita el cuerpo. Ejemplifiquemos esto. En el siguiente código:
 \begin{verbatim}
 if cond:
     instr1
 instr2
 instr3
 \end{verbatim}
-en caso de que se cumpla {\tt cond}, se ejecuta {\tt instr1}. Después de eso, independientemente de la condición, se ejecutan {\tt instr2} e {\tt instr3}. Por otra parte, consideremos ahora:
+el cuerpo del if es solamente {\tt instr1}. En caso de que se cumpla {\tt cond}, se ejecuta {\tt instr1}. Después de eso, independientemente de la condición, se ejecutan {\tt instr2} e {\tt instr3}. Por otra parte, consideremos ahora:
 \begin{verbatim}
 if cond:
     instr1
     instr2
 instr3
 \end{verbatim}
-En este caso, si se cumple {\tt cond}, entonces se ejecutan {\tt instr1} e {\tt instr2}. Después de eso, independientemente de la condición se ejecuta {\tt instr3}.
+Ahora el cuerpo del if consta de {\tt instr1} y {\tt instr2}. En este caso, si se cumple {\tt cond}, entonces se ejecutan {\tt instr1} e {\tt instr2}. Después de eso, independientemente de la condición se ejecuta {\tt instr3}.
 
 La instrucción {\tt if} se puede extender con más cosas. Estas extensiones no nos permiten hacer nada que no pudiéramos hacer solamente con ifs, pero ayudan a escribir código más claro. Por ejemplo, se puede agregar una cláusula {\tt else} para algo que se ejecute en caso de que no se cumpla la condición. Con esto la instrucción queda:
 \begin{verbatim}
@@ -556,7 +568,7 @@ else:
         else:
             instr4
 \end{verbatim}
-Dicho sea de paso, se puede poner ifs adentro del cuerpo de otros ifs, como acabamos de hacer para escribir algo equivalente a los elif. De hecho dentro del cuerpo de los if se puede poner cualquier tipo de instrucción, incluyendo también las iteraciones que veremos a continuación.
+Notar que en este caso tenemos instrucciones condicionales dentro del cuerpo de otras.
 
 A modo de ejemplo, podemos escribir el siguiente programa que pide un entero al usuario y le dice si este entero es negativo, cero o positivo.
 \begin{verbatim}
@@ -595,9 +607,9 @@ El {\tt for} (en python) nos permite iterar a travez de los elementos de una lis
 for x in lista:
     code
 \end{lstlisting}
-donde {\tt lista} es la lista a recorrer, {\tt x} es una variable nueva que irá recorriendo los elementos de esta lista y {\tt code} es el código que se ejecuta para cada elemento de la lista. Nuevamente la sangría del código es importante para delimitar las instrucciones que se iteran. Dentro del código se puede usar la variable {\tt x}, cuyo contenido va variando por los elementos de la lista de modo ordenado.
+donde {\tt lista} es la lista a recorrer, {\tt x} es una variable nueva que irá recorriendo los elementos de esta lista y {\tt code} (el cuerpo) es el código que se ejecuta para cada elemento de la lista. Al igual que con los {\tt if}, el cuerpo es una secuencia de instrucciones que pueden ser de cualquier tipo, incluso {\tt if} u otros {\tt for} o {\tt while} (que veremos a continuación). Nuevamente la sangría del código es importante para delimitar las instrucciones que se iteran. Dentro del código se puede usar la variable {\tt x}, cuyo contenido va variando por los elementos de la lista de modo ordenado.
 
-Si el contenido de la lista es $[a_1,a_2,\dots,a_n]$, entonces lo que ocurre es lo siguiente. Primero {\tt x} toma el valor $a_1$ y se ejecuta {\tt code}. Después {\tt x} toma el valor $a_2$ y se vuelve a ejecutar {\tt code}. Sigue así sucesivamente hasta que finalmente se ejecuta {\tt code} con {\tt x} valiendo $a_n$.
+Si el contenido de la lista es $[a_1,a_2,\dots,a_n]$, entonces lo que ocurre es lo siguiente. Primero {\tt x} toma el valor $a_1$ y se ejecuta {\tt code}. Después {\tt x} toma el valor $a_2$ y se vuelve a ejecutar {\tt code}. Sigue así sucesivamente hasta que {\tt x} toma el valor $a_n$ y se ejecuta {\tt code} por última vez.
 
 A modo de ejemplo:
 \begin{verbatim}
@@ -608,12 +620,12 @@ print("Fin.")
 \end{verbatim}
 imprime los elementos de la lista en orden y luego un <<Fin.>>.
 
-Una funcionalidad de python que se suele usar conjuntamente es la función {\tt range()}. Se puede pensar que {\tt range($n$)} es la lista de enteros que comienza en $0$ y termina en $n-1$. Internamente se representa distinto, pero conceptualmente es eso. Con dos parámetros se puede elegir también el comienzo. Los elementos de {\tt range($a,b$)} son los~$i$ tales que $a\leq i<b$. Esto nos permite por ejemplo escribir un programa que sume todos los números menores a cierto $n$.
+Una funcionalidad de python que se suele usar conjuntamente es la función {\tt range()}. Se puede pensar que {\tt range($n$)} es la lista de enteros que comienza en $0$ y termina en $n-1$. Internamente se representa distinto, pero conceptualmente es eso. También se lo puede pensar como el intervalo $[0,n)$. Con dos parámetros se puede elegir también el comienzo. Los elementos de {\tt range($a,b$)} son los~$i$ tales que $a\leq i<b$, es decir $[a,b)$. En general en python los intervalos son cerrados a izquierda y abiertos a derecha (lo mismo pasa con el slicing {\tt l[a:b]}). Escribamos un programa que sume todos los números menores a cierto $n$, es decir que calcule $\sum_{i=0}^{n-1}i$.
 \begin{verbatim}
 n = int(input("Elija el n: "))
-suma = 0
+suma = 0 #Variable "acumuladora" para la suma
 for i in range(n): #range(n) es [0,1,2,...,n-1]
-    suma = suma + i
+    suma = suma + i #En cada paso agregamos el número i a la suma
 print(suma)
 \end{verbatim}
 \begin{ejercicio}
@@ -625,7 +637,7 @@ Pasamos ahora a los ciclos {\tt while}. En este caso, el ciclo está definido po
 while cond:
     code
 \end{lstlisting}
-donde {\tt cond} es algo que se evalúa a un valor booleano y {\tt code} es lo que queremos que se ejecute mientras la condición se cumpla.
+donde {\tt cond} es algo que se evalúa a un valor booleano y {\tt code} (el cuerpo) es lo que queremos que se ejecute mientras la condición se cumpla. Nuevamente, es una secuencia de instrucciones que pueden ser de cualquier tipo, incluso {\tt if}, {\tt for} u otros {\tt while}.
 
 La ejecución es como sigue. Primero se evalúa la condición. Si esta es falsa, termina la ejecución del while. Si es verdadera, se ejecuta {\tt code}, luego se vuelve a evaluar la condición y se vuelve a tomar la misma disyuntiva, así sucesivamente hasta que la condición sea falsa.
 
@@ -647,7 +659,8 @@ if puede_ser_primo:
 else:
     print("No es primo")
 \end{verbatim}
-Podría hacerse también con un for, haciendo que se recorra todo {\tt range(2,n)} y para cada elemento se determine si es un divisor o no. La ventaja de hacerlo con el while es que una vez que encontramos un divisor, dejamos de iterar. Si por otra parte usamos el for, aunque en seguida encontraramos un divisor y ya sepamos que no es primo, seguiriamos iterando hasta llegar a $n-1$.
+Podría hacerse también con un for, haciendo que se recorra todo {\tt range(2,n)} y para cada elemento se determine si es un divisor o no. La ventaja de hacerlo con el while es que una vez que encontramos un divisor, dejamos de iterar. Si por otra parte usamos el for, aunque en seguida encontraramos un divisor y ya sepamos que no es primo, seguiriamos iterando hasta llegar a $n$.
+
 \begin{ejercicio}
 	Escribir un programa para determinar si un número es primo que use for (independientemente de la desventaja que acabamos de mencionar).
 \end{ejercicio}
@@ -697,14 +710,14 @@ Si se ejecuta este programa lo que se ve en consola es que imprime <<0 6 46>>. N
 
 Si una función tiene varios parámetros, al ejecutarla el orden de los argumentos es el mismo. Por ejemplo, si escribimos una función {\tt f(x,y)} y luego ejecutamos {\tt f(1,2)}, entonces {\tt x} será 1 y {\tt y} será 2.
 
-Hagamos un ejemplo un poco más complejo vinculado con números primos. A partir del código que ya hicimos en la sección de iteraciones podemos escribir una función que reciba como parámetro un número y retorne un booleano que diga si es primo o no.
+Hagamos un ejemplo un poco más complejo vinculado con números primos. A partir del código que ya hicimos en la sección de iteraciones podemos escribir una función que reciba como parámetro un número y retorne un booleano que diga si es primo o no. Por otra parte, esta vez en lugar de buscar divisores hasta $n-1$, buscaremos hasta $\sqrt{n}$. Es un ejercicio de aritmética verificar que con eso alcanza.
 \begin{verbatim}
 def es_primo(n):
     if n<2:
         return False
     puede_ser_primo = True
     potencial_divisor = 2
-    while puede_ser_primo and potencial_divisor < n:
+    while puede_ser_primo and potencial_divisor <= n**(1/2):
         if n % potencial_divisor == 0: #Es un divisor de n
             puede_ser_primo = False
         potencial_divisor = potencial_divisor + 1
@@ -827,7 +840,7 @@ Juntando los items 1 y 2, podemos determinar si la cantidad de dígitos de un n�
 	        return False
 	    puede_ser_primo = True
 	    potencial_divisor = 2
-	    while puede_ser_primo and potencial_divisor < n:
+	    while puede_ser_primo and potencial_divisor <= n**(1/2):
 	        if n % potencial_divisor == 0: #Es un divisor de n
 	            puede_ser_primo = False
 	        potencial_divisor = potencial_divisor + 1
