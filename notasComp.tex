@@ -285,6 +285,8 @@ Por otra parte, se pueden realizar con strings las mismas comparaciones que con 
 
 Las listas conforman un tipo de datos compuesto. Cada lista es, como su nombre sugiere, una lista de objetos. Una lista se comienza y se termina con <<[>> y <<]>>. Los distintos elementos se separan con comas. Por ejemplo: {\tt[0,1,4]}, {\tt[``aa'',``a'',``'']}, {\tt [3.5, ``a'']} y {\tt[]}. Las listas pueden tener cualquier cantidad de elementos (a partir de cero) y estos elementos pueden ser de cualquier tipo, incluso otras listas. Por ejemplo {\tt [[],[]]} es una lista con dos elementos, que los dos son la lista vacía. Con + se puede concatenar listas, de modo que {\tt [[],[]] + [1]} da {\tt [[],[],1]}.
 
+Hay una operación de pertenencia, para la que se usa la palabra {\tt in}. La forma de aplicarlo es {\tt <<$x$ in $l$>>}, siendo $x$ un objeto y $l$ una lista. Esta operación retorna un booleano, el cual es {\tt True} si $x$ está en la lista $l$ y {\tt False} en otro caso. Por ejemplo, {\tt 3 in [1,2,3]} da {\tt True} mientras que {\tt 4 in [1,2,3]} da {\tt Fasle}. Para esta operación se piensa a la lista como un conjunto, en el sentido de que el resultado no se ve afectado por el orden de los elementos ni por si aparecen repetidos o no. A modo de ejemplo, {\tt 3 in [1,2,3]} da lo mismo que {\tt 3 in [3,2,1]} y que {\tt 3 in [3,3,2,1,1,3]}.
+
 
 \section{Variables y asignaciones}
 
@@ -444,7 +446,7 @@ Además de asignaciones, utilizaremos las siguientes instrucciones simples.
 	
 	\item {\tt append()}. Esta instrucción es para agregar un elemento al final de una lista. A diferencia de las anteriores, es formalmente lo que se llama un {\sl método} de las listas. Dada una lista {\tt l} y un objeto $x$ que queremos agregar al final, la instrucción es {\tt l.append($x$)}. Se escribe el nombre de la lista, un punto y luego {\tt append()} con lo que querramos agregar adentro de los paréntesis.
 	
-	\item {\tt insert()} Permite agregar un elemento en un lugar particular de una lista. Al igual que {\tt append}, es un método. Dada una lista {\tt l}, un índice {\tt i} y un objeto $x$, la instrucción {\tt l.append(i,$x$)} agrega al objeto $x$ en la posición de índice {\tt i} de la lista, moviendo a todos los elementos posteriores (en caso de que los haya) un índice adelante (por ejemplo, el {\tt i}-ésimo pasa a ser el nuevo {\tt(i+1)}-ésimo). A modo de ejempo, si {\tt l = [5,6,7]}, entonces si hacemos {\tt l.insert(1,0)} pasa a ser {\tt l = [5,0,6,7]}.
+	\item {\tt insert()} Permite agregar un elemento en un lugar particular de una lista. Al igual que {\tt append}, es un método. Dada una lista {\tt l}, un índice {\tt i} y un objeto $x$, la instrucción {\tt l.insert(i,$x$)} agrega al objeto $x$ en la posición de índice {\tt i} de la lista, moviendo a todos los elementos posteriores (en caso de que los haya) un índice adelante (por ejemplo, el {\tt i}-ésimo pasa a ser el nuevo {\tt(i+1)}-ésimo). A modo de ejempo, si {\tt l = [5,6,7]}, entonces si hacemos {\tt l.insert(1,0)} pasa a ser {\tt l = [5,0,6,7]}.
 	
 	\item {\tt del}. Permite (entre otras cosas) quitar el elemento de cierto índice de una lista. Dada una lista {\tt l}, la instrucción {\tt del l[i]} quita el elemento de índice {\tt i}. Si hay elementos después del {\tt i}ésimo, sus índices se decrementan (por ejemplo, el {\tt i+1} pasa a ser el nuevo {\tt i}). A modo de ejempo, si {\tt l = [5,6,7]}, entonces si hacemos {\tt del~l[1]} pasa a ser {\tt l = [5,7]}.
 \end{itemize}
@@ -693,7 +695,7 @@ def val_abs(x):
     else:
         return -x
 \end{verbatim}
-Si en un programa ponemos solamente la definición de la función y no escribimos nada más después, ese programa no hace nada. Por otra parte, después de la definición podemos ejecutarla en un argumento $x$ escribiendo {\tt val\_abs($x$)}. 
+Si en un programa ponemos solamente la definición de la función y no escribimos nada más después, ese programa no calcula nada. Por otra parte, después de la definición podemos ejecutarla en un argumento $x$ escribiendo {\tt val\_abs($x$)}. 
 
 \begin{verbatim}
 def val_abs(x):
@@ -748,6 +750,54 @@ while not es_primo(n):
 print("El mínimo primo mayor o igual es ", n)
 \end{verbatim}
 Notar como dato interesante que la terminación de este programa para cada entrada es de hecho equivalente a la existencia de infinitos primos. La cuestión de si un programa termina o no puede un problema difícil. No siempre se puede resolver empíricamente, sino que en general hay que hacer una demostración. El motivo de esto es que si lleva mucho tiempo sin terminar, no tenemos forma de saber si es que no va a terminar nunca o que sí va a terminar pero más adelante.
+
+El valor que retorna la función puede ser de cualquier tipo de datos, incluyendo listas. Esto es útil, por ejemplo, cuando queremos hacer una función que retorne más de una cosa. Por ejemplo, podríamos querer escribir una función que determine si un número $n$ mayor a $1$ es primo y que en caso de que no lo sea nos de dos números mayores a $1$ que multiplicados nos den $n$. Esto lo podríamos hacer con una función que a partir de un $n$ retorne una lista cuyo primer elementos sea un booleano que indica si es primo o no y que en caso de que no lo sea, tenga otros dos elementos que sean números mayores a $1$ que multiplicados den $n$. Un ejemplo de tal función es la siguiente.
+\begin{verbatim}
+def primo(n):
+    if n<2:
+        return [False,0,0] #Este caso no interesa. Es para n > 1
+    puede_ser_primo = True
+    potencial_divisor = 2
+    while puede_ser_primo and potencial_divisor <= n**(1/2):
+        if n % potencial_divisor == 0: #Es un divisor de n
+            puede_ser_primo = False
+        else: #Para que si encontramos un divisor no se cambie
+            potencial_divisor = potencial_divisor + 1
+    if puede_ser_primo:
+        return [True]
+    else:
+        return [False, potencial_divisor, n//potencial_divisor]
+\end{verbatim}
+Podemos probar la función ingresándola en un archivo, digamos {\tt programa.py} y luego ejecutándolo de la terminal con la {\sl flag} {\tt -i}, es decir {\tt python -i programa.py}. Esto hace que luego de ejecutarse el código (lo cual deja la función definida), pasemos al modo interactivo del intérprete.
+\begin{verbatim}
+PS C:\Users\...\ejemplo> python -i programa.py
+>>> primo(2)
+[True]
+>>> primo(3)
+[True]
+>>> primo(4)
+[False, 2, 2]
+>>> primo(5)
+[True]
+>>> primo(6)
+[False, 2, 3]
+>>> primo(12)
+[False, 2, 6]
+>>> primo(13)
+[True]
+>>> primo(14)
+[False, 2, 7]
+\end{verbatim}
+Por otra parte, en el código podemos llamar (evaluar) la función, guardar la lista resultante en una variable y luego acceder a sus elementos.
+\begin{verbatim}
+n = int(input("Ingrese un número: "))
+resultado = primo(n)
+if resultado[0]: # resultado[0] indica si es primo o no
+    print("Es primo")
+else:
+    print("No es primo. Producto de:", resultado[1], resultado[2])
+\end{verbatim}
+
 
 Una función puede no tener parámetros y también puede no retornar nada. En los casos en los que no retorna nada (simplemente hace ciertas cosas), lo cual se aparta mucho del concepto matemático de función, en algunos lenguajes se les llama procedimientos. En python se les llama igual funciones porque en realidad retornan un valor trivial que no se muestra (detalle formal). Un ejemplo de función que no tiene parámetros ni retorna nada sería:
 \begin{verbatim}
@@ -847,7 +897,7 @@ Juntando los items 1 y 2, podemos determinar si la cantidad de dígitos de un n�
 	    return puede_ser_primo
 \end{verbatim}
 
-Ingresamos esta función en un archivo llamado {\tt programa.py} y hacemos algunas pruebas desde la terminal.
+Ingresamos esta función en un archivo llamado {\tt programa.py} y hacemos algunas pruebas desde la terminal (ejecutar python con {\tt-i} permite que luego de ejecutar el programa, lo cual en este caso define la función, pasemos a la terminal de modo interactivo).
 \begin{verbatim}
 PS C:\Users\...\Ejemplo metodología> python -i programa.py
 >>> es_primo(1)
@@ -897,7 +947,7 @@ def cant_digitos(n):
         q = q // 10
     return cant
 \end{verbatim}
-Notar que arriba de la función escribimos un comentario que aclara lo que hace. Esto es una muy buena práctica que se recomienda aplicar en general (aunque aquí lo hacemos solo con esta función). Si bien ahora tenemos claro lo que hace, si volvemos a mirar la función dentro de un tiempo, el comentario nos vendrá muy bien. Agregamos esta función al archivo {\tt programa.py} y hacemos pruebas del mismo modo que con la función anterior. Hacemos algunas pruebas a mano. Para testing automático podemos verificar por ejemplo que para cada $a$ entre $1$ y $9$ y para cada $n$ menor a $100$, la función retorna $n+1$.
+Notar que arriba de la función escribimos un comentario que aclara lo que hace. Esto es una muy buena práctica que se recomienda aplicar en general (aunque aquí lo hacemos solo con esta función). Si bien ahora tenemos claro lo que hace, si volvemos a mirar la función dentro de un tiempo (o si la mira otra persona), el comentario puede ser útil. Agregamos esta función al archivo {\tt programa.py} y hacemos pruebas del mismo modo que con la función anterior. Hacemos algunas pruebas a mano. Para testing automático podemos verificar por ejemplo que para cada $a$ entre $1$ y $9$ y para cada $n$ menor a $100$, la función retorna $n+1$.
 \begin{verbatim}
 pasa_test = True
 for a in range(1,10):
@@ -909,7 +959,7 @@ if pasa_test:
 else:
     print("No pasa el test.")
 \end{verbatim}
-Verificamos que se pasa el test y continuamos con la siguiente. Vamos a escribir una función que diga si un número está en una lista.
+Verificamos que se pasa el test y continuamos con la siguiente. Vamos a escribir una función que diga si un número está en una lista. Podríamos usar la operación {\tt in} de listas, pero hagámoslo {\sl a mano}.
 \begin{verbatim}
 def pertenece(n,l):
     for i in l:
@@ -941,6 +991,7 @@ def es_primo(n):
             puede_ser_primo = False
         potencial_divisor = potencial_divisor + 1
     return puede_ser_primo
+    
 # la entrada es un entero positivo.
 # retorna la cantidad de dígitos del número escrito en base 10.
 def cant_digitos(n):
