@@ -1,0 +1,139 @@
+\documentclass[a4paper,12pt]{book}
+\usepackage{etex}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fullpage}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{txfonts}
+\usepackage{latexsym}
+\usepackage{stmaryrd}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{hyperref}
+%\usepackage[all]{xy}
+\usepackage{proof}
+\usepackage[sans]{dsfont}
+\usepackage[spanish]{babel}
+
+
+\newcommand{\Ra}{\Rightarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\te}{\text}
+\newcommand{\Lra}{\Leftrightarrow}
+\newcommand{\lra}{\leftrightarrow}
+
+
+%%%
+\theoremstyle{definition}
+\newtheorem{ejercicio}{Ejercicio}
+\outer\long\def\COUIC#1{}
+\outer\long\def\Solucion#1{\par
+	{\sl\small\noindent\textbf{Solución:}\quad#1\par}}
+%%% Comentar la siguiente línea para mostrar las soluciones
+\outer\long\def\Solucion#1{}
+
+\begin{document}
+	
+	\noindent
+	\centerline{\sc
+		Facultad de Ciencias\hfill---\hfill
+		Computación\hfill---\hfill
+		Segundo semestre de 2025}\smallbreak\hrule
+	
+	\bigbreak
+	\centerline{\Large\textbf{Práctico 2: Programación}}
+	\bigbreak
+	
+	Se permite y se recomienda definir funciones auxiliares para resolver los ejercicios cuando se considere conveniente.
+	
+	En algunos ejercicios se pide explícitamente probar los programas escritos. En los que no se pide explícitamente, igual hay que hacer algún tipo de prueba luego de terminar.
+	\begin{center}
+		{\textbf{Enteros}}
+	\end{center}
+	
+	\begin{ejercicio}
+		\begin{enumerate}
+			\item Escribir una función que dado un entero $n>1$, retorne la lista de sus factores primos, es decir, la lista de $[p_1,\dots,p_k]$ primos (no necesariamente distintos entre sí) tales que $n=p_1p_2\cdots p_k$. Los primos deben estar ordenados de modo creciente.
+			
+			Ejemplo: si $n=60$ el programa debe retornar $[2,2,3,5]$.
+			
+			Sugerencia: escribir antes una función que dado $n>1$ retorne una lista tal que el primer elemento diga si es primo o no y en caso de que no lo sea, hayan otros dos elementos $x,y>1$ tales que $xy=n$. Notar que si $x$ es el menor divisor mayor a $1$ de $n$, necesariamente $x$ es primo.
+			
+			\item Escribir otra función que usando la anterior imprima en la terminal la factorización en primos con el formato del siguiente ejemplo:
+			\begin{center}
+				{\tt La descomposición en primos de 12 es 2 2 3 5}
+			\end{center}
+				
+				
+			Recordar que {\tt print(x, end=`` '')} imprime {\tt x} y luego no realiza un salto de linea, por lo que si luego imprimimos otra cosa quedará en la misma línea.
+			Hacer algunas pruebas desde la terminal con {\tt python -i nombre\_archivo.py}.
+			
+			\item Escribir ahora una función (que puede usar la anterior) que dado $n>1$ determine la descomposición en primos con exponentes, es decir primos distintos $p_1,\dots p_k$ y exponentes $e_1,\dots e_k$ tales que $n=p_1^{e_1}\cdots p_k^{e_k}$. La función debe retornar una lista de listas, cada una de las cuales indica un primo y su exponente, es decir, $[[p_1,e_1],[p_2,e_2],\dots,[p_k,e_k]]$.
+			
+			Ejemplo: si $n=60$ el programa debe retornar $[[2,2],[3,1],[5,1]]$.
+			
+			\item Escribir otra función que usando la anterior imprima en la terminal la factorización en primos con el formato del siguiente ejemplo:
+	
+				{\tt La descomposición en primos de 12 es:
+				\newline 2 elevado a la 2
+				\newline 3 elevado a la 1
+				\newline 5 elevado a la 1}
+				
+				
+			Hacer algunas pruebas desde la terminal con {\tt python -i nombre\_archivo.py}.
+		\end{enumerate}
+	\end{ejercicio}
+	
+	Recordamos que dado un número $n$ su escritura en una base $b$ es $x_n,\dots x_1,x_0$ de modo que todos los $x_i$ son menores a $b$ y se cumple le igualdad:
+	$$n = x_nb^n+\cdots+x_1b+x_0
+	$$
+	
+	\begin{ejercicio}
+		\begin{enumerate}
+			\item Escribir una función que dado un número $n$ determine la lista de sus dígitos en base 10. Sugerencia: sean $q$ y $r$ el cociente y el resto de dividir entre 10. El último dígito en base 10 es $r$. Si $q\not=0$ y lo dividimos entre 10, el resto será el penúltimo dígito de $n$ y con el nuevo cociente se puede seguir repitiendo lo mismo.
+			
+			\item Hacer lo mismo pero ahora para determinar la escritura en cualquier otra base $b<10$. Sugerencia: el razonamiento con cocientes y  restos es el mismo.
+		\end{enumerate}
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		Investigar qué dice la conjetura de Goldbach y verificar experimentalmente que se cumple para todos los pares menores a cierto número fijo. Podría ser para todos los menores a 10000, 100000, según el tiempo que lleve la ejecución del programa (por lo menos hasta 1000 debería resolverlo en poco tiempo).
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		Consideramos la siguiente función $f$ que se aplica a enteros positivos:
+		$$f(n) = \begin{cases}
+			n/2 &\te{si $n$ es par}\\
+			3n+1 &\te{si $n$ es impar}
+		\end{cases}
+		$$
+		La conjetura de Collatz dice que partiendo de cualquier entero positivo $n$, si iteramos la función~$f$ eventualmente se llega a $1$. Es decir, si definimos una sucesión $(a_n)_{n\in\N}$ tal que $a_0=n_0$ para algún $n_0$ y luego cumple la recurrencia $a_{n+1}=f(a_n)$, entonces para cada $n_0$ existe un $n$ tal que $a_n=1$. Por ejemplo, si comenzamos en $3$, el comienzo de la secuencia es $3,10,5,16,8,4,2,1$ y podemos ver que efectivamente llega a $1$. Notar que si continuamos la secuancia, repite infinitamente el ciclo $1,4,2,1$.
+		\begin{enumerate}
+			\item Hacer una función que dado un valor inicial $n_0$ retorne una lista con la secuencia de valores hasta llegar a $1$. Por ejemplo, con $n_0=3$ la lista es $[3,10,5,16,8,4,2,1]$.
+			\item Evaluando la función para cada $n_0$ menor a algún número fijo, como 100 o 1000, determinar con qué $n_0$ la cantidad de pasos es mayor y mostrar esa secuencia.
+		\end{enumerate}
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		Notar que si multiplicamos los primeros $k$ primos y sumamos 1, para valores chicos de $k$ el resultado también es primo. Por ejemplo $2+1=3$, $2\times 3 + 1 = 7$, $2\times 3 \times 5 + 1 = 31$ y $2\times 3 \times 5 \times 7 + 1 = 106$, que son todos primos. No tiene pinta de ser una propiedad que se cumpla siempre. Escribir una función que dado $k$ retorne el producto de los primeros $k$ primos más 1 e intentar hallar el mínimo $k$ tal que el resultado no sea primo (suponiendo que existe). 
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		Un entero positivo $n$ es perfecto si es igual a la suma de sus divisores estrictos (es decir de sus divisores excepto el mismo). Un ejemplo es $6$, ya que $6=3+2+1$.
+		
+		Se cumple que si $2^m-1$ es primo, entonces $2^{m-1}(2^m-1)$ es perfecto. Notar que con $m=2$, efectivamente $2^m-1$ es primo y el número perfecto resultante es $6$. Intentemos ver experimentalmente si esos son todos los números perfectos o si hay otros.
+		
+		\begin{enumerate}
+			\item Escribir una función que determine si un número es perfecto.
+			
+			\item Hacer una función que retorne la lista de todos los números menores a cierto $N$ de la forma $2^{m-1}(2^m-1)$ con $m$ tal que $2^m-1$ es primo.
+			
+			\item Determinar si hay algún número perfecto menor a 100000 tal que no sea de la forma $2^{m-1}(2^m-1)$ con $m$ tal que $2^m-1$ es primo.
+		\end{enumerate}
+	\end{ejercicio}
+	
+\end{document}
+
