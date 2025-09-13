@@ -321,13 +321,38 @@ ValueError: invalid literal for int() with base 10: '-34d'
 '6.845'
 \end{verbatim}
 
-\section{Variables y asignaciones}
+\section{Variables, expresiones y asignaciones}
 
-Las variables son abstracciones que consisten en un nombre que se puede usar para referenciar objetos de distintos tipos de datos. Se puede pensar que el objeto referenciado por la variable es su valor. Nombres válidos de variable son secuencias de caracteres alfanuméricos y <<\_>> en los que el primer carácter no es un número, como por ejemplo {\tt x, x1, total} y {\tt altura\_caja}. Hay ciertas palabras reservadas para usos especiales, las cuales no pueden ser usadas como variables. Algunos ejemplos son {\tt if, for} y {\tt while}, cuyos usos veremos más adelante en este capítulo.
+Las {\bf variables} son objetos sintácticos (es decir elementos del lenguaje) que consisten en un nombre, el cual se puede usar para referenciar distintos objetos de cualquier tipo de datos. Se puede pensar que el objeto referenciado por la variable es su valor. Se trata de una abstracción de un lugar de memoria al que se le asocia un nombre y en el que se puede guardar un objeto, el cual puede ir variando. Nombres válidos de variable son secuencias de caracteres alfanuméricos y <<\_>> en los que el primer carácter no es un número, como por ejemplo {\tt x, x1, total} y {\tt altura\_caja}. Hay ciertas palabras reservadas para usos especiales, las cuales no pueden ser usadas como variables. Algunos ejemplos son {\tt if, for} y {\tt while}, cuyos usos veremos más adelante en este capítulo.
 
-La asignación es la instrucción básica de python para dar un nuevo valor a una variable. La sintaxis es:
+Las {\bf expresiones} son objetos sintácticos que se pueden calcular, resultando en un objeto de algún tipo de datos (que puede ser cualquiera). Están definidas en base a los siguientes casos.
+\begin{enumerate}
+	\item Los valores constantes (llamados {\sl lieterales} en python) de cualquier tipo son expresiones válidas. Por ejemplo, {\tt False}, {\tt 10}, {\tt ``Hola''} y {\tt[1,2,3]}. Estas expresiones al calcularse retornan el valor constante en cuestión.
+	\item Una variable es una expresión válida. Al calcularse retorna el valor actual de la variable.
+	\item Dada una operación, al aplicarla a ciertas expresiones, da lugar a una nueva expresión más compleja. Por ejemplo, <<{\tt 3+7}>>, <<{\tt 3**(5-2)}>>, <<{\tt x + 10}>>, <<{\tt x*y + z/2}>> y <<{\tt flag and (x<y)}>>. Como en varios de estos ejemplos, se puede aplicar una operación a expresiones que ya tienen operaciones. Al calcular la expresión, se realiza la operación correspondiente. Si {\tt x,y,z} tiene los valores $1,2,3$ respectivamente y {\tt flag} tiene le valor {\tt True}, entonces la expresiones calculan {\tt 10}, {\tt 27}, {\tt 11}, {\tt 3.5} y {\tt True}, respectivamente.
+	
+	Formalmente, dada una expresión definida por una operación entre otras dos expresiones {\tt exp1 op exp2}, para calcularla primero se calculan {\tt exp1} y {\tt exp2} en objetos $x_1$ y $x_2$ y luego se realiza la operación {\tt op} entre $x_1$ y $x_2$.
+	\item Una función (algo que presentamos más adelante) aplicada a ciertos argumentos (que pueden ser otras expresiones) da lugar a una expresión más compleja. Para calcular la expresión se evalúa la función. Por ejemplo, si tenemos definida una función {\tt f} con dos parámetros, entonces  {\tt f(4,9)}, {\tt f(x,2*(x+y))} y {\tt f(f(x,2),f(1,y))} son ejemplos de expresiones válidas.
+	
+	Forlamente, dada una expresión del tipo {\tt f(exp1, exp2,\dots,exp$n$)}, para calcularla primero se calculan las $n$ expresiones de los argumentos, dando $n$ objetos, luego se evalúa {\tt f} con estos objetos y lo que retorna {\tt f} es el resultado.
+\end{enumerate}
+
+La {\bf asignación} es la instrucción básica de python para dar un valor a una variable. La sintaxis es:
 $$\mathtt{var}~=~\mathtt{expr}$$
-donde $\mathtt{var}$ es el nombre de la variable a la que queremos asignar un objeto (es decir, hacer que la variable referencia al objeto) y $\mathtt{expr}$ es una expresión que determina el objeto a asignar.  Es distinto al uso que se le da al símbolo <<$=$>> en matemáticas (en particular, los lados tienen roles distintos), asemejándose más al de <<$:=$>>. La expresión puede ser un objeto fijo, una variable o algo más elaborado, por ejemplo con operaciones. Incluso puede contener la misma variable {\tt var}. En ese caso para evaluar la la expresión se usa el valor actual de la variable y luego se le asigna el resultado. Si en la expresión ponemos alguna variable aún no definida, se produce un error. Los siguientes son algunos ejemplos. Lo que se escribe después del \# es un {\bf comentario}: está solo para aclarar algo a la persona que lee; python lo ignora.
+donde $\mathtt{var}$ es el nombre de la variable a la que queremos asignar un objeto (es decir, hacer que la variable referencia al objeto, o que el objeto sea el valor de la variable) y $\mathtt{expr}$ es una expresión que calcula el objeto a asignar. Es distinto al uso que se le da al símbolo <<$=$>> en matemáticas (en particular, los lados tienen roles distintos), asemejándose más al de <<$:=$>>.
+
+
+
+Al ejecutarse una asignación se hacen las siguientes dos cosas.
+\begin{enumerate}
+	\item Se calcula la expresión de la derecha.
+	\item Se asocia ese objeto a la variable de la izquierda
+\end{enumerate}
+Si en la expresión hay alguna variable que no se ha definido antes o una operación aplicada a objetos de tipo incorrecto (por ejemplo {\tt ``a'' / [1,2] }), se produce un error.
+
+La expresión puede contener la misma variable {\tt var}. En ese caso para evaluarla se usa el valor actual de la variable y luego se le asigna el resultado.
+
+Los siguientes son algunos ejemplos. Lo que se escribe después del \# es un {\bf comentario}: está solo para aclarar algo a la persona que lee; python lo ignora.
 
 \begin{verbatim}
 >>> x = 10
