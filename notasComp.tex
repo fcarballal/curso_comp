@@ -511,7 +511,7 @@ Los números son objetos {\bf inmutables}: no se pueden modificar. Las listas, p
 
 Digamos que programa en python es una secuencia de instrucciones que se almacena en un archivo de formato <<{\tt .py}>>. Un ejemplo básico de instrucción es la asignación, que ya vimos. Por otra parte, cuando escribimos una expresión o una variable en el intérprete y damos enter para que imprima el valor, también se trata de una instrucción. Estas últimas en general se usan solamente haciendo experimentos sencillos en el intérprete; no es común incluirlas en programas.
 
-Al ejecutar un programa (ver figura \ref{fig-ejecPython}) se ejecutan las instrucciones en el orden que están escritas, es decir, de la primera línea en adelante, o desde arriba hacia abajo. No obstante, veremos que hay instrucciones de tipo condicional y de iteraciones que adentro permiten hacer bifurcaciones o ciclos en la ejecución, respectivamente.
+Al ejecutar un programa (ver figura \ref{fig-ejecPython}) se ejecutan las instrucciones en el orden que están escritas, es decir, de la primera línea en adelante, o desde arriba hacia abajo. No obstante, veremos que hay instrucciones de tipo condicional y de iteraciones, que adentro permiten hacer bifurcaciones (en base a alguna condición, lo que se ejecuta puede cambiar) o ciclos en la ejecución, respectivamente.
 
 Digamos que las instrucciones pueden ser simples o compuestas. No es una distinción general, pero la introduzco porque me parece pedagógicamente útil en este punto. Las instrucciones simples son las que se escriben en una línea y representan una acción específica, mientras que las compuestas son instrucciones con cierta estructura que contienen adentro otras instrucciones. Las asignaciones son instrucciones simples y en esta sección presentamos algunas otras. En secciones posteriores presentaremos algunas instrucciones compuestas que son los condicionales y las iteraciones: {\tt if}, {\tt for} y {\tt while}.
 
@@ -608,7 +608,13 @@ Con lo que tenemos hasta ahora, la secuencia de instrucciones que se ejecuta en 
 if cond:
     code
 \end{lstlisting}
-Se escribe la palabra clave <<if>>, luego se escribe una condición, que es cualquier cosa que se evalue en algo de tipo booleano, luego se escribe un símbolo <<:>> y abajo, con una sangría de 4 espacios, se escribe el código que debe ejecutarse en caso de que la condición se cumpla, el cual se denomina {\sl cuerpo} del if. El cuerpo del if es una secuencia de una o más instrucciones. No hay restricciones respecto al tipo de estas instrucciones, pudiendo ser simples o compuestas. Es decir, en el cuerpo del if pueden haber otros if o iteraciones (las cuales veremos en la siguiente sección).
+Se escribe la palabra clave <<if>>, luego se escribe una condición, que es cualquier expresión que se evalúe en un booleano, luego se escribe un símbolo <<:>> y abajo, con una sangría de 4 espacios, se escribe el código que debe ejecutarse en caso de que la condición se cumpla, el cual se denomina {\sl cuerpo} del if. Al ejecutarse el if ocurre lo siguiente.
+\begin{enumerate}
+	\item Se evalúa la expresión que conforma la condición, llegándose a un valor booleano.
+	\item En caso de que el resultado de evaluar la condición haya sido {\tt True}, se ejecuta el cuerpo. En caso de que haya sido {\tt False}, no se lo ejecuta.
+\end{enumerate}
+
+El cuerpo del if es una secuencia de una o más instrucciones. No hay restricciones respecto al tipo de estas instrucciones, pudiendo ser simples o compuestas. Es decir, en el cuerpo del if pueden haber otros if o iteraciones (las cuales veremos en la siguiente sección).
 
 La sangría es muy importante, pues delimita el cuerpo. Ejemplifiquemos esto. En el siguiente código:
 \begin{verbatim}
@@ -697,14 +703,14 @@ else:
 
 \section{Iteraciones}
 
-Los distintos tipos de iteraciones son tal vez la herramienta más fuerte en la programación. Una computadora tiene la capacidad de ejecutar millones de instrucciones por segundo, pero escribir millones de instrucciones no es viable. La forma de aprovechar esta capacidad es con los ciclos, o iteraciones, que nos permiten decir a la computadora que repita algo muchas veces. De esta forma, con una cantidad razonable de lineas de código podemos hacer que la computadora ejecute muchas instrucciones. Veremos dos tipos de iteraciones, el {\tt for} y el {\tt while}.
+Los distintos tipos de iteraciones son tal vez la herramienta más fuerte en la programación. Una computadora tiene la capacidad de ejecutar millones de instrucciones por segundo, pero escribir millones de instrucciones no es viable. La forma de aprovechar esta capacidad es con los ciclos, o iteraciones, que nos permiten decir a la computadora que repita algo muchas veces. De esta forma, con una cantidad razonable de lineas de código podemos hacer que la computadora ejecute muchas instrucciones. Veremos dos tipos de iteraciones: el {\tt for} y el {\tt while}.
 
-El {\tt for} (en python) nos permite iterar a travez de los elementos de una lista y hacer algo con cada uno de ellos. La sintaxis es:
+El {\tt for} (en python) nos permite iterar en orden a travez de los elementos de una lista y hacer algo con cada uno de ellos. La sintaxis es:
 \begin{lstlisting}[language=python]
 for x in lista:
     code
 \end{lstlisting}
-donde {\tt lista} es la lista a recorrer, {\tt x} es una variable nueva que irá recorriendo los elementos de esta lista y {\tt code} (el cuerpo) es el código que se ejecuta para cada elemento de la lista. Al igual que con los {\tt if}, el cuerpo es una secuencia de instrucciones que pueden ser de cualquier tipo, incluso {\tt if}, otros {\tt for} o {\tt while} (que veremos a continuación). Nuevamente la sangría del código es importante para delimitar las instrucciones que se iteran. Dentro del código se puede usar la variable {\tt x}, cuyo contenido va variando por los elementos de la lista de modo ordenado.
+donde {\tt lista} es la lista a recorrer, {\tt x} es una variable nueva que irá recorriendo los elementos de esta lista y {\tt code} (el cuerpo) es el código que se ejecuta para cada elemento de la lista. Al igual que con los {\tt if}, el cuerpo es una secuencia de instrucciones que pueden ser de cualquier tipo, incluso {\tt if}, otros {\tt for} o {\tt while} (que veremos a continuación). Nuevamente la sangría del código es importante para delimitar las instrucciones que se iteran. Dentro del código se puede usar la variable {\tt x}, cuyo contenido va variando por los elementos de la lista de modo ordenado. El for termina luego de haber ejecutado el cuerpo una vez para cada elemento de la lista.
 
 Si el contenido de la lista es $[a_1,a_2,\dots,a_n]$, entonces lo que ocurre es lo siguiente. Primero {\tt x} toma el valor $a_1$ y se ejecuta {\tt code}. Después {\tt x} toma el valor $a_2$ y se vuelve a ejecutar {\tt code}. Sigue así sucesivamente hasta que {\tt x} toma el valor $a_n$ y se ejecuta {\tt code} por última vez.
 
@@ -729,6 +735,16 @@ Este código ilustra dos usos distintos de variables que se dan muy comúnmente 
 \begin{ejercicio}
 	Escribir un programa que pida dos entradas $a$ y $b$ y retorne la suma de todos los números $n$ tales que $a\leq n\leq b$. Notar que queremos incluir a $b$ en la suma. Luego de escribir el programa hacer algunas pruebas para ver si anda bien (una buena práctica que se suele llamar {\sl testing}). Recomiendo en general hacer pruebas, independientemente de que se pida en la letra o no.
 \end{ejercicio}
+
+Se puede usar un {\tt for} para recorrer un string, por ejemplo iterando en los índices válidos. Supongamos que dado un string {\tt s} queremos contar la cantidad de veces que aparece el carácter <<a>>. Lo hacemos creando una variable para llevar la cuenta {\tt cont} y usaremos un for para iterar por los índices válidos de {\tt s}, sumando uno a la variable contadora ({\tt cont}) cada vez que encontremos una <<a>>. Como los índices válidos de {\tt s} son desde {\tt 0} hasta {\tt len(s)-1}, podemos recorrerlos con un {\tt for i in range(len(s))}, donde en cada ciclo podemos usar {\tt s[i]} para acceder carácter {\tt i}ésimo. El código es el siguiente.
+\begin{verbatim}
+s = "Hola. Hola, hola" # por ejemplo
+cont = 0
+for i in range(len(s)):
+    if s[i]=="a": # nos fijamos si el caracter i-ésimo es "a"
+        cont = cont + 1
+print(cont)
+\end{verbatim}
 
 Veamos un ejemplo en el que se usa un {\tt for} adentro de otro. Ahora queremos un programa dada una lista de listas, imprima los elementos de modo que cada lista de adentro quede en una línea separada con los elementos separados por espacios. Es decir, si la lista de listas es {\tt [[1,2],[3,4]]}, lo que queremos es que en la primera línea se imprima {\tt 1 2} y en la segunda se imprima {\tt 3 4}.
 \begin{verbatim}
@@ -758,7 +774,7 @@ Pasamos ahora a los ciclos {\tt while}. En este caso, el ciclo está definido po
 while cond:
     code
 \end{lstlisting}
-donde {\tt cond} es algo que se evalúa a un valor booleano y {\tt code} (el cuerpo) es lo que queremos que se ejecute mientras la condición se cumpla. Nuevamente, es una secuencia de instrucciones que pueden ser de cualquier tipo, incluso {\tt if}, {\tt for} u otros {\tt while}.
+donde {\tt cond} es una expresión que se evalúa a un valor booleano (igual que en los {\tt if}) y {\tt code} (el cuerpo) es lo que queremos que se ejecute mientras la condición se cumpla. Nuevamente, es una secuencia de instrucciones que pueden ser de cualquier tipo, incluso {\tt if}, {\tt for} u otros {\tt while}.
 
 La ejecución es como sigue. Primero se evalúa la condición. Si esta es falsa, termina la ejecución del while. Si es verdadera, se ejecuta {\tt code}, luego se vuelve a evaluar la condición y se vuelve a tomar la misma disyuntiva, así sucesivamente hasta que la condición sea falsa.
 
@@ -804,12 +820,18 @@ while continuar:
 \section{Funciones}\label{sec-funciones}
 
 
-En programación se le llama función a un fragmento de código separado del resto que puede recibir parámetros y retornar valores. Proviene del concepto matemático de función. No permiten hacer nada que no se pudiera hacer con lo que ya vimos, pero son útiles para que los programas queden más fáciles de entender y para reutilizar código. Esto último es porque una función se define una sola vez y se puede utilizar fácilmente como parte de distintos programas. La sintaxis es la siguiente:
+En programación se le llama función a un fragmento de código separado del resto que puede recibir parámetros y retornar valores. Proviene del concepto matemático de función. No permiten hacer nada que no se pudiera hacer con lo que ya vimos, pero son útiles para que los programas queden más fáciles de entender y para reutilizar código. Esto último es porque una función se define una sola vez y se puede utilizar cualquier cantidad de veces como parte de uno o varios programas. La sintaxis es la siguiente:
 \begin{lstlisting}[language=python]
 def nombre_fun(p_1,...,p_n):
     code	
 \end{lstlisting}
-Se escribe la palabra reservada {\tt def}, luego el nombre de la función, luego una secuencia de parámetros (cero o más), que son nombres de variables, luego un <<:>> y luego cierto código con sangría, el cual es denominado {\sl cuerpo} de la función. En el cuerpo se puede usar la instrucción especial {\tt return} para que la función retorne un valor. La idea es que en términos matemáticos es una función que se aplica a los parámetros y su imagen es lo que se indica con {\tt return}. A modo de ejemplo, la función valor absoluto se puede escribir de la siguiente forma:
+Se escribe la palabra reservada {\tt def}, luego el nombre de la función, luego una secuencia de parámetros (cero o más), que son nombres de variables, luego un <<:>> y luego cierto código con sangría, el cual es denominado {\sl cuerpo} de la función. En el cuerpo se puede usar la instrucción especial {\tt return} para que la función retorne un valor. La idea es que en términos matemáticos es una función que se aplica a los parámetros y su imagen es lo que se indica con {\tt return}.
+
+La sintaxis de la instrucción {\tt return} es {\tt return expr}, donde {\tt expr} es una expresión que indica lo que se debe retornar. Al ejecutarse esa instrucción se evalúa la expresión y la función termina, retornando el valor calculado, independientemente de si luego haya más código o no.
+
+Luego de que una función ha sido definida, se la puede llamar asignando distintos valores a los parámetros. Para evaluar una función se escribe el nombre de la función con una expresión para cada parámetro: {\tt nombre\_fun(expr1,\dots,expr$n$)}. Al ejecutarse esto, primero se evalúan todas las expresiones y luego se ejecuta la función asignando a los parámetros los resultados de las evaluaciones, en el orden correspondiente. La evaluación de una función es en sí una expresión que se puede usar por ejemplo en asignaciones o para crear expresiones más complejas.
+
+A modo de ejemplo, la función valor absoluto se puede escribir de la siguiente forma:
 \begin{verbatim}
 def val_abs(x):
     if x >= 0:
@@ -826,7 +848,7 @@ def val_abs(x):
     else:
         return -x
 valor1 = val_abs(0)
-valor2 = val_abs(6)
+valor2 = val_abs(3+3)
 valor3 = val_abs(-46)
 print(valor1, valor2, valor3)
 \end{verbatim}
@@ -847,7 +869,7 @@ def es_primo(n):
         potencial_divisor = potencial_divisor + 1
     return puede_ser_primo
 \end{verbatim}
-Cabe aclarar que cuando se ejecuta un {\tt return} la función termina, independientemente de que después haya más código o no. Veamos varios ejemplos de usos para esta función. Primero, para hacer lo mismo que antes alcanza con después escribir:
+Recordar que cuando se ejecuta un {\tt return} la función termina, independientemente de que después haya más código o no. Veamos varios ejemplos de usos para esta función. Primero, para hacer lo mismo que antes alcanza con después escribir:
 \begin{verbatim}
 n = int(input("Introduzca un entero mayor a 1: "))
 if es_primo(n):
@@ -869,7 +891,7 @@ Por último escribamos un programa que dado un $n$ nos diga cual es el primer pr
 n = int(input("Introduzca un entero: "))
 while not es_primo(n):
     n = n + 1
-print("El mínimo primo mayor o igual es ", n)
+print("El mínimo primo mayor o igual es", n)
 \end{verbatim}
 Notar como dato interesante que la terminación de este programa para cada entrada es de hecho equivalente a la existencia de infinitos primos. La cuestión de si un programa termina o no puede un problema difícil. No siempre se puede resolver empíricamente, sino que en general hay que hacer una demostración. El motivo de esto es que si lleva mucho tiempo sin terminar, no tenemos forma de saber si es que no va a terminar nunca o que sí va a terminar pero más adelante.
 
