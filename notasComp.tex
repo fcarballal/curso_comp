@@ -277,7 +277,7 @@ En general se pueden realizar operaciones aritméticas entre enteros y números 
 
 \subsection{Texto}
 
-En python se puede representar texto, es decir, secuencias de caracteres. Esto se hace delimitando con comillas simples o dobles. En general se les llama {\sl strings} y de hecho {\tt type()} retorna {\tt class str}. Algunos ejemplos son ``Hola.'', ``345'', `` '' (espacio)  y ``'' (string vacío). No hay que confundir, por ejemplo, al string ``345'' con el entero {\tt 345}, pues son objetos de distintos tipos (se lo puede verificar con {\tt type()}). Con el símbolo + se realiza la operación de concatenación, es decir ``Hola.'' + ``345'' da ``Hola.325''. Notar que el símbolo + tiene varios usos. Cual de todos se usa depende del tipo de los argumentos. Por ejemplo, {\tt 12 + 12} da {\tt 24} (los argumentos son enteros, por lo que se los suma), mientras que {\tt ``12'' + ``12''} da {\tt ``1212''} (los argumentos son strings, por lo que se los concatena).
+En python se puede representar texto como secuencias de caracteres, denominadas {\sl strings}. Los strings se delimitan con comillas simples o dobles. Si aplicamos {\tt type()} a un string, retorna {\tt class str}. Los caracteres pueden ser por ejemplo letras, dígitos, signos de puntuación, espacios o caracteres especiales para representar cosas como el salto de línea (pasar a la siguiente línea). Algunos ejemplos de strings son ``Hola.'', ``345'', `` '' (espacio)  y ``\hspace{0.1em}'' (string vacío). No hay que confundir, por ejemplo, al string ``345'' con el entero {\tt 345}, pues son objetos de distintos tipos (se lo puede verificar con {\tt type()}). Con el símbolo + se realiza la operación de concatenación, es decir ``Hola.'' + ``345'' da ``Hola.325''. Notar que el símbolo + tiene varios usos. Cual de todos se usa depende del tipo de los argumentos. Por ejemplo, {\tt 12 + 12} da {\tt 24} (los argumentos son enteros, por lo que se los suma), mientras que {\tt ``12'' + ``12''} da {\tt ``1212''} (los argumentos son strings, por lo que se los concatena). Si se ejecuta {\tt 12 + ``12''} da un error por los tipos.
 
 Por otra parte, se pueden realizar con strings las mismas comparaciones que con números. La igualdad {\tt ==} y la desigualdad {\tt !=} determinan si se trata de exactamente el mismo string o no, mientras que las desigualdades usan orden lexicográfico.
 
@@ -323,7 +323,7 @@ ValueError: invalid literal for int() with base 10: '-34d'
 
 \section{Variables, expresiones y asignaciones}
 
-Las {\bf variables} son objetos sintácticos (es decir elementos del lenguaje) que consisten en un nombre, el cual se puede usar para referenciar distintos objetos de cualquier tipo de datos. Se puede pensar que el objeto referenciado por la variable es su valor. Se trata de una abstracción de un lugar de memoria al que se le asocia un nombre y en el que se puede guardar un objeto, el cual puede ir variando. Nombres válidos de variable son secuencias de caracteres alfanuméricos y <<\_>> en los que el primer carácter no es un número, como por ejemplo {\tt x, x1, total} y {\tt altura\_caja}. Hay ciertas palabras reservadas para usos especiales, las cuales no pueden ser usadas como variables. Algunos ejemplos son {\tt if, for} y {\tt while}, cuyos usos veremos más adelante en este capítulo.
+Las {\bf variables} son objetos sintácticos (es decir elementos del lenguaje) que consisten en un nombre, el cual se puede usar para referenciar distintos objetos de cualquier tipo de datos. Diremos que el objeto referenciado es el valor de la variable. Es una abstracción para usar la memoria de modo intuitivo, en base a un nombre. Durante la ejecución de un programa, el objeto referenciado por una variable puede ir variando. Nombres válidos de variable son secuencias de caracteres alfanuméricos y <<\_>> en los que el primer carácter no es un número, como por ejemplo {\tt x, x1, total} y {\tt altura\_caja}. Hay ciertas palabras reservadas para usos especiales, las cuales no pueden ser usadas como variables, como por ejemplo {\tt if, for} y {\tt while}, cuyos usos veremos más adelante en este capítulo.
 
 Las {\bf expresiones} son objetos sintácticos que se pueden calcular, resultando en un objeto de algún tipo de datos (que puede ser cualquiera). Están definidas en base a los siguientes casos.
 \begin{enumerate}
@@ -332,7 +332,8 @@ Las {\bf expresiones} son objetos sintácticos que se pueden calcular, resultand
 	\item Dada una operación, al aplicarla a ciertas expresiones, da lugar a una nueva expresión más compleja. Por ejemplo, <<{\tt 3+7}>>, <<{\tt 3**(5-2)}>>, <<{\tt x + 10}>>, <<{\tt x*y + z/2}>> y <<{\tt flag and (x<y)}>>. Como en varios de estos ejemplos, se puede aplicar una operación a expresiones que ya tienen operaciones. Al calcular la expresión, se realiza la operación correspondiente. Si {\tt x,y,z} tiene los valores $1,2,3$ respectivamente y {\tt flag} tiene le valor {\tt True}, entonces la expresiones calculan {\tt 10}, {\tt 27}, {\tt 11}, {\tt 3.5} y {\tt True}, respectivamente.
 	
 	Formalmente, dada una expresión definida por una operación entre otras dos expresiones {\tt exp1 op exp2}, para calcularla primero se calculan {\tt exp1} y {\tt exp2} en objetos $x_1$ y $x_2$ y luego se realiza la operación {\tt op} entre $x_1$ y $x_2$.
-	\item Una función (algo que presentamos más adelante) aplicada a ciertos argumentos (que pueden ser otras expresiones) da lugar a una expresión más compleja. Para calcular la expresión se evalúa la función. Por ejemplo, si tenemos definida una función {\tt f} con dos parámetros, entonces  {\tt f(4,9)}, {\tt f(x,2*(x+y))} y {\tt f(f(x,2),f(1,y))} son ejemplos de expresiones válidas.
+	
+	\item Una función (elemento que se presenta la sección \ref{sec-funciones}) aplicada a ciertos argumentos (que pueden ser otras expresiones) da lugar a una expresión más compleja. Para calcular la expresión se evalúa la función. Por ejemplo, si tenemos definida una función {\tt f} con dos parámetros, entonces  {\tt f(4,9)}, {\tt f(x,2*(x+y))} y {\tt f(f(x,2),f(1,y))} son ejemplos de expresiones válidas.
 	
 	Forlamente, dada una expresión del tipo {\tt f(exp1, exp2,\dots,exp$n$)}, para calcularla primero se calculan las $n$ expresiones de los argumentos, dando $n$ objetos, luego se evalúa {\tt f} con estos objetos y lo que retorna {\tt f} es el resultado.
 \end{enumerate}
@@ -355,9 +356,6 @@ La expresión puede contener la misma variable {\tt var}. En ese caso para evalu
 Los siguientes son algunos ejemplos. Lo que se escribe después del \# es un {\bf comentario}: está solo para aclarar algo a la persona que lee; python lo ignora.
 
 \begin{verbatim}
->>> x = 10
->>> x #Mostrar el valor de la variable x
-10
 >>> x = 10 #asignamos el valor 10 a la variable x
 >>> x #Mostrar el valor actual de la variable x
 10
@@ -374,6 +372,10 @@ Los siguientes son algunos ejemplos. Lo que se escribe después del \# es un {\b
 Traceback (most recent call last):
 File "<stdin>", line 1, in <module>
 NameError: name 'x2' is not defined. Did you mean: 'x'?
+>>> flag = True
+>>> y = flag and x < 20
+>>> y
+True
 >>> lista1 = ["a","b","c"]
 >>> lista2 = [1,2,3]
 >>> lista3 = lista1 + lista2
@@ -383,17 +385,25 @@ NameError: name 'x2' is not defined. Did you mean: 'x'?
 En python las variables no guardan un valor dentro de ellas, sino que en realidad referencian a un objeto que está fuera en otro lado. Esto es un detalle técnico al que volveremos en la sección \ref{sec-memoriaCompartida}.
 \section{Indizado y slicing}
 
-El indizado se trata de cómo acceder a elementos de ciertos lugares en estructuras de datos compuestas. Vamos a introducirlo para listas y strings (aunque pensando los strings como listas de caracteres es muy análogo).
+En listas y en strings cada lugar tiene un índice, que es un entero no negativo. El primer lugar es el de índice {\tt 0}, el segundo es el de índice {\tt 1} y así sucesivamente. Notar que {\bf el primer luegar tiene índice 0}. Por ejemplo dada la lista {\tt [5,6,7]}, elemento de índice {\tt 0} es {\tt 5}, el de índice {\tt 1} es {\tt 6} y el de índice {\tt 2} es {\tt 7}. No hay elementos de índices mayores a {\tt 2}. Análogamente, dado un string {\tt``Hola''}, el elemento de índice {\tt 0} es {\tt ``H''}, el de índice {\tt 1} es {\tt ``o''}, el de índice {\tt 2} es {\tt``l''} y el de índice {\tt 3} es {\tt ``a''}. No hay elementos de índice mayor a {\tt 3}.
 
-Dada una variable {\tt x} que tiene una lista y un entero $n$ (o una variable que contiene al entero $n$), tenemos que {\tt x[$n$]} es el elemento número $n$ de la lista. En caso de que {\tt x} contenga un string, es el carácter número~$n$. En python (así como en la mayoría de los lenguajes de programación) la enumeración comienza en 0. Por lo tanto, dada una lista {\tt x}, su primer elemento es {\tt x[0]}. Lo mismo se puede aplicar con strings, caso en el que se retorna un substring formado solamente por el caracter del lugar $n$.
+El {\bf indizado} es una operación para acceder al elemento de un índice dado en una lista o un string. La forma de escribirlo es {\tt x[n]}, donde {\tt x} es la lista o string y {\tt n} es el índice. Por ejemplo, si {\tt x} es {\tt [5,6,7]}, entonces {\tt x[0]} da {\tt 5}, {\tt x[1]} da {\tt 6} y {\tt x[2]} da {\tt 7}, mientras que si {\tt y} es {\tt``Hola''}, entonces {\tt y[0]} da {\tt ``H''}, {\tt y[1]} da {\tt ``o''}, {\tt y[2]} da {\tt ``l''}, y {\tt y[3]} da {\tt ``a''}.
 
-Tanto para listas como para strings, si el índice se pasa del último elemento, se produce un error. En python se puede usar la función {\tt len()} para determinar el largo de una lista o un string. Los índices válidos de {\tt x} van desde {\tt 0} hasta {\tt len(x)-1}.
+Si tenemos una lista de números y le aplicamos indizado, el objeto resultante es un número. Por otra parte, cuando aplicamos indizado a un string, el objeto resultante no es de otro tipo, sino que también es un string, solo que de largo 1, ya que contiene solo el caracter del índice dado.
 
-Por otra parte, el {\sl slicing} consiste en indizar por rangos, obteniéndose sublistas o substrings. La versión más sencilla, dada una lista {\tt x} y dos enteros $n,m$, es {\tt x[$n:m$]}, que resulta en la sublista de todos los elementos con índice $i$ tal que $n\leq i < m$. Notar que el extremo de abajo usa orden inclusivo y el de arriba estricto. En este caso no hay problemas si nos pasamos del último elemento. El resultado puede ser la lista vacía o el string vacío.
 
-También se pueden hacer asignaciones a elementos de cierto índice, permitiendo modificar el valor de cierto lugar de una lista. Con strings no se permite hacer esto.
 
-Veamos ejemplos de todo lo anterior.
+Tanto para listas como para strings, si el índice se pasa del último elemento, se produce un error. En python se puede usar la función {\tt len()} para determinar el largo de una lista o un string. Por ejemplo, {\tt len([5,6,7])} da 3 y {\tt len(``Hola'')} da 4. Los índices válidos de una lista o string {\tt x}, van desde {\tt 0} hasta {\tt len(x)-1}.
+
+Por otra parte, el {\bf slicing} es una operación para obtener una sublista o un substring a partir de un rango de índices. En python los rangos se escriben con el símbolo <<:>> y se toma la convención de que son con {\bf orden inclusivo a la izquierda y estricto a la derecha}. Es decir, dados dos enteros no negativos $n<m$, tenemos que $n:m$ representa el intervalo cerrado a izquierda y abierto a derecha $[n,m)$. Dada una lista o string {\tt x} y dos enteros no negativos $n<m$, la operación de slicing se escribe {\tt x[$n:m$]} y resulta en la sublista o substring con los objetos de los índices pertenecientes al rango dado. Equivalentemente, da la sublista o substring de todos los elementos con índice $i$ tal que $n\leq i < m$. No hay problemas si nos pasamos del último elemento. El resultado puede ser la lista vacía o el string vacío.
+
+El resultado de el slicing es una lista nueva, cuyos índices están dados por los lugares como con cualquier otra lista, sin tener por qué ser los mismos que en la lista anterior. Por ejemplo, si {\tt x} es la lista {\tt [5,6,7]}, el slicing {\tt x[1:3]} retorna la lista con los elementos de índices {\tt 1} y {\tt 2}, que es {\tt [6,7]}, pero los índices de esta nueva lista son {\tt 0}, para el primer lugar y {\tt 1} para el segundo. El {\tt 6} pasó a tener índice {\tt 0} y el {\tt 7} a tener índice {\tt 1}. Hay que recordar que los índices se definen por los lugares y no por los objetos que hayan. 
+
+En una lista se pueden hacer asignaciones a elementos de cierto índice, modificando el objeto de ese lugar. Por ejemplo, si {\tt x} es la lista {\tt [5,6,7]}, la asignación {\tt x[1]=3} hace que pase a ser {\tt [5,3,7]}. Con strings no se permite hacer esto.
+
+Hasta ahora venimos escribiendo {\tt x[n]} o {\tt x[n:m]}, donde {\tt x} es una variable y {\tt n} y {\tt m} son números específicos, pero cabe aclarar que en el lugar de {\tt n} y {\tt m} se pueden poner variables con valores numéricos, o en general cualquier expresión que calcule un número. De hecho, en el lugar de {\tt x} se puede también poner cualquier expresión que calcule una lista o un string. Por otra parte, como el indizado y el slicing son operaciones, pueden formar parte de expresiones, como por ejemplo {\tt x[n+1] - m}.
+
+Veamos algunos ejemplos.
 \begin{verbatim}
 >>> x = [1,2,3,4,5]
 >>> s = "Hola 1."
@@ -426,6 +436,13 @@ IndexError: list index out of range
 >>> x[1]=40
 >>> x
 [1, 40, 3, 4, 5]
+>>> x[3*5-11]
+5
+>>> n = 3
+>>> x[n]
+4
+>>> x[n-1] + 2
+5
 \end{verbatim}
 
 Con listas de listas se puede concatenar indizados. Es decir, si {\tt l} es una lista cuyos elementos son listas, {\tt l[i][j]} es el {\tt j}ésimo elemento de la {\tt i}ésima lista. Los paréntesis implícitos van de la siguiente forma: {\tt (l[i])[j]}, pues {\tt l[i]} es una lista a la cual se aplica el índice {\tt j}. A modo de ejemplo:
@@ -502,7 +519,7 @@ Además de asignaciones, utilizaremos las siguientes instrucciones simples.
 \begin{itemize}
 	\item {\tt print()}. Se trata de una instrucción que imprime en la consola lo que se le pasa como parámetro. Es la instrucción por excelencia para mostrar algo en la consola. Si se le pasa un valor directamente imprime ese valor, mientras que si se le pasa una variable imprime el contenido de la variable. Por ejemplo, la instrucción {\tt print("Hola")} imprime <<Hola>>, mientras que {\tt print(x)} imprime el valor de la variable {\tt x} (y si esta variable no tiene ningún valor, da error).
 	
-	\item {\tt append()}. Esta instrucción es para agregar un elemento al final de una lista. A diferencia de las anteriores, es formalmente lo que se llama un {\sl método} de las listas. Dada una lista {\tt l} y un objeto $x$ que queremos agregar al final, la instrucción es {\tt l.append($x$)}. Se escribe el nombre de la lista, un punto y luego {\tt append()} con lo que querramos agregar adentro de los paréntesis.
+	\item {\tt append()}. Esta instrucción es para agregar un elemento al final de una lista. A diferencia de las anteriores, es formalmente lo que se llama un {\sl método} de las listas. Dada una lista {\tt l} y un objeto $x$ que queremos agregar al final, la instrucción es {\tt l.append($x$)}. Se escribe el nombre de la lista, un punto y luego {\tt append()} con lo que queramos agregar adentro de los paréntesis.
 	
 	\item {\tt insert()} Permite agregar un elemento en un lugar particular de una lista. Al igual que {\tt append}, es un método. Dada una lista {\tt l}, un índice {\tt i} y un objeto $x$, la instrucción {\tt l.insert(i,$x$)} agrega al objeto $x$ en la posición de índice {\tt i} de la lista, moviendo a todos los elementos posteriores (en caso de que los haya) un índice adelante (por ejemplo, el {\tt i}-ésimo pasa a ser el nuevo {\tt(i+1)}-ésimo). A modo de ejempo, si {\tt l = [5,6,7]}, entonces si hacemos {\tt l.insert(1,0)} pasa a ser {\tt l = [5,0,6,7]}.
 	
@@ -516,6 +533,8 @@ Además de estas instrucciones hay algunas operaciones (me refiero a instruccion
 	
 	\item {\tt int()} y {\tt float()}. Estas operaciones (ya presentadas en la sección \ref{sec-TransfTipos}), respectivamente, al aplicarse a un string $x$ que representa un entero o un número de punto flotante, retornan este entero o número en punto flotante. Por ejemplo, {\tt int(``-1")} retorna el entero {\tt -1}. En general usaremos estas funciones junto con el comando {\tt input()}, como en el ejemplo que viene a continuación, para convertir el string que ingresa el usuario a un número. En caso de que el string no represente un objeto válido del tipo de dato, como por ejemplo al ejecutar {\tt int("123a")}, se produce un error.
 \end{itemize}
+
+En todas las operaciones e instrucciones anteriores que llevan algo dentro de paréntesis, lo que se ingresa puede ser un objeto constante o una expresión. De hecho en este sentido son como las funciones que veremos en la sección \ref{sec-funciones}.
 
 Existen muchas otras instrucciones en python, pero no es el foco del curso aprender una gran cantidad. En general hay muchas que hacen cosas que con un poco de trabajo se pueden realizar utilizando otras.
 
@@ -780,7 +799,10 @@ while continuar:
 \begin{ejercicio}
 	Aplicar esto último con alguno de los programas que determinan si un número es primo.
 \end{ejercicio}
-\section{Funciones}
+
+
+\section{Funciones}\label{sec-funciones}
+
 
 En programación se le llama función a un fragmento de código separado del resto que puede recibir parámetros y retornar valores. Proviene del concepto matemático de función. No permiten hacer nada que no se pudiera hacer con lo que ya vimos, pero son útiles para que los programas queden más fáciles de entender y para reutilizar código. Esto último es porque una función se define una sola vez y se puede utilizar fácilmente como parte de distintos programas. La sintaxis es la siguiente:
 \begin{lstlisting}[language=python]
