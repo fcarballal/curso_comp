@@ -49,7 +49,111 @@
 	
 	Se permite y se recomienda definir funciones auxiliares para resolver los ejercicios cuando se considere conveniente.
 	
-	En algunos ejercicios se pide explícitamente probar los programas escritos. En los que no se pide explícitamente, igual hay que hacer algún tipo de prueba luego de terminar.
+	Cuando se pide que una función determine o calcule algo, salvo que se indique lo contrario, la función debe retornar eso con {\tt return}, no imprimirlo con un {\tt print}. Si se desea luego se puede hacer un programa que llame la función y haga algún {\tt print} con lo que se retorna.
+	
+	En algunos ejercicios se pide explícitamente probar los programas escritos. En los que no se pide explícitamente, igual hay que hacer algún tipo de prueba.
+	
+	\begin{center}
+		{\textbf{Listas}}
+	\end{center}
+	
+	\begin{ejercicio}
+		\begin{enumerate}
+			\item Escribir una función que reciba como entrada una lista {\tt l} y retorne otra lista con los mismos elementos pero en orden inverso.
+			
+			\item Escribir una función que reciba dos listas y retorne un booleano que indique si las listas son iguales, es decir, si tienen los mismos elementos en el mismo orden. La función debe contemplar el caso en que las listas tienen distinta longitud.
+			
+			\item Utilizando la función de la parte 2, verificar que si la función de la parte 1 se aplica dos veces seguidas, retorna una lista igual a la original.
+		\end{enumerate}
+	\end{ejercicio}
+	
+	\begin{ejercicio}\label{ejer-2}
+		\begin{enumerate}
+			\item Escribir una función que  dada una lista {\tt l} que puede tener elementos repetidos, retorna otra lista con los mismos elementos paro cada uno una sola vez (es decir, sin repetir).
+			
+			\item Escribir una función que dada una lista {\tt l} que puede tener elementos repetidos, retorne una lista {\tt lr} que dice cuantas veces aparece cada elemento en {\tt l}. Específicamente, los elementos de {\tt lr} son listas de dos elementos {\tt [x,n]}, donde {\tt x} es un elemento de {\tt l} y {\tt n} es la cantidad de veces que este elemento aparece en {\tt l}.
+			
+			A modo de ejemplo, si {\tt l = [1,2,3,1,1,3]}, entonces puede ser {\tt lr = [[1,3], [2,1], [3,2]]}. No importa el orden entre los elementos de {\tt lr}, es decir, también podría ser por ejemplo {\tt [[2,1], [3,2], [1,3]]}.
+		\end{enumerate}
+	\end{ejercicio}
+	
+	\begin{ejercicio}[Matrices]
+	Para este ejercicio se representa a una matriz {\tt a} como una lista de listas, donde cada una de las listas de adentro es una fila. Por ejemplo, la matriz:
+	$$\begin{pmatrix}
+		1 & 2 & 3\\
+		4 & 5 & 6
+	\end{pmatrix}$$
+	se representaría con la lista {\tt [[1,2,3],[4,5,6]]}.
+	\begin{enumerate}
+		\item ¿Cómo se puede hacer para acceder al elemento de fila {\tt i} y columna {\tt j} de una matriz {\tt a}?
+		
+		\item Escribir una función que dada una matriz retorne una lista de dos elementos con sus dimensiones. Por ejemplo, para la matriz de arriba debe retornar {\tt [2,3]}.
+		
+		\item Escribir una función que dados dos enteros positivos $n,m$ retorne la matriz nula de $n\times m$.
+		
+		\item Escribir una función que dado un entero positivo $n$ retorne la matriz identidad de $n\times n$. Sugerencia: puede ser útil partir de la matriz nula de $n\times n$ que ya se puede crear con la parte anterior.
+		
+		\item Escribir una función que dada una matriz cuadrada retorne su traza (la suma de la diagonal).
+		
+		\item Escribir una función que dadas dos matrices {\tt a} y {\tt b} verifique que las dimensiones permiten multiplicarlas y en ese caso retorne el producto.
+	\end{enumerate}
+\end{ejercicio}
+	
+	\begin{ejercicio}
+		Escribir una función que dada una lista {\tt l} de números, determine si sus elementos están ordenados de modo creciente, es decir, que para cada par de índices {\tt i,j<len(l)} tales que {\tt i<j}, tenemos que {\tt l[i]} es menor o igual a {\tt l[j]}. Sugerencia: alcanza con verificar para los pares de índices consecutivos.
+		
+		En caso de que {\tt l} es la lista vacía o una lista con un solo elemento, cumple la condición por vacuidad (o sea, no hace falta verificar nada y por lo tanto se cumple ``automáticamente''). 
+	\end{ejercicio}
+	
+	\begin{ejercicio}[Inserción ordenada]
+		Escribir una función que dada una lista {\tt l} de números ordenada y un número {\tt x}, agregue {\tt x} a {\tt l} de modo ordenado, es decir, de modo que {\tt l} siga estando ordenada, y luego retorne la misma lista {\tt l} (con el nuevo elemento agregado). Por ejemplo, si {\tt l} es {\tt [2,5,7,9]} y {\tt x} es {\tt 8}, entonces {\tt l} pasa a ser {\tt [2,5,7,8,9]} y se retorna.
+	\end{ejercicio}
+	
+	\begin{ejercicio}[Ordenamiento por inserción]
+		Escribir una función que dada una lista {\tt l} de números no necesariamente ordenada, retorne una lista {\tt lr} con los mismos elementos pero ordenada, siguiendo la siguiente estrategia.
+		
+		Se inicializa {\tt lr} como la lista vacía y usando el ejercicio de inserción ordenada, se van insertando los elementos de {\tt l} uno a uno de modo ordenado.
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		Escribir una función que dada una lista {\tt l} retorne la misma lista ordenada, pero esta vez en lugar de crear una lista nueva, solamente se intercambien de lugar elementos de {\tt l}.
+		
+		Posible estrategia: si encontramos el menor elemento de la lista, a ese elemento hay que intercambiarlo con el primero. Luego el menor de los restantes hay que intercambiarlo con el segundo y así sucesivamente.
+	\end{ejercicio}
+	
+	\begin{center}
+		{\textbf{Texto}}
+	\end{center}
+	
+	\begin{ejercicio}
+		Escribir una función que dada una palabra (string) determine si esta es palindroma, es decir que es igual leída de izquierda a derecha que se derecha a izquierda. Ejemplos: <<seres>>, <<arenera>>, <<erre>>, <<acurruca>>. No hay que verificar que sea una palabra correcta del español. 
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		Escribir una función que dado un texto formado por letras y espacios determine la cantidad de palabras. Puede haber más de un espacio entre una palabra y la siguiente, así como espacios antes de la primera palabra y después de la última.
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		Escribir una función que dado un texto formado por letras y espacios determine la cantidad de palabras de largo impar. ¿Con esta función y la del ejercicio anterior hay alguna forma fácil de determinar la cantidad de palabras de largo par?
+	\end{ejercicio}
+	
+	\begin{ejercicio} En este ejercicio todos los textos están formados por letras y espacios.
+		\begin{enumerate}
+			\item Escribir una función que dado un texto retorne una lista con las palabras que aparecen sin repetirlas, es decir que cada palabra que aparece debe estar una vez en la lista, independientemente de cuántas veces aparezca en el texto.
+			
+			\item Escribir una función que dado un texto retorne una lista que además de indicar las palabras que aparecen, diga cuántas veces aparece cada una. La lista resultante debe ser una lista de listas, tal que si la palabra {\tt p} aparece exactamente {\tt n} veces (con {\tt n>0}), un elemento debe ser {\tt [p,n]}. Sugerencia: recordar el ejercicio \ref{ejer-2}.
+			
+			\item Escribir una función que a partir de una lista como la de la parte anterior, la ordene decrecientemente por cantidad de apariciones de palabras. Por ejemplo, si la lista de entrada es {\tt [[``aba'',3], [``perro'',8], [``olla'',6]]}, la de salida debe ser {\tt [[``perro'',8], [``olla'',6], [``aba'',3]]}.
+			
+			\item Combinar lo anterior para hacer una función que dado un texto retorne la lista de las palabras que aparecen ordenada por cantidad de apariciones.
+		\end{enumerate}
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		¿Cómo se podría modificar las funciones de los ejercicios anteriores para que funcionen también para textos que además de letras y espacios tengan signos de puntuación?
+	\end{ejercicio}
+	
+
 	\begin{center}
 		{\textbf{Enteros}}
 	\end{center}
@@ -75,6 +179,8 @@
 			
 			Ejemplo: si $n=60$ el programa debe retornar $[[2,2],[3,1],[5,1]]$.
 			
+			Sugerencia: recordar el ejercicio \ref{ejer-2}.
+			
 			\item Escribir otra función que usando la anterior imprima en la terminal la factorización en primos con el formato del siguiente ejemplo:
 	
 				{\tt La descomposición en primos de 12 es:
@@ -87,7 +193,7 @@
 		\end{enumerate}
 	\end{ejercicio}
 	
-	Recordamos que dado un número $n$ su escritura en una base $b$ es $x_n,\dots x_1,x_0$ de modo que todos los $x_i$ son menores a $b$ y se cumple le igualdad:
+	Recordamos que dado un número $n$ su escritura en una base $b$ es $x_n,\dots x_1,x_0$ de modo que todos los $x_i$ son menores a $b$ y se cumple la igualdad:
 	$$n = x_nb^n+\cdots+x_1b+x_0
 	$$
 	
