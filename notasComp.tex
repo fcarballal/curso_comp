@@ -540,11 +540,14 @@ Existen muchas otras instrucciones en python, pero no es el foco del curso apren
 
 Además de las instrucciones, se pueden agregar comentarios, los cuales no afectan el funcionamiento del programa, sino que están para quienes leen el código. El compilador, al traducir el código a instrucciones de máquina, ignora totalmente los comentarios. En python se escriben usando el símbolo <<{\tt\#}>>. Todo lo que hay después de ese símbolo en esa línea es un comentario; al pasar a la siguiente línea el comentario se termina y en caso de querer que siga hay que ingresar otro <<{\tt\#}>>. Los comentarios en general se usan para dejar aclaraciones de lo que hace el código, de modo que si alguien más lo lee (o uno mismo después de un tiempo) sea más fácil entenderlo.
 
+También se pueden dejar líneas en blanco, lo cual no afecta el comportamiento del programa pero puede ayudar a que el código quede más fácil de leer.
+
 Veamos un ejemplo de programa en el que se usan las herramientas de entrada/salida ({\tt input} y {\tt print}) presentadas.
 \begin{verbatim}
 print("Hola.")
 x = input("Ingrese su numero favorito por favor: ")
 print("Su numero favorito es " + x) #Notar que x es un string.
+
 xNum = int(x) #Con esta instruccion, el string x se convierte en un entero.
 print("El doble de su numero favorito es", 2*xNum)
 #Se puede imprimir mas de una cosa separando con comas.
@@ -801,6 +804,43 @@ Podría hacerse también con un for, haciendo que se recorra todo {\tt range(2,n
 \begin{ejercicio}
 	Escribir un programa para determinar si un número es primo que use for (independientemente de la desventaja que acabamos de mencionar).
 \end{ejercicio}
+
+Los {\tt while} también se pueden usar para hacer iteraciones en rangos de números del mismo modo que se hace con {\tt for} y {\tt range}. Esto se puede hacer de la siguiente forma.
+\begin{verbatim}
+i = 0
+while i < n:
+    algo...
+    i = i + 1
+\end{verbatim}
+lo cual es equivalente a:
+\begin{verbatim}
+for i in range(n):
+    algo...
+\end{verbatim}
+La versión con el {\tt while} en realidad es mucho más versátil. Por ejemplo, si queremos que {\tt i} solamente itere por números pares, alcanza sustituir la última línea por {\tt i = i + 2}. También podemos variar más la forma de ir actualizando la variable, como en el siguiente ejemplo.
+
+Supongamos que dado un string {\tt s} que representa un texto formado solamente por letras y espacio, queremos determinar la cantidad de palabras. En el texto pueden haber más de un espacio entre una palabra y la siguiente y además pueden haber espacios antes de la primera palabra y después de la última.
+
+La idea es ir recorriendo el texto hasta que encontramos una letra. En ese momento incrementamos un contador y avanzamos hasta que esa palabra se termine, lo cual puede ocurrir porque lleguemos a un espacio o porque se termine el string. Después repetimos el procedimiento hasta que se termina el string. Como después de encontrar una letra queremos avanzar hasta el final de la palabra, una iteración con {\tt for} que va avanzando siempre de a uno no nos sirve, pero sí una iteración con {\tt while}.
+\begin{verbatim}
+s = "  Hola   aquí  hay alguna   cantidad de  palabras  "
+
+cont = 0
+i = 0
+while i < len(s): #iteramos mientras no se termina el string
+    if s[i] == " ": # estamos en un espacio
+        i = i + 1 # simplemente avanzamos al siguiente lugar
+    else:
+        cont = cont + 1
+        j = i + 1 # usaremos esta variable para determinar dónde
+                  # termina la palabra
+        while j < len(s) and s[j] != " ": # la palabra todavía no terminó
+            j = j + 1
+        i = j # en este punto j es el primer espacio después de la palabra
+              # o es el final de la lista. Continuamos ahí
+print(cont)       
+\end{verbatim}
+
 
 Un uso de los while es el de hacer un programa que pueda repetirse tantas veces como el usuario quiera. Para esto lo que podemos hacer es:
 \begin{verbatim}
