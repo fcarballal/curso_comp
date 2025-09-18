@@ -173,7 +173,9 @@ El lenguaje {\tt c} (así como {\tt pascal}) es un lenguaje de relativamente baj
 
 Por otra parte, el lenguaje {\tt python}, que es el que usaremos en el curso, es de muy alto nivel. Esto significa que tiene abstracciones muy complejas por sobre el lenguaje máquina, las cuales hacen que se pueda programar en base a razonamientos intuitivos sin saber cómo se haría en lenguaje de máquina. De hecho puede ocurrir que una sola línea de código en {\tt python} corresponda a cientos de instrucciones del procesador, con lo que se resuelven automáticamente detalles técnicos y se le ahorra trabajo al programador. En general usar un lenguaje de programación de alto nivel es más fácil que usar uno de bajo nivel. La desventaja que tienen es que las abstracciones pueden hacer que el programa no sea lo más eficiente posible. En general un programa escrito en {\tt c} es mucho más rápido que uno equivalente en {\tt python} (pero mucho más difícil de escribir).
 
-\chapter{Programación en python}
+
+\chapter{Programación (en python)}\label{cap-prog}
+
 
 En este capítulo se presentan los conceptos básicos para programar en el lenguaje python. Si bien se trata de un lenguaje específico, los conceptos se aplican de forma muy similar en otros. El objetivo de este material es presentar los elementos de forma conceptual. Para asimilarlos bien se recomienda complementar con otros materiales que incluyan más ejemplos y además escribir y ejecutar código uno mismo (para instalación y ejecución ver sección \ref{sec-instalyEjec}).
 
@@ -840,9 +842,9 @@ while i < len(s): #iteramos mientras no se termina el string
               # o es el final de la lista. Continuamos ahí
 print(cont)       
 \end{verbatim}
+Hay una aclaración a hacer sobre la línea {\tt while j < len(s) and s[j] != `` ''}. En python cuando se calcula un {\tt and}, no siempre se evalúan ambos lados. Esto se llama {\bf evaluación de circuito corto}. Lo que ocurre es que primero se evalúa el lado izquierdo y solo en caso de que este de {\tt True}, luego se evalúa el derecho. El motivo es que si el lado izquierdo da {\tt False}, sabemos que el resultado del {\tt and} será {\tt False}, independientemente del valor del otro lado. Esta característica es importante para que este código funcione bien. Notar que si {\tt j} vale {\tt len(l)}, entonces si intentamos evaluar {\tt s[j]} ocurre un error de índice, pues el último índice válido es {\tt len(l)-1}. Debido a la evaluación de circuito corto, cuando {\tt j} vale {\tt len(l)}, como la parte izquierda {\tt j < len(l)} da {\tt False}, la parte derecha no se evalúa y por lo tanto se evita el error.
 
-
-Un uso de los while es el de hacer un programa que pueda repetirse tantas veces como el usuario quiera. Para esto lo que podemos hacer es:
+Otro uso de los while es el de hacer un programa que pueda repetirse tantas veces como el usuario quiera. Para esto lo que podemos hacer es:
 \begin{verbatim}
 continuar = True
 while continuar:
@@ -1217,6 +1219,84 @@ True
 True
 \end{verbatim}
 Queda como ejercicio para quien quiera hacer pruebas automatizadas. Si fuera un problema real claramente habría que verificar bien a la función final.
+
+
+\chapter{Funciones recursivas}
+
+
+Veremos una nueva forma de definir funciones que se piensa muy distinto a lo visto en el capítulo \ref{cap-prog}. Esta forma de definir funciones está fuertemente vinculada con la inducción completa y de hecho podremos analizar las funciones resultantes utilizando inducción de modo muy natural.
+
+Una función recursiva es una función que se define de modo cíclico a partir de ella misma, de un modo tal que el ciclo termina (no entra en un ciclo infinito). Veamos un primer ejemplo.
+
+El factorial se define como la función $f:\N\to\N$ denotada por $f(n)=n!$ tal que para $0$ da $1$ y para los otros números es el producto de todos los menores o iguales. Por ejemplo, $1!=1$, $2! = 2\times 1$, $3!=3\times 2 \times 1$, etcétera. El modo formal de definirlo en matemática es a partir de las siguientes reglas, que conforman una definición recursiva.
+\begin{align*}
+	0!&=1\\
+	n!&= n\times (n-1)!\quad\te{si }n>0
+\end{align*}
+Escrito en términos de función $f$, es que $f(0)=1$ y para todo $n>0$, se cumple que $f(n)=nf(n-1)$. Notar que estas dos reglas nos permiten calcular $n!$ para cualquier $n\in\N$. A modo de ejemplo calculemos $4!$. Por la segunda regla tenemos que $4!=4\times 3!$, por lo que pasamos a calcular $3!$. Por la segunda regla nuevamente, $3!=3\times 2!$, por lo que pasamos a calcular $2!$. Por la segunda regla nuevamente, $2!=2\times 1!$, por lo que pasamos a calcular $1!$. Por la segunda regla nuevamente, $1!=1\times 0!$, por lo que pasamos a calcular $0!$. Ahora por la primera regla $0!=1$, por lo que volviendo para atrás, como $1!=1\times 0!$, tenemos que $1! = 1$; como  $2!=2\times 1!$,  tenemos que $2!=2$; como $3!=3\times 2!$, tenemos que $3! = 6$ y como $4!=4\times 3!$, tenemos que $4!=24$.
+
+Como vimos en el ejemplo anterior, a partir de la definición recursiva podemos calcular el factorial de forma que parece automatizable. En los lenguajes de programación efectivamente se puede definir funciones recursivas y la máquina las calcula sola, de modo similar al del ejemplo anterior. En python la función factorial se puede escribir de la siguiente forma.
+\begin{verbatim}
+def fact(n):
+    if n == 0:
+        return 1
+    elif n > 0:
+        return n*fact(n-1)
+\end{verbatim}
+Notar que en la última línea, que se ejecuta en caso de que $n>0$, se llama la misma función {\tt fact} pero con argumento {\tt n-1}. Esto se denomina una llamada recursiva. Como estamos llamando la función con un argumento más chico, en algún momento se llega al {\tt 0}, caso en el que se entra en el cuerpo del {\tt if} y la función retorna sin hacer más llamadas recursivas.
+
+Comenzamos con un repaso de inducción y una presentación más formal del concepto de recursión, mostrando como el razonamiento inductivo sirve para diseñar estas funciones y para demostrar propiedades. Veremos funciones recursivas con enteros (como el factorial) y también con listas.
+
+\section{Inducción y recursión}
+
+El principio de inducción completa sirve para demostrar que una propiedad se cumple para todos los números naturales, es decir, dada un propiedad $P(n)$, en la que $n$ es un número natural, demostrar que $\forall n\in\N~P(n)$. El enunciado es el siguiente.
+
+\vspace{0.5em}
+{\bf Principio de inducción completa}. Sea $P(n)$ una propiedad sobre números naturales. Si se cumplen:
+\begin{enumerate}
+	\item $P(0)$, es decir la propiedad en $n=0$. 
+	\item $\forall n>0,~P(n-1)\Ra P(n)$, es decir, para todo número natural $n>0$, si se cumple $P(n-1)$ entonces también se cumple $P(n)$. 
+\end{enumerate} 
+Entonces la propiedad $P(n)$ se cumple para todo $n\in\N$, es decir, tenemos $\forall n\in\N~P(n)$.
+
+\vspace{0.5em}
+Para aplicar el principío de inducción completa, hay que probar que se cumple $P(0)$, lo cual se llama {\bf paso base} y luego dado un $n>0$ genérico, probar $P(n-1)\Ra P(n)$, es decir, que $P(n-1)$ implica $P(n)$, lo cual se llama {\bf paso inductivo}. En el paso inductivo, tenemos la {\bf hipótesis inductiva}, que es $P(n-1)$ y la {\bf tesis inductiva}, que es $P(n)$. Si logramos hacer tanto el paso base como el inductivo, por inducción completa concluimos que $\forall n\in\N~P(n)$.
+
+El principio de definición de funciones por recursión está fuertemente vinculado con el de inducción completa. Se trata de el siguiente.
+
+\vspace{0.5em}
+{\bf Definición de función por recursión}. Queremos definir una función $f:\N\to\N$. Si:
+\begin{enumerate}
+	\item Definimos $f(0)$, es decir, el valor de $f$ en $n=0$.
+	\item Para una natural $n>0$ cualquiera, asumiendo que $f(n-1)$ ya está definido, definimos $f(n)$ pudiendo usar $f(n-1)$.
+\end{enumerate}
+entonces la función $f$ queda definida para todos los números naturales.
+
+\vspace{0.5em}
+Se le puede llamar {\bf paso base} a la etapa de definir $f(0)$ y {\bf paso recursivo} a la etapa de definir $f(n)$ pudiendo usar $f(n-1)$. 
+El factorial como lo presentamos es un ejemplo de función definida por recursión.
+
+Hay otra variante de inducción completa, llamada inducción fuerte. La diferencia es que en el paso inductivo, en lugar de asumir que la propiedad se cumple en $n-1$ para probarla en $n$, se asume que la propiedad se cumple en todos los $k<n$ y se utiliza esto para demostrar que también se cumple en $n$. El enunciado es el siguiente.
+
+{\bf Principio de inducción fuerte}. Sea $P(n)$ una propiedad sobre números naturales. Si se cumplen:
+\begin{enumerate}
+	\item $P(0)$, es decir la propiedad en $n=0$. 
+	\item Para cualquier natural $n$,  $(\forall k<n,~P(n))\Ra P(n)$, es decir, para todo número natural $n$, si se cumple $P(k)$ para todo $k<n$, entonces también se cumple $P(n)$. 
+\end{enumerate} 
+Entonces la propiedad $P(n)$ se cumple para todo $n\in\N$, es decir, tenemos $\forall n\in\N~P(n)$.
+
+En algunos casos puede convenir utilizar el principio de inducción fuerte en lugar del de inducción completa. Además, el principio de inducción fuerte tiene asociado un mecanismo de definición de funciones por recursión que al momento de definir la función en $n$, permite usar la función en todos los $k<n$, en lugar de solamente $n-1$.
+
+{\bf Variación de recursión}. Queremos definir una función $f:\N\to\N$. Si:
+\begin{enumerate}
+	\item Definimos $f(0)$, es decir, el valor de $f$ en $n=0$.
+	\item Para una natural $n>0$ cualquiera, asumiendo que $f(k)$ ya está definido para todo $k<n$, definimos $f(n)$ pudiendo usar $f(k)$ para cualquier $k<n$.
+\end{enumerate}
+entonces la función $f$ queda definida para todos los números naturales.
+
+Muchas veces se le llama inducción a secas tanto a la inducción completa como a la inducción fuerte y recursión a secas a cualquiera de los dos tipos de recursiones.
+
+
 \end{document}
 
 
