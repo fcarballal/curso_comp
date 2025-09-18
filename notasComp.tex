@@ -1240,14 +1240,14 @@ Como vimos en el ejemplo anterior, a partir de la definición recursiva podemos 
 def fact(n):
     if n == 0:
         return 1
-    elif n > 0:
+    else:
         return n*fact(n-1)
 \end{verbatim}
-Notar que en la última línea, que se ejecuta en caso de que $n>0$, se llama la misma función {\tt fact} pero con argumento {\tt n-1}. Esto se denomina una llamada recursiva. Como estamos llamando la función con un argumento más chico, en algún momento se llega al {\tt 0}, caso en el que se entra en el cuerpo del {\tt if} y la función retorna sin hacer más llamadas recursivas.
+Notar que en la última línea, que se ejecuta en caso de que $n>0$, se llama la misma función {\tt fact} pero con argumento {\tt n-1}. Esto se denomina una llamada recursiva. Como estamos llamando la función con un argumento más chico, en algún momento se llega al {\tt 0}, caso en el que se entra en el cuerpo del {\tt if} y la función retorna sin hacer más llamadas recursivas. Estamos suponiendo que la función se ejecuta solo con $n\in\N$. En caso de ejecutarla con un número negativo, entraría en un ciclo infinito.
 
 Comenzamos con un repaso de inducción y una presentación más formal del concepto de recursión, mostrando como el razonamiento inductivo sirve para diseñar estas funciones y para demostrar propiedades. Veremos funciones recursivas con enteros (como el factorial) y también con listas.
 
-\section{Inducción y recursión}
+\section{Inducción y recursión}\label{sec-IndyRec}
 
 El principio de inducción completa sirve para demostrar que una propiedad se cumple para todos los números naturales, es decir, dada un propiedad $P(n)$, en la que $n$ es un número natural, demostrar que $\forall n\in\N~P(n)$. El enunciado es el siguiente.
 
@@ -1260,7 +1260,7 @@ El principio de inducción completa sirve para demostrar que una propiedad se cu
 Entonces la propiedad $P(n)$ se cumple para todo $n\in\N$, es decir, tenemos $\forall n\in\N~P(n)$.
 
 \vspace{0.5em}
-Para aplicar el principío de inducción completa, hay que probar que se cumple $P(0)$, lo cual se llama {\bf paso base} y luego dado un $n>0$ genérico, probar $P(n-1)\Ra P(n)$, es decir, que $P(n-1)$ implica $P(n)$, lo cual se llama {\bf paso inductivo}. En el paso inductivo, tenemos la {\bf hipótesis inductiva}, que es $P(n-1)$ y la {\bf tesis inductiva}, que es $P(n)$. Si logramos hacer tanto el paso base como el inductivo, por inducción completa concluimos que $\forall n\in\N~P(n)$.
+Para aplicar el principío de inducción completa, hay que probar que se cumple $P(0)$, lo cual se llama {\bf paso base} y luego dado un $n>0$ genérico, probar $P(n-1)\Ra P(n)$, es decir, que $P(n-1)$ implica $P(n)$, lo cual se llama {\bf paso inductivo}. En el paso inductivo, tenemos la {\bf hipótesis inductiva}, que es $P(n-1)$ y la {\bf tesis inductiva}, que es $P(n)$. Lo que hay que hacer es demostrar la tesis inductiva pudiendo hacer uso de la hipótesis inductiva. Si logramos hacer tanto el paso base como el inductivo, por inducción completa concluimos que $\forall n\in\N~P(n)$.
 
 El principio de definición de funciones por recursión está fuertemente vinculado con el de inducción completa. Se trata de el siguiente.
 
@@ -1273,7 +1273,7 @@ El principio de definición de funciones por recursión está fuertemente vincul
 entonces la función $f$ queda definida para todos los números naturales.
 
 \vspace{0.5em}
-Se le puede llamar {\bf paso base} a la etapa de definir $f(0)$ y {\bf paso recursivo} a la etapa de definir $f(n)$ pudiendo usar $f(n-1)$. 
+Se le puede llamar {\bf caso base} a la parte de definir $f(0)$ y {\bf caso recursivo} a la parte de definir $f(n)$ pudiendo usar $f(n-1)$.
 El factorial como lo presentamos es un ejemplo de función definida por recursión.
 
 Hay otra variante de inducción completa, llamada inducción fuerte. La diferencia es que en el paso inductivo, en lugar de asumir que la propiedad se cumple en $n-1$ para probarla en $n$, se asume que la propiedad se cumple en todos los $k<n$ y se utiliza esto para demostrar que también se cumple en $n$. El enunciado es el siguiente.
@@ -1295,6 +1295,97 @@ En algunos casos puede convenir utilizar el principio de inducción fuerte en lu
 entonces la función $f$ queda definida para todos los números naturales.
 
 Muchas veces se le llama inducción a secas tanto a la inducción completa como a la inducción fuerte y recursión a secas a cualquiera de los dos tipos de recursiones.
+
+\section{Funciones recursivas en python}
+
+En el contexto de la programación, una función recursiva es una función que se llama a ella misma en su cuerpo, es decir, algo como:
+\begin{verbatim}
+def f(n):
+    cuerpo
+\end{verbatim}
+donde dentro de {\tt cuerpo} aparece {\tt f(k)} con algún otro argumento {\tt k}. También podría tener más parámetros, como en ejemplos que veremos más adelante.
+
+En general las funciones recursivas se definen basándose en algún principio de definición por recursión como los vistos en la sección \ref{sec-IndyRec}. Esto permite tener seguridad de que la función recursiva efectivamente termina sin entrar en un ciclo infinito. Lo más común es separar el caso  base del recursivo con un {\tt if}. Si aplicamos la primera forma de recursión vista en la sección anterior, la estructura puede ser la siguiente. El paso base se aplica si el argumento es $0$ y en otro caso se aplica el recursivo.
+\begin{verbatim}
+def f(n):
+    if n == 0:
+        #Caso base. Definimos el valor de f(0)
+        return ...
+    else:
+        #Caso recursivo. Definimos f(n) pudiendo usar f(n-1)
+        rec = f(n-1) # Llamada recursiva
+        return ...(acá usamos rec)...
+\end{verbatim}
+Un ejemplo de esto es el factorial que ya vimos al principio del capítulo, donde la definición conceptual por recursión es
+\begin{align*}
+	0!&=1\\
+	n!&= n\times (n-1)!\quad\te{si }n>0
+\end{align*}
+y la función computacional se puede escribir como
+\begin{verbatim}
+def fact(n):
+    if n == 0:
+        return 1
+    else:
+        rec = fact(n-1)
+        return n*rec
+\end{verbatim}
+Aquí al final en vez de escribir una única línea {\tt return n*fact(n-1)}, lo separamos en dos para que la llamada recursiva esté en su propia línea, lo cual es equivalente.
+
+Notar la similitud entre el concepto de inducción completa, el de definición de función por recursión y las funciones recursivas escritas en el lenguaje de programación. Debido a esta cercanía entre los conceptos, suelen poderse hacer de modo bastante natural pruebas por inducción sobre propiedades de estos programas, lo cual haremos en secciones posteriores.
+
+Se puede escribir funciones recursivas que no necesariamente sigan ninguno de los principios anteriores, pero que de todos modos sepamos que terminan. Consideremos por ejemplo la siguiente función.
+\begin{verbatim}
+def g(n):
+    if n < 10:
+        return n
+    else:
+        q = n // 10
+        return g(q)
+\end{verbatim}
+En el cuerpo del {\tt if} definimos el valor de la función cuando $n<10$, y en el del {\tt else} hacemos una llamada recursiva con el cociente de dividir $n$ entre $10$ como argumento. No se corresponde con el principio anterior de definir para $n=0$ y luego en el caso recursivo usar el valor en $n-1$ para definir el de $n$, pero de todos modos podemos ver que la función termina. Si $n<10$ entonces termina directamente. Por otra parte, que si $n\geq 10$, la llamada recursiva es con $q$ que cumple que $q<n$, por lo que en algún momento se llega a un argumento $<10$ y la función termina.
+
+Lo que hace esta función es retornar el primer dígito en base $10$ del número {\tt n}. La idea es que si $n<10$ entonces es ya es un solo dígito y en otro caso, dividir entre $10$ lo que hace es quitar el último dígito, por lo que podemos hacer la llamada recursiva con el cociente.
+
+También se pueden hacer funciones recursivas con objetos de otros tipos de datos, como listas. Para las listas, lo que se suele hacer es definir el caso base con la lista vacía y en el caso recursivo utilizar una lista más chica que la original, lo cual asegura que el algoritmo termina. Para este tipo de programas, luego se suele poder probar propiedades por inducción sobre el tamaño de la lista.
+
+Por ejemplo, supongamos que queremos hacer un programa por recursión que suma los elementos de una lista de números. Una posibilidad es la siguiente.
+\begin{verbatim}
+def suma(lista):
+    if len(lista) == 0:
+        #La lista es vacía, por lo tanto la suma es 0
+        return 0
+    else:
+        # Comenzamos separando guardando el primer elemento en una variable
+        # y el resto de la lista en otra variable
+        x = lista[0]
+        resto = lista[1:len(lista)]
+        # como el resto es una lista más chica, hacemos recursión
+        suma_resto = suma(resto)
+        # la suma de toda la lista, es x más la suma del resto
+        return x + suma_resto
+\end{verbatim}
+De modo más compacto, puede escribirse como:
+\begin{verbatim}
+def suma(lista):
+    if len(lista) == 0:
+        return 0
+    else:
+        return lista[0] + suma(lista[1:len(lista)])
+\end{verbatim}
+Si la lista es vacía, la función termina en una etapa. En otro caso, se hace un llamado recursivo con la lista que tiene un elemento menos (se quita el primero), por lo que en algún momento se llega a la lista vacía y la ejecución termina.
+
+Análogamente a como se definen funciones recursivas con listas, se pueden definir también con strings, por ejemplo haciendo el caso base con el string vacío y luego el caso recursivo llamando con un substring más chico.
+
+\subsection{Límite de recursión}
+
+Ejecutar una función requiere cierto espacio de memoria. En particular, en una función recursiva, cada llamada sucesiva precisa más memoria y esto implica que hay un límite en la cantidad que se pueden hacer dado por la memoria disponible y no solo por el tiempo que lleve la ejecución.
+
+En python hay un límite fijado de al rededor de 1000 llamadas recursivas sucesivas. En caso de que esto se exceda, se produce un error y el programa termina.
+
+En este sentido, las funciones recursivas tienen un límite mucho más restrictivo que las funciones escritas por iteraciones. Por ejemplo, la función de suma de todos los elementos de una lista por recursión solo funciona para listas de hasta 1000 elementos, mientras que una función escrita iterativamente (es decir, con un for por ejemplo) podría perfectamente usarse para listas con millones de elementos.
+
+Como suele pasar, hay situaciones en las que la recursión es una buena opción y situaciones en las que no lo es. Tiene la ventaja de que para ciertos problemas permite hacer algoritmos sencillos basados en un razonamiento inductivo. Por otra parte, el límite de recursión es para llamadas recursivas sucesivas. Hay algoritmos que por la forma como organizan las llamadas, el tamaño de los objetos con los que se pueden usar depende exponencialmente del límite de recursión. En otras palabras, si el límite es $1000$, se pueden ejecutar en teoría en objetos de tamaño hasta $2^{1000}$, por ejemplo. Uno de estos algoritmos es el {\sl merge sort} para ordenar listas, que veremos más adelante.
 
 
 \end{document}
