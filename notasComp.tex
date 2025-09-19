@@ -1296,7 +1296,11 @@ entonces la función $f$ queda definida para todos los números naturales.
 
 Muchas veces se le llama inducción a secas tanto a la inducción completa como a la inducción fuerte y recursión a secas a cualquiera de los dos tipos de recursiones.
 
-\section{Funciones recursivas en python}
+Si bien enunciamos el principio de definición por recursión para funciones $f:\N\to\N$, el único que si o si debe ser $\N$ es el dominio. El codominio puede ser otro conjunto $X$ (por ejemplo un conjunto de listas o de strings) y el principio se puede aplicar para justificar la existencia de una función $f:\N\to X$. Esto es relevante porque podemos querer aplicarlo para definir funciones que dado un número retornan un string o una lista.
+
+\section{Funciones recursivas en python}\label{sec-funRecPython}
+
+Definamos lo que son las funciones recursivas dentro de la programación y veamos algunos ejemplos. Posteriormente nos enfocaremos más en cómo pensarlas y estudiar sus propiedades.
 
 En el contexto de la programación, una función recursiva es una función que se llama a ella misma en su cuerpo, es decir, algo como:
 \begin{verbatim}
@@ -1332,9 +1336,9 @@ def fact(n):
 \end{verbatim}
 Aquí al final en vez de escribir una única línea {\tt return n*fact(n-1)}, lo separamos en dos para que la llamada recursiva esté en su propia línea, lo cual es equivalente.
 
-Notar la similitud entre el concepto de inducción completa, el de definición de función por recursión y las funciones recursivas escritas en el lenguaje de programación. Debido a esta cercanía entre los conceptos, suelen poderse hacer de modo bastante natural pruebas por inducción sobre propiedades de estos programas, lo cual haremos en secciones posteriores.
+Notar la similitud entre el concepto de inducción completa, el de definición de función por recursión y las funciones recursivas escritas en el lenguaje de programación. Debido a esta cercanía entre los conceptos, suelen poderse hacer de modo bastante natural pruebas por inducción sobre propiedades de estos programas, lo cual haremos más adelante.
 
-Se puede escribir funciones recursivas que no necesariamente sigan ninguno de los principios anteriores, pero que de todos modos sepamos que terminan. Consideremos por ejemplo la siguiente función.
+Se puede escribir funciones recursivas que no necesariamente sigan ninguno de los principios anteriores, pero que por algún otro argumento sepamos que terminan. Consideremos por ejemplo la siguiente función.
 \begin{verbatim}
 def g(n):
     if n < 10:
@@ -1343,9 +1347,9 @@ def g(n):
         q = n // 10
         return g(q)
 \end{verbatim}
-En el cuerpo del {\tt if} definimos el valor de la función cuando $n<10$, y en el del {\tt else} hacemos una llamada recursiva con el cociente de dividir $n$ entre $10$ como argumento. No se corresponde con el principio anterior de definir para $n=0$ y luego en el caso recursivo usar el valor en $n-1$ para definir el de $n$, pero de todos modos podemos ver que la función termina. Si $n<10$ entonces termina directamente. Por otra parte, que si $n\geq 10$, la llamada recursiva es con $q$ que cumple que $q<n$, por lo que en algún momento se llega a un argumento $<10$ y la función termina.
+En el cuerpo del {\tt if} definimos el valor de la función cuando $n<10$, y en el del {\tt else} hacemos una llamada recursiva con el cociente de dividir $n$ entre $10$ como argumento. No se corresponde con el principio anterior de definir para $n=0$ y luego en el caso recursivo usar el valor en $n-1$ para definir el de $n$, pero de todos modos podemos ver que la función termina. Si $n<10$ entonces termina directamente. Por otra parte, que si $n\geq 10$, la llamada recursiva es con $q$ que cumple que $q<n$, por lo que en algún momento se llega a un argumento $<10$ y termina.
 
-Lo que hace esta función es retornar el primer dígito en base $10$ del número {\tt n}. La idea es que si $n<10$ entonces es ya es un solo dígito y en otro caso, dividir entre $10$ lo que hace es quitar el último dígito, por lo que podemos hacer la llamada recursiva con el cociente.
+Lo que hace esta función es retornar el primer dígito en base $10$ del número {\tt n}. La idea es que si $n<10$ entonces es un solo dígito y en otro caso, dividir entre $10$ lo que hace es quitar el último dígito, por lo que podemos hacer la llamada recursiva con el cociente.
 
 También se pueden hacer funciones recursivas con objetos de otros tipos de datos, como listas. Para las listas, lo que se suele hacer es definir el caso base con la lista vacía y en el caso recursivo utilizar una lista más chica que la original, lo cual asegura que el algoritmo termina. Para este tipo de programas, luego se suele poder probar propiedades por inducción sobre el tamaño de la lista.
 
@@ -1383,11 +1387,99 @@ Ejecutar una función requiere cierto espacio de memoria. En particular, en una 
 
 En python hay un límite fijado de al rededor de 1000 llamadas recursivas sucesivas. En caso de que esto se exceda, se produce un error y el programa termina.
 
-En este sentido, las funciones recursivas tienen un límite mucho más restrictivo que las funciones escritas por iteraciones. Por ejemplo, la función de suma de todos los elementos de una lista por recursión solo funciona para listas de hasta 1000 elementos, mientras que una función escrita iterativamente (es decir, con un for por ejemplo) podría perfectamente usarse para listas con millones de elementos.
+En este sentido, las funciones recursivas tienen un límite que puede ser mucho más restrictivo que con las funciones escritas por iteraciones. Por ejemplo, la función de suma de todos los elementos de una lista por recursión solo funciona para listas de hasta 1000 elementos, mientras que una función escrita iterativamente (es decir, con un {\tt for} por ejemplo) podría perfectamente usarse para listas con millones de elementos.
 
 Como suele pasar, hay situaciones en las que la recursión es una buena opción y situaciones en las que no lo es. Tiene la ventaja de que para ciertos problemas permite hacer algoritmos sencillos basados en un razonamiento inductivo. Por otra parte, el límite de recursión es para llamadas recursivas sucesivas. Hay algoritmos que por la forma como organizan las llamadas, el tamaño de los objetos con los que se pueden usar depende exponencialmente del límite de recursión. En otras palabras, si el límite es $1000$, se pueden ejecutar en teoría en objetos de tamaño hasta $2^{1000}$, por ejemplo. Uno de estos algoritmos es el {\sl merge sort} para ordenar listas, que veremos más adelante.
 
+\section{Diseño y estudio de funciones recursivas}
 
+La forma de pensar para escribir una función recursiva que resuelve un problema es muy distinta a la forma de pensar para escribir una iterativa. Es mucho más parecido al razonamiento que se usa al demostrar propiedades por inducción. En una prueba por inducción tenemos que demostrar el caso base y el caso inductivo, mientras que en una función recursiva tenemos que escribir el caso base y el caso recursivo. Veamos cómo se hace con números y listas. El caso de strings es análogo al de listas, pensando al string como una lista de caracteres.
+
+\subsection{Recursión con números naturales}
+
+Una función recursiva con números en general tiene la siguiente forma.
+\begin{verbatim}
+def f(n):
+    if n == 0:
+        caso base
+    else:
+        caso recursivo
+\end{verbatim}
+
+En el paso base simplemente tenemos que retornar lo que deba dar la función para $n=0$. Qué valor es exactamente depende del problema.
+
+En el paso recursivo tenemos que retornar lo que vale la función para un $n>0$ pero con la posibilidad de utilizar la función en valores $k<n$ asumiendo que para esos valores la función resuelve el problema bien. Al pensar esta parte, hay que ver cómo podemos usar valores de la función en números anteriores para calcular el valor en $n$. Muchas veces el valor anterior que se utiliza es $k=n-1$, caso en el que se corresponde con el razonamiento con inducción completa.
+
+Una vez que hicimos las dos cosas, la función recursiva queda completa y para estudiarla se usan razonamientos inductivos, que comúnmente resultan ser muy parecidos a lo que se hace para pensarla.
+
+La estructura puede flexibilizarse, por ejemplo haciendo que el caso base no sea solamente con $n=0$, como en la función {\tt g} definida en la sección \ref{sec-funRecPython}.
+
+\vspace{0.5em}
+{\bf Ejemplo}. escribamos una función que dado $n$ calcula $f(n)=\sum_{i=0}^ni$. Usamos $f$ para la función matemática y {\tt f} para la función programa.
+
+Para el caso base debemos retornar $f(0)$, que es $\sum_{i=0}^0i=0$. Por lo tanto, será solamente {\tt return 0}.
+
+Pensemos ahora el caso recursivo. Dado $n>0$ tenemos que calcular $f(n)=\sum_{i=0}^ni$, pudiendo usar $f(k)$ para valores $k<n$, asumiendo que para esos valores $\mathtt{f}(k)$ ya calcula la sumatoria correspondiente. Es decir, para cada $k<n$, si escribimos $\mathtt{f}(k)$ eso da $\sum_{i=0}^ki$ y lo podemos usar para calcular $f(n)$, lo cual es la ventaja de usar recursión.
+
+En particular, si escribimos $\mathtt{f}(n-1)$ esto dará $\sum_{i=0}^{n-1}i$, pero observamos que para ser $\sum_{i=0}^{n}i$ solamente le falta sumar un $n$, es decir,  se cumple $n+\sum_{i=0}^{n-1}i=\sum_{i=0}^{n}i$. En base a esto, para calcular $f(n)$ podemos hacer $n + \mathtt{f}(n-1)$.
+
+En base al razonamiento anterior, la función recursiva es la siguiente.
+\begin{verbatim}
+def f(n):
+    if n == 0:
+        return 0
+    else:
+        return n + f(n-1)
+\end{verbatim}
+Hagamos una demostración por inducción completa de que $\forall n\in\N ~\mathtt{f}(n)=\sum_{i=0}^ni$. La propiedad que usaremos para la inducción es $P(n)~:~\mathtt{f}(n)=\sum_{i=0}^ni$. Cuando decimos que $\mathtt{f}(n)=x$ nos referimos a que la función {\tt f} al evaluarse en $n$ retorna $x$. Hay que probar el paso base y el paso inductivo.
+
+Para el paso base, hay que probar $P(0)$, lo cual es que $\mathtt{f}(0)=\sum_{i=0}^0i$. Tenemos que $\sum_{i=0}^0i=0$ y por el código $\mathtt{f}(0)=0$, por lo que el paso base se cumple.
+
+Hagamos ahora el paso inductivo. La hipótesis es que $\mathtt{f}(n-1)=\sum_{i=0}^{n-1}i$, que es $P(n-1)$, mientras que la tesis es que $\mathtt{f}(n)=\sum_{i=0}^{n}i$, que es $P(n)$. Hay que demostrar la tesis pudiendo usar la hipótesis. El razonamiento es el siguiente. Por el código tenemos que $\mathtt{f}(n) = n + \mathtt{f}(n-1)$. Juntando eso y la hipótesis inductiva tenemos que:
+$$\mathtt{f}(n) = n + \mathtt{f}(n-1) = n + \sum_{i=0}^{n-1}i=\sum_{i=0}^{n}i
+$$
+por lo tanto concluimos que se cumple la tesis inductiva y terminamos el paso inductivo.
+
+Habiendo probado el paso base y el paso inductivo, concluimos que $\forall n\in\N ~\mathtt{f}(n)=\sum_{i=0}^ni$, es decir, que la función que escribimos efectivamente calcula lo que queríamos.
+
+Observar que para el caso recursivo usamos la propiedad que tiene la función que queríamos calcular de que $f(n)=n+f(n-1)$, pensando en $f$ como la función matemática y no como el programa. Es común que lo que escribimos en el paso recursivo venga de una propiedad que tiene la función matemática que vincula su valor en $n$ con su valor en algún número anterior (como $n-1$, en este caso).
+
+\subsection{Recursión con listas}
+
+Las funciones recursivas con números se suelen basar en alguno de los principios de recursión presentados en la sección \ref{sec-IndyRec} o similares. Por otra parte, la definición de funciones recursivas con listas se suele basar en principios como el siguiente.
+
+{\bf Principio de recursión en listas}. Denotemos $L$ al conjunto de las listas. Supongamos que queremos definir una función $f:L\to L$. Si:
+\begin{enumerate}
+	\item Definimos $f(\te{\tt []})$, es decir, el valor de $f$ en la lista vacía.
+	\item Para una lista $l\in L$ de largo {\tt len($l$)>0} cualquiera, asumiendo que $f(s)$ ya está definido para toda lista $s$ con {\tt len($s$)<len($l$)}, definimos $f(l)$ pudiendo usar los valores de $f(s)$ para las listas lista $s$ con {\tt len($s$)<len($l$)}.
+\end{enumerate}
+entonces la función $f$ queda definida para todas las listas.
+
+El paso base se hace con la lista vacía y el recursivo se hace pudiendo usar la misma función para listas más chicas.
+
+La justificación de este principio de recursión en listas es por inducción en el largo de la lista.
+
+Dijimos que el conjunto $L$ es el de las listas, pero no tiene por qué ser el conjunto de todas las listas. Puede ser también el conjunto de las listas de números enteros, el de las listas de strings, etc. La mayoría de los ejemplos van a ser con listas de números enteros.
+
+Al igual que con números, lo que importa es que el dominio de la función (o sea, el conjunto de las entradas) sea el de las listas. El codominio (o sea, el conjunto de las salidas) en realidad puede ser cualquier conjunto $X$, dando lugar a funciones $f:L\to X$. Esto es útil porque podemos querer usar el principio para hacer funciones que a partir de una lista calculen un número o un string.
+
+Pasemos a la programación. Una función recursiva con listas en general tiene la siguiente forma.
+
+\begin{verbatim}
+def f(l):
+    if len(l) == 0:
+        caso base
+    else:
+        caso recursivo
+\end{verbatim}
+
+En el paso base tenemos que retornar lo que da la función para la lista vacía. Notar que la condición {\tt len(l)==0} solo se cumple con la lista vacía.
+
+En el paso recursivo tenemos que retornar lo que vale la función para una lista {\tt l} de largo {\tt len(l)>0}, es decir, que tiene al menos un elemento, pero con la posibilidad de utilizar la función en listas {\tt lp} de largo {\tt len(lp)=k<n} asumiendo que para esas listas la función resuelve el problema bien. Al pensar esta parte, hay que ver cómo podemos usar valores de la función en listas más chicas para calcular el valor en la lista {\tt l}. Muchas veces la que se usa es {\tt lp = l[1:len(l)]}, que tiene largo {\tt len(l)-1}, pues es la lista que consiste en los elementos de {\tt l} desde el segundo en adelante.
+
+La función resultante se puede estudiar utilizando inducción en el largo de la lista, es decir, si queremos probar que una propiedad $Q(l)$ se cumple para toda lista $l$, hacemos inducción con $P(n):$ <<se cumple $Q(l)$ para toda lista $l$ de largo $n$>>.
+
+La estructura se puede flexibilizar, por ejemplo haciendo el caso base con listas de largo $1$.
 \end{document}
 
 
