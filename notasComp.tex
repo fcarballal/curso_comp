@@ -1381,6 +1381,17 @@ Si la lista es vacía, la función termina en una etapa. En otro caso, se hace u
 
 Análogamente a como se definen funciones recursivas con listas, se pueden definir también con strings, por ejemplo haciendo el caso base con el string vacío y luego el caso recursivo llamando con un substring más chico.
 
+Las funciones recursivas no tienen por qué tener un único argumento. Por ejemplo, a partir de la función {\tt g} que reotrna el primer dígito en base $10$, podemos agregarle un nuevo parámetro $b$ y que retorne el primer dígito en base $b$. La función resultante es la siguiente.
+\begin{verbatim}
+def g(n, b):
+    if n < b:
+        return n
+    else:
+        q = n // b
+        return g(q,b)
+\end{verbatim}
+En esta función hacemos recursión en {\tt n}. El argumento {\tt b} se mantiene igual en las llamadas recursivas.
+
 \subsection{Límite de recursión}
 
 Ejecutar una función requiere cierto espacio de memoria. En particular, en una función recursiva, cada llamada sucesiva precisa más memoria y esto implica que hay un límite en la cantidad que se pueden hacer dado por la memoria disponible y no solo por el tiempo que lleve la ejecución.
@@ -1475,11 +1486,88 @@ def f(l):
 
 En el paso base tenemos que retornar lo que da la función para la lista vacía. Notar que la condición {\tt len(l)==0} solo se cumple con la lista vacía.
 
-En el paso recursivo tenemos que retornar lo que vale la función para una lista {\tt l} de largo {\tt len(l)>0}, es decir, que tiene al menos un elemento, pero con la posibilidad de utilizar la función en listas {\tt lp} de largo {\tt len(lp)=k<n} asumiendo que para esas listas la función resuelve el problema bien. Al pensar esta parte, hay que ver cómo podemos usar valores de la función en listas más chicas para calcular el valor en la lista {\tt l}. Muchas veces la que se usa es {\tt lp = l[1:len(l)]}, que tiene largo {\tt len(l)-1}, pues es la lista que consiste en los elementos de {\tt l} desde el segundo en adelante.
+En el paso recursivo tenemos que retornar lo que vale la función para una lista {\tt l} de largo {\tt len(l)>0}, es decir, que tiene al menos un elemento, pero con la posibilidad de utilizar la función en listas {\tt lp} de largo {\tt len(lp)=k<n} asumiendo que para esas listas la función resuelve el problema bien. Al pensar esta parte, hay que ver cómo podemos usar valores de la función en listas más chicas para calcular el valor en la lista {\tt l}. Muchas veces la que se usa es {\tt lp = l[1:len(l)]}, la lista que consiste en los elementos de {\tt l} desde el segundo en adelante y por lo tanto tiene largo {\tt len(l)-1}.
 
 La función resultante se puede estudiar utilizando inducción en el largo de la lista, es decir, si queremos probar que una propiedad $Q(l)$ se cumple para toda lista $l$, hacemos inducción con $P(n):$ <<se cumple $Q(l)$ para toda lista $l$ de largo $n$>>.
 
 La estructura se puede flexibilizar, por ejemplo haciendo el caso base con listas de largo $1$.
+
+\vspace{0.5em}
+{\bf Ejemplo}. Escribamos una función recursiva que dada una lista {\tt l}, retorne otra lista que sea {\tt l} invertida, es decir, con los mismos elementos en el orden contrario.
+
+En el caso base debemos resolverlo para el caso de la lista vacía. Claramente la lista vacía invertida es también la lista vacía, así que hacemos {\tt return []}.
+
+En el caso recursivo, tenemos {\tt l} una lista de largo {\tt len(l)>0}. Debemos calcular la función para {\tt l} pudiendo hacer llamadas recursivas para cualquier lista {\tt lp} con {\tt len(lp)<len(l)}, asumiendo que para esas listas la función hace lo que tiene que hacer (retorna su inversión). Vamos a aplicar recursión con la lista {\tt resto=l[1:len(l)]}, a la que llamamos de esa forma porque es el resto de {\tt l} después de el primer elemento. Notar que {\tt len(resto)=len(l)-1}. Supongamos que {\tt l} es $[x_1,x_2,\dots,x_n]$. En este caso, {\tt resto} es $[x_2,\dots x_n]$. Por recursión, podemos asumir que {\tt f(resto)} ya calcula lo que debe calcular, es decir, que da $[x_n,\dots x_2]$. Por lo tanto, para obtener la inversión de {\tt l}, lo único que hay que hacer es agregar $x_1$ al final de {\tt f(resto)}, lo cual se puede hacer con la instrucción {\tt append}.
+
+En base al razonamiento anterior, escribimos la siguiente función.
+\begin{verbatim}
+def inv(l):
+    if len(l) == 0:
+        return []
+    else:
+        resto = l[1:len(l)]
+        rec = inv(resto) # llamada recursiva en resto
+        rec.append(l[0]) # agregar el primer elemento de l al final
+        return rec
+\end{verbatim}
+
+Hagamos una demostración por inducción completa de que la función es correcta. Al igual que en el caso de la función con enteros, el razonamiento será muy similar al que hicimos para escribir la función recursiva. La propiedad de inducción es $P(n):$ <<para cualquier lista {\tt l} de largo $n$, se cumple que {\tt inv(l)} retorna la inversión de {\tt l}>>.
+
+Para el paso base hay que probar $P(\te{{\tt[]}})$. Como la inversión de la lista vacía es la lista vacía, hay que justificar que {\tt inv([])} retorna la lista vacía. Como {\tt len([])==0} da {\tt True}, se entra en el cuerpo del {\tt if} y la función retorna efectivamente la lista vacía.
+
+Para el paso inductivo, dado $n>0$, asumimos que se cumple $P(n-1)$ y debemos probar $P(n)$. La hipótesis inductiva lo que nos dice es que para toda lista {\tt lp} de largo $n-1$ se cumple que {\tt inv(lp)} retorna la inversión de {\tt lp}. Para probar la tesis, tomamos {\tt l} $=[x_1,x_2,\dots x_n]$ una lista cualquiera de largo $n$ y debemos probar que {\tt inv(l)} retorna la inversión de {\tt l}, es decir $[x_n,\dots,x_2,x_1]$. Como $\te{{\tt len(l)}}=n>0$, se entra al cuerpo del {\tt else}. Tenemos que  {\tt resto} es $[x_2,\dots x_n]$ y tiene largo $n-1$, así que por hipótesis inductiva, {\tt inv(resto)} da $[x_n,\dots,x_2]$ y {\tt rec} queda con ese valor. Al hacer el {\tt append}, como {\tt l[0]} vale $x_1$, la lista {\tt rec} pasa a valer $[x_n,\dots,x_2,x_1]$. Por lo tanto, se retorna $[x_n,\dots,x_2,x_1]$ que es la inversión de {\tt l}, así que la tesis se cumple.
+
+Como probamos el paso base y el inductivo, por el principio de inducción completa concluimos $\forall n\in\N~P(n)$, lo cual por la definición de $P(n)$ nos dice que para todo largo~$n$, la función retorna lo que tiene que retornar para todas las listas de largo $n$. Por lo tanto, la función retorna lo que tiene que retornar para cualquier lista.
+
+\vspace{0.5em}
+Veamos dos ejemplos más. Para estos dos, se presenta el código con algunos comentarios y queda como ejercicio hacer el razonamiento detallado del mismo modo que con el ejemplo anterior.
+
+La primera es una función para resolver el problema de dada una lista ordenada y un elemento nuevo, insertarlo de modo ordenado. La función es {\tt insert(x,l)}. El parámetro {\tt x} es un entero y el parámetro {\tt l} es una lista de enteros que está ordenada. Lo que hace la función es insertar {\tt x} ordenadamente en {\tt l}, es decir, de modo que siga siendo una lista ordenada, y retornar esta lista resultante.
+
+Tener en cuenta que la función asume que el segundo argumento es una lista ordenada. No tenemos que preocuparnos por lo que pasa si no lo es, porque no es parte de lo que se supone que esta función hace.
+El argumento con el que aplicaremos recursión es {\tt l}.
+\begin{verbatim}
+def insert(x,l):
+    if len(l) == 0:
+        # la lista es vacía, así que el resultado tiene solo a x
+        return [x]
+    else:
+        # la lista tiene al menos un elemento
+        if x <= l[0]:
+            # en este caso x es menor al primer elemento,
+            # por lo que va al principio
+            return [x] + l # concatenación de listas para agregar
+                           # x al comienzo
+            # en este caso no fue necesario hacer llamada recursiva
+        else:
+            # en es te caso x es mayor al primer elemento,
+            # así que por recursión lo insertamos en el resto
+            resto = l[1:len(l)]
+            rec = insert(x,resto)
+            # rec tiene el x insertado en el lugar que le corresponda
+            # del resto de la lista.
+            # solo falta agregarle l[0] al comienzo
+            return [l[0]] + rec
+\end{verbatim}
+
+La siguiente función es una que ordena listas de enteros. La definimos como {\tt ordenar(l)}. El parámetro {\tt l} es una lista de enteros. La función retorna una lista con los mismos elementos que {\tt l} pero en orden. Para escribir esta función utilizaremos la que ya programamos.
+\begin{verbatim}
+def ordenar(l):
+    if len(l) == 0:
+        return []
+    else:
+        resto = l[1:len(l)]
+        rec = ordenar(resto)
+        # por recursión, rec es la lista con todos los elementos
+        # menos el primero ya ordenados
+        # solo resta insertar al primer elemento en dónde vaya,
+        # lo cual podemos hacer con la función anterior.
+        return insert(l[0],rec)
+        # recordar que la función insert funciona si la lista
+        # del segundo parámetro está ordenada,
+        # pero por recursión, sabemos que rec está ordenada
+\end{verbatim}
+
 \end{document}
 
 
