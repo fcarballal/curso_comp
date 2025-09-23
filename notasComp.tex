@@ -1400,7 +1400,7 @@ En python hay un límite fijado de al rededor de 1000 llamadas recursivas sucesi
 
 En este sentido, las funciones recursivas tienen un límite que puede ser mucho más restrictivo que con las funciones escritas por iteraciones. Por ejemplo, la función de suma de todos los elementos de una lista por recursión solo funciona para listas de hasta 1000 elementos, mientras que una función escrita iterativamente (es decir, con un {\tt for} por ejemplo) podría perfectamente usarse para listas con millones de elementos.
 
-Como suele pasar, hay situaciones en las que la recursión es una buena opción y situaciones en las que no lo es. Tiene la ventaja de que para ciertos problemas permite hacer algoritmos sencillos basados en un razonamiento inductivo. Por otra parte, el límite de recursión es para llamadas recursivas sucesivas. Hay algoritmos que por la forma como organizan las llamadas, el tamaño de los objetos con los que se pueden usar depende exponencialmente del límite de recursión. En otras palabras, si el límite es $1000$, se pueden ejecutar en teoría en objetos de tamaño hasta $2^{1000}$, por ejemplo. Uno de estos algoritmos es el {\sl merge sort} para ordenar listas, que veremos más adelante.
+Como suele pasar, hay situaciones en las que la recursión es una buena opción y situaciones en las que no lo es. Tiene la ventaja de que para ciertos problemas permite hacer algoritmos sencillos basados en un razonamiento inductivo. Por otra parte, el límite de recursión es para llamadas recursivas sucesivas. Hay algoritmos que por la forma como organizan las llamadas, el tamaño de los objetos con los que se pueden usar depende exponencialmente del límite de recursión. En otras palabras, si el límite es $1000$, se pueden ejecutar en teoría en objetos de tamaño hasta $2^{1000}$, por ejemplo. Uno de estos algoritmos es la búsqueda binaria en listas, que veremos en la sección \ref{sec-busqueda}.
 
 \section{Diseño y estudio de funciones recursivas}
 
@@ -1643,7 +1643,7 @@ En base a la observación anterior, lo que nos importa es el orden de la sucesi�
 
 Por otra parte, por simplicidad asumimos que todas las instrucciones básicas de python cuentan como una sola instrucción (suponiendo de fondo que tardan lo mismo), pero esto no tiene por qué ser el caso. Por ejemplo, las operaciones de indizado y slicing en listas, puede que en realidad el tiempo que requieran aumente con el largo de la lista. Sin embargo, nosotros contaremos una linea como {\tt y = l[k]} como una sola instrucción.
 
-\subsection{Búsqueda}
+\subsection{Búsqueda}\label{sec-busqueda}
 
 Veamos algo de algoritmos de búsqueda en listas. La consigna es que dada una lista {\tt l} cuyos elementos son enteros y un entero particular {\tt x}, queremos determinar si {\tt x} está en {\tt l} o no. Nos intereza analizar la eficiencia en términos de $n=\te{{\tt len(l)}}$.
 
