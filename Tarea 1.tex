@@ -1,0 +1,119 @@
+\documentclass[a4paper,12pt]{book}
+\usepackage{etex}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fullpage}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{txfonts}
+\usepackage{latexsym}
+\usepackage{stmaryrd}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{hyperref}
+%\usepackage[all]{xy}
+\usepackage{proof}
+\usepackage[sans]{dsfont}
+\usepackage[spanish]{babel}
+
+
+\newcommand{\Ra}{\Rightarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\te}{\text}
+\newcommand{\Lra}{\Leftrightarrow}
+\newcommand{\lra}{\leftrightarrow}
+
+
+%%%
+\theoremstyle{definition}
+\newtheorem{ejercicio}{Ejercicio}
+\outer\long\def\COUIC#1{}
+\outer\long\def\Solucion#1{\par
+	{\sl\small\noindent\textbf{Solución:}\quad#1\par}}
+%%% Comentar la siguiente línea para mostrar las soluciones
+\outer\long\def\Solucion#1{}
+
+\begin{document}
+	
+	\noindent
+	\centerline{\sc
+		Facultad de Ciencias\hfill---\hfill
+		Computación\hfill---\hfill
+		Segundo semestre de 2025}\smallbreak\hrule
+	
+	\bigbreak
+	\centerline{\Large\textbf{Tarea 1: Palabras similares}}
+	\bigbreak
+	
+	El objetivo de la tarea es implementar funciones vinculadas con distancia entre palabras. Es una primera aproximación a cómo se puede hacer un corrector ortográfico, de los que cuando una palabra que ingresa el usuario no está en el diccionario, presentan una o más posibles palabras presentes en el diccionario que podrían ser la que el usuario pretendía escribir.
+	
+	\begin{enumerate}
+		\item Escribir una función {\tt distancia(palabra1, palabra2)} según la siguiente especificación.
+		
+		Los dos parámetros son strings.
+		
+		La función retorna un entero.
+		
+		La función retorna la distancia entre las palabras de acuerdo a la siguiente definición: la distancia entre dos strings {\tt s1} y {\tt s2} se define como la suma entre la diferencia de los largos y la cantidad de lugares válidos para los dos strings en los que tienen caracteres distintos. Por ejemplo, si {\tt s1} es {\tt ``pelos''} y {\tt s2} es {\tt ``palo''}, la diferencia de los largos es de $1$ y la cantidad de lugares válidos en ambos en los que tienen caracteres distintos es $1$ (el segundo lugar, en el que {\tt s1} es {\tt ``e''} y {\tt s2} es {\tt ``a''}), así que la distancia es $2$.
+		
+		Ejemplos de entrada y salida correcta:
+		\begin{itemize}\parskip-.5ex
+			\item {\tt distancia(``pelos'', ``palo'')} --- {\tt 2}
+			\item {\tt distancia(``palo'', ``pelos'')} --- {\tt 2}
+			\item {\tt distancia(``cauto'', ``auto'')} --- {\tt 5}
+		\end{itemize}
+		
+		\item Escribir una función {\tt cercana(palabra, diccionario)} según la siguiente especificación.
+		
+		La primera entrada es un string y la segunda es una lista de strings.
+		
+		La función retorna un string.
+		
+		La función retorna el elemento de {\tt diccionario} más cercano a {\tt palabra}, en base a la función de distancia de la parte anterior. El elemento más cercano es el de menor distancia. Si hay más de un elemento con la menor distancia, se puede retornar cualquiera de ellos.
+		
+		Esta función debe hacerse usando la función de la parte anterior.
+		
+		\item Escribir una función {\tt orden\_distancia(palabra, diccionario)} según la siguiente especificación.
+		
+		La primera entrada es un string y la segunda es una lista de strings.
+		
+		La función retorna una lista de strings.
+		
+		La función retorna una lista con los elementos del diccionario ordenados del más cercano al más lejano a {\tt palabra}, en base a la función de distancia de la parte 1. Si en el diccionario hay distintos elementos con igual distancia, no importa el orden entre ellos.
+	\end{enumerate}
+	
+	\subsection*{Distancia de Levenshtein}
+	
+	La distancia de Levenshtein es otra función de distancia entre palabras un poco más sofisticada, que tiene más en cuenta los errores que pueden darse al escribir en un teclado. Por ejemplo, si las palabras son <<amigo>> y <<tamigo>>, donde claramente en la segunda palabra hay una <<t>> por error, con la función de la parte 1 la distancia entre estas dos palabras es de $6$. Sin embargo, con la distancia de Levenshtein (que en seguida la definimos), la distancia es $1$.
+	
+	La distancia de Levenshtein se define como la menor cantidad de inserciones de una letra, eliminaciones de una letra y remplazos de una letra por otra que se necesitan para pasar de una palabra a la otra.
+	
+	Para calcular la distancia de Levenshtein se usa un enfoque recursivo en base a ciertas propiedades. Sea $L(s,t)$ la función que retorna la distancia de Levenshtein. Dado un string $s$ no vacío, la notación $s=s'{:}x$ representa que $x$ es el último caracter de $s$  y $s'$ es el resto de $s$. Por ejemplo, si $s$ es {\tt ``hola''} entonces $x$ es {\tt ``a''} y $s'$ es {\tt ``hol''}. Las propiedades que se usan para calcular la distancia de Levenshtein son las siguientes.
+	\begin{itemize}
+		\item Si $e$ es el string vacío y $s$ es un string de largo $n$, entonces $L(e,s)=L(s,e)=n$.
+		\item Si $s=s'{:}x$ ~y~~ $t=t'{:}x$, entonces $L(s,t)=L(s',t')$.
+		\item Si $s=s'{:}x$ ~y~~ $t=t'{:}y$ con $x\not=y$, entonces:
+		$$L(s,t) = min(L(s',t')+1,L(s,t')+1,L(s',t)+1)
+		$$
+	\end{itemize}
+	A modo de idea de por qué se cumple el último caso, el $L(s',t')+1$ es por si se transforma $s'$ en $t'$ y luego se remplaza la $x$ por $y$, el $L(s,t')+1$ es por si se convierte todo $s$ en $t'$ y luego se inserta la $y$ y el $L(s',t)+1$ es por si se convierte $s'$ en todo $t$ y luego se remueve la $x$.
+	
+	\begin{enumerate}
+		\setcounter{enumi}{3}
+		\item Escribir una función {\tt levenshtein(palabra1, palabra2)} según la siguiente especificación.
+		
+		Los dos parámetros son strings.
+		
+		La función retorna un entero.
+		
+		El entero que la función retorna es la distancia de Levenshtein entre las dos palabras.
+		
+		Se debe hacer por recursión sin preocuparse por la eficiencia en tiempo de ejecución del algoritmo.
+		
+		\item Escribir una función {\tt levenshtein\_eficiente(palabra1, palabra2)} con la misma especificación que la función anterior excepto por el último párrafo. Ahora sí importa la eficiencia en tiempo de ejecución. Si $n$ y $m$ son los largos de las palabras, el tiempo de ejecución debe ser del orden de $nm$, es decir, $O(nm)$.
+	\end{enumerate}
+	
+\end{document}
+

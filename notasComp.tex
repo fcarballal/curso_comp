@@ -1486,7 +1486,7 @@ def f(l):
 
 En el paso base tenemos que retornar lo que da la función para la lista vacía. Notar que la condición {\tt len(l)==0} solo se cumple con la lista vacía.
 
-En el paso recursivo tenemos que retornar lo que vale la función para una lista {\tt l} de largo {\tt len(l)>0}, es decir, que tiene al menos un elemento, pero con la posibilidad de utilizar la función en listas {\tt lp} de largo {\tt len(lp)=k<n} asumiendo que para esas listas la función resuelve el problema bien. Al pensar esta parte, hay que ver cómo podemos usar valores de la función en listas más chicas para calcular el valor en la lista {\tt l}. Muchas veces la que se usa es {\tt lp = l[1:len(l)]}, la lista que consiste en los elementos de {\tt l} desde el segundo en adelante y por lo tanto tiene largo {\tt len(l)-1}.
+En el paso recursivo tenemos que retornar lo que vale la función para una lista {\tt l} de largo {\tt len(l)>0}, es decir, que tiene al menos un elemento, pero con la posibilidad de utilizar la función en listas {\tt lp} de largo {\tt len(lp)=k<n} asumiendo que para esas listas la función resuelve el problema bien. Al pensar esta parte, hay que ver cómo podemos usar valores de la función en listas más chicas para calcular el valor en la lista {\tt l}. Muchas veces la que se usa es {\tt lp = l[1:len(l)]}, la lista que consiste en los elementos de {\tt l} desde el segundo en adelante. Notar que esta lista tiene largo {\tt len(l)-1}.
 
 La función resultante se puede estudiar utilizando inducción en el largo de la lista, es decir, si queremos probar que una propiedad $Q(l)$ se cumple para toda lista $l$, hacemos inducción con $P(n):$ <<se cumple $Q(l)$ para toda lista $l$ de largo $n$>>.
 
@@ -1568,6 +1568,75 @@ def ordenar(l):
         # pero por recursión, sabemos que rec está ordenada
 \end{verbatim}
 
+\section{Eficiencia de algoritmos}
+
+Distintos algoritmos para resolver un problema pueden tener distintas propiedades y en algunos casos decimos que uno es más eficiente que otro. Hay distintos tipos de eficiencia, como por ejemplo la eficiencia temporal y la eficiencia en uso de memoria. Vamos a estudiar algoritmos del punto de vista de eficiencia temporal, es decir, analizando el tiempo que requiere la ejecución.
+
+Para estudiar el tiempo que requiere la ejecución de un algoritmo, vamos a contar la cantidad de operaciones que deben realizarse. Hay otros factores que en la práctica afectan para la eficiencia temporal de un algoritmo, como el aprovechamiento de la memoria {\sl cache} (cierta memoria de acceso rápido que tiene la computadora) o la posibilidad de paralelizar las operaciones y utilizar varios procesadores a la vez. No obstante, para una primera aproximación nos limitaremos a estudiar la cantidad de operaciones.
+
+Dada una función {\tt f(l)} cuyo parámetro de entrada es una lista, vamos a estudiar cómo depende la cantidad de operaciones que se realiza en función del largo de la lista, {\tt $n$~=~len(l)}. Por ejemplo, si la cantidad de operaciones no depende de $n$, decimos que es de orden constante, lo cual se denota $O(1)$. Si la cantidad de operaciones es proporcional a~$n$, diremos que el algoritmo es de orden lineal, lo cual se denota $O(n)$. Si es proporcional a $n^2$, diremos que el algoritmo es cuadrático, lo cual se denota $O(n^2)$. Para otras funciones se usa la misma notación con la $O$. En general si la cantidad de operaciones es proporcional a $f(n)$, decimos que el algoritmo es $O(f(n))$, lo cual se lee <<orden $f(n)$>>. Hay algunos otros órdenes que tienen nombres concretos. Por ejemplo $O(n^3)$ es cúbico y $O(\mathtt{log}(n))$ es logarítmico.
+
+El concepto de orden no se aplica solamente para algoritmos en listas. Es en general cómo depende la cantidad de operaciones del tamaño de la entrada. En caso de listas o strings, el tamaño suele ser el largo del objeto, mientras que en caso de números, puede usarse tanto el número en sí o como su cantidad de dígitos, dando lugar a distintos valores de los órdenes.
+
+La definición formal de orden es la siguiente. Dada una función $f(n)$ y otra función $g(n)$ (en nuestro caso $g(n)$ siempre es la función que a partir de un $n$ nos dice cuantas instrucciones hace el algoritmo con entradas de tamaño $n$), decimos que $g(n) = O(f(n))$ si se cumple que $\exists n_0\in\N\,\exists C>0\,\forall n > n_0,~|g(n)| \leq Cf(n)$.
+
+Para estudiar el orden de algoritmos iterativos hay que contar la cantidad de iteraciones que se realizan. Por ejemplo, consideremos el siguiente algoritmo que suma todos los elementos de una lista.
+\begin{verbatim}
+def suma(l):
+    cont = 0
+    for i in l:
+        cont = cont + i
+    return cont
+\end{verbatim}
+Como el cuerpo del {\tt for} se ejecuta una vez para cada elemento de la lista, si la lista tiene largo $n$, la cantidad de operaciones es aproximadamente $n$. Contando la asignación del principio y el {\tt return} serían $n+2$, pero como lo que importa es el orden, el $2$ se desprecia. En conclusión, el algoritmo es lineal, o escrito de otra forma, $O(n)$.
+
+Para estudiar el orden de algoritmos recursivos, en general primero se determina una recurrencia para la sucesión $(a_n)_{n\in\N}$ de la cantidad de operaciones en función de $n$ (es decir, la sucesión tal que $a_n$ es la cantidad de operaciones con entrada de tamaño $n$). Luego, esa recurrencia se resuelve, obteniendo una fórmula para $a_n$. Finalmente, determinamos el orden de $a_n$ (con la notación de arriba de $g(n)=O(f(n))$, aquí $a_n$ es la $g(n)$). La recurrencia en general consiste en un valor inicial que se deduce del caso base y una ecuación que vincula $a_n$ con valores anteriores, como $a_{n-1}$, la cual se deduce del caso recursivo.
+
+Consideremos el algoritmo recursivo que invierte la lista.
+\begin{verbatim}
+def inv(l):
+    if len(l) == 0:
+        return []
+    else:
+        resto = l[1:len(l)]
+        rec = inv(resto) # llamada recursiva en resto
+        rec.append(l[0]) # agregar el primer elemento de l al final
+        return rec
+\end{verbatim}
+Definimos $(a_n)_{n\in \N}$ como la sucesión que indica la cantidad de instrucciones que se ejecutan con una lista de tamaño $n$. Determinemos la recurrencia que se deduce del código. Esto consiste de un valor inicial que proviene del caso base y una regla para calcular un valor a partir del anterior la cual proviene del caso recursivo.
+
+A partir del caso base deducimos que con listas de tamaño $0$ la función realiza una sola instrucción, por lo que $a_0=1$.
+
+A partir del caso recursivo, vemos que si $n>0$, entonces se llama recursivamente la función y se hacen otras 3 instrucciones. Por lo tanto, la cantidad total de instrucciones es 3 más la cantidad de instrucciones que se hacen en la llamada recursiva. Como esta llamada recursiva es con una lista de largo $n-1$, la cantidad de instrucciones que se hacen ahí es por definición $a_{n-1}$. Por lo tanto, llegamos a que $a_n = 3 + a_{n-1}$ si $n>0$.
+
+En conclusión la recurrencia que tenemos es:
+\begin{align*}
+	a_0 &= 1\\
+	a_n &= 3 + a_{n-1}\quad \te{si $n>0$}
+\end{align*}
+Empieza en $1$ y en cada paso se suma $3$. De esto deducimos que $a_n=1+3n$, fórmula que se puede demostrar más formalmente por inducción. Podemos ver que $a_n=O(n)$, es decir, que el algoritmo es de orden lineal.
+
+En algunos casos la cantidad de instrucciones que se realizan puede variar para distintas entradas del mismo tamaño. Es decir, pueden haber dos lista {\tt l1} y {\tt l2} con el mismo tamaño y que la cantidad de instrucciones sea distinta para estas. En este caso un enfoque que puede utilizarse es el de considerar la cantidad de instrucciones en el peor caso, es decir, para cada $n$ contabilizar la mayor cantidad de instrucciones que pueden haber con una lista de largo $n$. Consideremos a modo de ejemplo el algoritmo de inserción ordenada.
+\begin{verbatim}
+def insert(x,l):
+    if len(l) == 0:
+        return [x]
+    else:
+        if x <= l[0]:
+            return [x] + l
+        else:
+            resto = l[1:len(l)]
+            rec = insert(x,resto)
+            return [l[0]] + rec
+\end{verbatim}
+Notar que en el caso de que la lista tiene largo $n>0$, si $x$ es menor que el primer elemento, entonces termina con una sola instrucción. Sin embargo, en otro caso se hace la llamada recursiva y dos instrucciones más, lo que da una cantidad distinta de instrucciones. Con el enfoque de peor caso, lo que hacemos es suponer que siempre se entrará en el segundo {\tt else}, que es lo que da lugar a más instrucciones. De hecho esto es lo que pasa si el elemento $x$ va en el último lugar de la lista. Con esta suposición llegamos a la siguiente recurrencia.
+\begin{align*}
+	a_0 &= 1\\
+	a_n &= 2 + a_{n-1}
+\end{align*}
+Por lo tanto, resulta $a_n = 1 + 2n$ y $a_n = O(n)$. Concluimos que el algoritmo es en peor caso de orden lineal.
+
+En estos razonamientos se puede cambiar un poco cómo se contabiliza la cantidad de instrucciones sin que el orden varíe. Por ejemplo, en el último algoritmo podemos contabilizar la evaluación de las condiciones de los {\tt if} como instrucciones, llegando a la recurrencia distinta $a_0=2$ y $a_n = 4 + a_{n-1}$. Sin embargo, esto solamente cambia constantes de la fórmula final que no afectan el orden, pues queda $a_n = 2 + 4n$ que también es $O(n)$. En estos casos considerar los {\tt if} o no es una decisión arbitraria.
 \end{document}
 
 
