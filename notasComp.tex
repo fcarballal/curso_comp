@@ -1636,7 +1636,121 @@ Notar que en el caso de que la lista tiene largo $n>0$, si $x$ es menor que el p
 \end{align*}
 Por lo tanto, resulta $a_n = 1 + 2n$ y $a_n = O(n)$. Concluimos que el algoritmo es en peor caso de orden lineal.
 
-En estos razonamientos se puede cambiar un poco cómo se contabiliza la cantidad de instrucciones sin que el orden varíe. Por ejemplo, en el último algoritmo podemos contabilizar la evaluación de las condiciones de los {\tt if} como instrucciones, llegando a la recurrencia distinta $a_0=2$ y $a_n = 4 + a_{n-1}$. Sin embargo, esto solamente cambia constantes de la fórmula final que no afectan el orden, pues queda $a_n = 2 + 4n$ que también es $O(n)$. En estos casos considerar los {\tt if} o no es una decisión arbitraria.
+Hay una cierta arbitrariedad en cómo se cuentan las instrucciones, lo cual puede cambiar la expresión exacta de la sucesión $a_n$ pero no el orden.
+Por ejemplo, en el último algoritmo podemos contabilizar la evaluación de las condiciones de los {\tt if} como instrucciones, llegando a la recurrencia distinta $a_0=2$ y $a_n = 4 + a_{n-1}$. Sin embargo, esto solamente cambia constantes de la fórmula final que no afectan el orden, pues queda $a_n = 2 + 4n$ que también es $O(n)$.
+
+En base a la observación anterior, lo que nos importa es el orden de la sucesión $a_n$ y no su expresión exacta.
+
+Por otra parte, por simplicidad asumimos que todas las instrucciones básicas de python cuentan como una sola instrucción (suponiendo de fondo que tardan lo mismo), pero esto no tiene por qué ser el caso. Por ejemplo, las operaciones de indizado y slicing en listas, puede que en realidad el tiempo que requieran aumente con el largo de la lista. Sin embargo, nosotros contaremos una linea como {\tt y = l[k]} como una sola instrucción.
+
+\subsection{Búsqueda}
+
+Veamos algo de algoritmos de búsqueda en listas. La consigna es que dada una lista {\tt l} cuyos elementos son enteros y un entero particular {\tt x}, queremos determinar si {\tt x} está en {\tt l} o no. Nos intereza analizar la eficiencia en términos de $n=\te{{\tt len(l)}}$.
+
+En general la forma de resolverlo es con una búsqueda directa en la lista, la cual de modo iterativo se puede hacer de la siguiente forma.
+\begin{verbatim}
+def busqueda(l,x):
+    esta = False
+    for i in l:
+        if i == x:
+           esta = True
+    return esta
+\end{verbatim}
+Como se recorre toda la lista una sola vez, el tiempo de ejecución es $O(n)$. Usando un {\tt while}, se podría hacer que deje de recorrer la lista en caso de encontrar a {\tt x}, lo cual haría que en algunos casos la función termine antes. Notar que el orden de ejecución en peor caso seguiría siendo $O(n)$. Este peor caso se da por ejemplo {\tt x} no está en {\tt l}, o también cuando {\tt x} está pero solamente en el último lugar.
+
+Sin hacer ninguna suposición sobre {\tt l}, lo mejor que se puede hacer es algoritmos de orden lineal. Agreguemos ahora la suposición de que los elementos de {\tt l} están ordenados de menor a mayor. ¿Esto nos permite hacer un algoritmo mejor? Puede ser un buen ejercicio pensarlo un poco.
+
+La respuesta es que sí: si la lista está ordenada se puede hacer un algoritmo con orden de ejecución mejor que lineal. El razonamiento de fondo es el siguiente. Sea {\tt y} el elemento del medio de {\tt l} (es importante que sea el del medio). Si {\tt y} es {\tt x}, tenemos que {\tt x} está en la lista, pero en otro caso, mediante la comparación entre {\tt x} y {\tt y}, usando que la lista está ordenada podemos descartar una mitad. Es decir, si {\tt x<y}, como la lista está ordenada, sabemos que si {\tt x} está, necesariamente debe estar a la izquierda de {\tt y}, mientras que en el otro caso es a la derecha. Esto nos permite hacer el siguiente algoritmo recursivo, que se llama búsqueda binaria.
+\begin{verbatim}
+def busqueda_binaria(l,x):
+    if len(l) == 0:
+        return False
+    elif len(l) == 1:
+        return l[0] == x
+        # retorna True solamente si el elemento es x
+    else:
+        medio = len(l) // 2
+        y = l[medio]
+        if x == y:
+            return True
+        elif x < y:
+            # si x está, debe ser a la izquierda de y
+            # la sublista a la izquierda de y es l[0:medio]
+            return busqueda_binaria(l[0:medio],x)
+        else:
+            # si x está, debe ser a la derecha de y
+            return busqueda_binaria(l[medio:len(l)],x)
+\end{verbatim}
+Lo que hace a este algoritmo muy eficiente es el hecho de que las llamadas recursivas se hacen con listas cuyo largo es $n/2$. Suponiendo el peor caso de que no se encuentra el elemento hasta el final, la recurrencia queda lo siguiente:
+\begin{align*}
+	a_0 &= 1\\
+	a_1 &= 1\\
+	a_n &= 2 + a_{\frac{n}{2}}
+\end{align*}
+Como en cada paso el $n$ se divide a la mitad, la cantidad de pasos necesarios para llegar al caso base es del orden de {\tt log(n)}, siendo {\tt log} el logaritmo en base $2$. En conclusión, este algoritmo de búsqueda es $O(\log(n))$, es decir, de orden logarítmico, lo cual es mucho mejor que lineal.
+
+Hagamos una justificación más formal para el caso particular en el que $n$ es una potencia de dos (en general es más técnico, pero vale el mismo resultado). Tenemos que $n = 2^k$. Hacemos un cambio de variable para trabajar en función de $k$. A la sucesión con~$k$ le llamamos $b_k$, es decir, $b_k = a_{2^k}$. Como $n/2 = 2^{k-1}$, la recurrencia se convierte en $b_k = 2 + b_{k-1}$. Del caso de base deducimos $b_0=0$. Por lo tanto, tenemos que $b_k = 2k$. Deshaciendo el cambio de variable, llegamos a $a_n = 2\log(n)$, lo cual es $O(\log(n))$.
+
+\subsection{Ordenamiento}
+
+Veamos ahora algoritmos de ordenamiento de listas. Comenzamos analizando el algoritmo que ya vimos.
+\begin{verbatim}
+def ordenar(l):
+    if len(l) == 0:
+        return []
+    else:
+        resto = l[1:len(l)]
+        rec = ordenar(resto)
+        return insert(l[0],rec)
+\end{verbatim}
+Veamos cual es el orden en el peor caso. Usaremos que ya sabemos que el orden de {\tt insert(x,l)} es lineal. Esto nos permite asumir que con una lista de largo $n$, {\tt insert} realiza $n$ instrucciones. Formalmente sería algo $\leq Cn$ para una cierta constante $C$, pero poner la $C$ o no, con el razonamiento que haremos no afectará el orden del resultado final.
+
+Por el paso base sabemos que $a_0=1$. Por otra parte, en el caso recursivo se hace una asignación, la llamada recursiva con una lista de largo $n-1$ y se utiliza la función {\tt insert} con esta lista. Como {\tt insert} es lineal, podemos asumir que la cantidad de instrucciones que realiza con la lista {\tt rec} es $n-1$ (ya que ese es el largo de la lista). Por lo tanto, $a_n = 1 + a_{n-1} + n-1 = n + a_{n-1}$. La recurrencia es:
+\begin{align*}
+	a_0 &= 1\\
+	a_n &= n + a_{n-1}
+\end{align*}
+En este caso la solución es $a_n = 1 + \sum_{i=1}^{n}i = 1 + n(n+1)/2 = O(n^2)$. Por lo tanto, concluimos que el algoritmo es cuadrático.
+
+La mayoría de los algoritmos que surgen más intuitivamente para ordenar listas son cuadráticos, pero usando recursión ingeniosamente se puede obtener un orden mucho mejor. Para esto antes debemos introducir el algoritmo de mezcla, o {\sl merge}, de listas ordenadas.
+
+La mezcla de dos listas ordenadas consiste en juntar sus elementos en una lista que también esté ordenada. Por ejemplo, si una lista es {\tt[1,4,7]} y la otra es {\tt [4,5]}, el resultado debe ser {\tt[1,4,4,5,7]}. Esta es una función con dos listas como parámetros, {\tt merge(l1,l2)}, que retorna una lista. Un posible algoritmo es el siguiente.
+\begin{verbatim}
+def merge(l1,l2):
+    # los casos base son cuando alguna es vacía
+    # simplemente se retorna la otra
+    if len(l1) == 0:
+        return l2
+    elif len(l2) == 0:
+        return l1
+    else:
+        # las dos tienen al menos un elem
+        x = l1[0]
+        y = l2[0]
+        if x <= y:
+            # primero va x y luego mergeo el resto de l1 con l2
+            return [x] + merge(l1[1:len(l1)],l2)
+        else:
+            # simétrico a lo anterior
+            return [y] + merge(l1,l2[1:len(l2)])
+\end{verbatim}
+El funcionamiento del algoritmo (en términos de las llamadas recursivas) es que se va quitando el elemento más chico de los primeros de ambas listas hasta que una quede vacía. Notar que al ir haciendo esto, si los largos de las listas son $n_1$ y $n_2$, necesariamente se llega a un paso base en a lo sumo $n_1 + n_2$ etapas. Por lo tanto, el orden de este algoritmo en peor caso es $O(n_1+n_2)$, o $O(n)$ si definimos $n$ como la suma de los largos de las dos listas.
+
+En base a esto podemos hacer el algoritmo de ordenamiento de listas por recursión llamado {\sl merge sort}. El truco es separar la lista a la mitad, llamar recursivamente en cada una de las dos mitades, lo cual retorna dos listas ordenadas, y finalmente mergear estas dos mitades ordenadas para obtener la lista original ordenada.
+\begin{verbatim}
+def merge_sort(l):
+    if len(l) <= 1:
+        return l
+    else:
+        medio = len(l) // 2
+        rec1 = merge_sort(l[0:medio])
+        rec2 = merge_sort(l[medio:len(l)])
+        return merge(rec1,rec2)
+\end{verbatim}
+Analicemos un poco el orden en tiempo de ejecución. Las llamadas recursivas son con listas de la mitad del largo, por lo que tienen $a_{n/2}$ instrucciones cada una y las listas resultantes también son de largo $n/2$. Como la cantidad de instrucciones de {\tt merge} es la suma de los largos de las listas, tenemos que el {\tt merge(rec1,rec2)} hacer $n/2+n/2=n$ instrucciones. En conclusión, tenemos $a_n = 2a_{n/2} + n$.
+
+Vamos a resolverlo nuevamente cuando $n=2^k$ haciendo el cambio de variable. Obtenemos $b_k = 2b_{k-1} + 2^k$. Aquí es un poco más difícil, pero la solución es $b_k = k2^k$. Se puede verificar que esto cumple la recurrencia. Deshaciendo el cambio de variable llegamos a que $a_n = n\log(n)$, por lo que el merge sort es $O(n\log(n))$. Notar que esto es mucho mejor que $O(n^2)$, por ejemplo, si $n = 1.000.000$, entonces $n^2= 1.000.000.000.000$, mientras que $n\log(n)\sim30.000.000$.
+
 \end{document}
 
 
