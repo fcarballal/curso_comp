@@ -1751,6 +1751,262 @@ Analicemos un poco el orden en tiempo de ejecución. Las llamadas recursivas son
 
 Vamos a resolverlo nuevamente cuando $n=2^k$ haciendo el cambio de variable. Obtenemos $b_k = 2b_{k-1} + 2^k$. Aquí es un poco más difícil, pero la solución es $b_k = k2^k$. Se puede verificar que esto cumple la recurrencia. Deshaciendo el cambio de variable llegamos a que $a_n = n\log(n)$, por lo que el merge sort es $O(n\log(n))$. Notar que esto es mucho mejor que $O(n^2)$, por ejemplo, si $n = 1.000.000$, entonces $n^2= 1.000.000.000.000$, mientras que $n\log(n)\sim30.000.000$.
 
+\section{Algoritmos exponenciales}
+
+Decimos que un algoritmo es exponencial en tiempo de ejecución si su orden es una función exponencial, por ejemplo $O(2^n)$ o $O(3^n)$. Por otra parte, cuando un algoritmo tiene un orden $O(n^e)$ para algún $e\in\N$, decimos que es polinomial. Como criterio general, un algoritmo polinomial es aplicable en la práctica, mientras que uno exponencial no lo es.
+
+
+\subsection*{Primer ejemplo ingenuo}
+
+Al escribir funciones recursivas, si el código tiene más de una llamda recursiva, existe el riesgo de que el algoritmo sea exponencial. A modo de ejemplo, consideremos el siguiente algoritmo que dado $n$ calcula $2^n$, basándose en la propiedad de que $2^n = 2^{n-1}+2^{n-1}$.
+\begin{verbatim}
+def expo(n):
+    if n == 0:
+        return 1
+    else:
+        return expo(n-1) + expo(n-1)
+\end{verbatim}
+veamos la recurrencia del tiempo que lleva la ejecución. Por el caso base tenemos que $a_0 = 1$. Por otra parte, en el paso recursivo, se llama dos veces {\tt expo(n-1)}, por lo que podríamos escribir $a_n = 2a_{n-1}$. Como la recurrencia multiplica por $2$ en cada paso, tenemos que $a_n = 2^n$ y por lo tanto el algoritmo es $O(2^n)$, por lo que es exponencial.
+
+Si se prueba en la computadora, para valores chicos de $n$ termina en seguida, pero desde al rededor de $20$ en adelante (dependiendo de la computadora) empieza a tardar un poco y al seguir aumentando tarda cada vez más. Puede estar bueno ver como al aumentar el $n$ de a $1$, el tiempo que tarda más o menos se duplica. Este tipo de aumento en el tiempo de ejecución es lo que caracteriza los algoritmos exponenciales. Con un valor de $n=50$ la ejecución ya podría tardar días.
+
+Es importante entender que en un algoritmo como este, en el paso recursivo, la función {\tt expo(n-1)} se ejecuta dos veces, en lugar de hacerse una vez sola y luego usar dos veces el resultado, como uno intuitivamente podría pensar (la computadora no piensa, simplemente ejecuta las instrucciones). Es equivalente a si escribiéramos el programa así:
+\begin{verbatim}
+def expo(n):
+    if n == 0:
+        return 1
+    else:
+        rec1 = expo(n-1)
+        rec2 = expo(n-1)
+        return rec1 + rec2
+\end{verbatim}
+Se hace recursión para calcular {\tt rec1} y luego al calcular {\tt rec2}, se vuelve a hacer exactamente lo mismo, sin reutilizar lo que ya se calculó. Para que sí reutilice lo calculado en {\tt rec1} para el valor de {\tt rec2}, habría que escribir el código de modo correspondiente, por ejemplo:
+\begin{verbatim}
+def expo(n):
+    if n == 0:
+        return 1
+    else:
+        rec1 = expo(n-1)
+        rec2 = rec1
+        return rec1 + rec2
+\end{verbatim}
+En este caso el algoritmo deja de ser exponencial.
+
+\subsection{Funciones con un parámetro. Ejemplo Fibonacci}
+
+En el ejemplo anterior fue sencillo evitar el carácter exponencial. En un caso como ese, las formas exponenciales de escribirlo se puede considerar como un error que alguien haría solamente si no sabe que se está ejecutando dos veces exactamente lo mismo. Sin embargo, hay otros algoritmos recursivos exponenciales en los que no es tan sencillo evitar el carácter exponencial. Consideremos por ejemplo un algoritmo que calcula la sucesión de Fibonacci, que se define como $(f_n)_{n\in\N}$ tal que $f_0=f_1=1$ y $f_n = f_{n-1} + f_{n-2}$ si $n>1$.
+\begin{verbatim}
+def fibo(n):
+    if n == 0 or n == 1:
+        return 1
+    else:
+        return fibo(n-1) + fibo(n-2)
+\end{verbatim}
+En este caso, la recurrencia que queda para la cantidad de instrucciones es (un poco graciosamente) la misma sucesión de Fibonacci: $a_0 = a_1 = 1$ y $a_n = a_{n-1}+a_{n-2}$, la cual tiene un crecimiento exponencial.
+
+También podemos observar que a lo largo de las llamadas recursivas se repiten cálculos. Para la explicación supongamos que el algoritmo hace {\tt x = fibo(n-1)}, luego {\tt y = fibo(n-2)} y luego {\tt return x + y}, lo cual es equivalente al código de arriba. Si $n>2$, al ejecutar {\tt x = fibo(n-1)}, para calcular {\tt fibo(n-1)} se deben calcular {\tt fibo(n-2)} y {\tt fibo(n-3)}, sin embargo, al ejecutar {\tt y = fibo(n-2)}, se vuelve a calcular {\tt fibo(n-2)}, lo cual ya había aparecido en el cálculo de {\tt fibo(n-1)}. Cuando aparecen cálculos repetidos en funciones recursivas como en este caso, es común que el algoritmo resulte ser exponencial.
+
+Veamos dos formas de resolver esto, la primera es calculando un vector y la segunda es usando una lista de valores ya calculados. En ambos casos la idea de fondo es la función recursiva anterior. Ambas soluciones logran que no se repitan cuentas y el algoritmo sea de orden polinomial.
+
+{\bf Solución con vector}. En lugar de partir del valor $n$ e ir aplicando la recursión con valores más chicos, vamos a ir llenando iterativamente un vector con valores de la sucesión, partiendo desde $0$, hasta llegar a $n$. Es decir, en lugar de ir desde $n$ hacia atrás hasta llegar a los casos base, partimos desde los casos base y basándonos en el caso recursivo vamos llenando el vector desde ahí hasta llegar a $n$. Nuestro vector es una lista de $n+1$ elementos. El algoritmo es el siguiente. Los comentarios explican qué se va haciendo.
+\begin{verbatim}
+def fibo_vector(n):
+    if n == 0 or n == 1:
+        return 1
+    else:
+        # creamos el vector de n+1 elementos
+        # que al principio es una lista de ceros
+        vector = []
+        for i in range(n+1):
+            vector.append(0)
+        # ahora vector es un vector con n+1 0s.
+        # La idea es que cada entrada del vector se
+        # corresponda con un término de Fibonacci,
+        # es decir, que vector[i] sea f_i
+        # de modo que al final f_n sea vector[n] y retornar eso.
+        
+        #primero hagamos que los dos primeros lugares sean 1,
+        #de acuerdo al los casos base
+        vector[0] = 1
+        vector[1] = 1
+        
+        #ahora, vamos calculando los otros términos del vector,
+        #basándonos en el caso recursivo.
+        #Comenzamos desde el de índice 2.
+        for i in range(2,n+1):
+            vector[i] = vector[i-1] + vector[i-2]
+        
+        #con esto hicimos que cada entrada de vector sea el
+        #término correspondiente de la sucesión de Fibonacci.
+        # es decir, vector = [f_0,f_1,...,f_n]
+        
+        return vector[n]
+\end{verbatim}
+Si bien la idea proviene del algoritmo recursivo anterior, notar que este es iterativo. La idea de esta estrategia de solución en general es la siguiente:
+\begin{enumerate}
+	\item Creamos una lista {\tt v} de $n+1$ elementos, al principio llena de ceros, con el objetivo de luego hacer que para cada $i\leq n$, se tenga que {\tt v[$i$]} es $f_i$.
+	\item De acuerdo al caso base, hacemos que {\tt v[0]} y {\tt v[1]} valgan $1$.
+	\item De acuerdo al caso recursivo, vamos iterando desde $i=2$ hasta $i=n$ haciendo que {\tt v[i]} sea {\tt v[i-1]+v[i-2]}. Esto funciona porque en cada iteración, debido a los casos base y las iteraciones previas, en los lugares {\tt i-1} e {\tt i-2} el vector ya tiene los valores correctos de la sucesión de Fibonacci.
+	\item Luego de la iteración se cumple que {\tt v[$i$]} es $f_i$ para cada $i\leq n$, por lo que en particular {\tt v[n]} vale $f_n$, que es lo que se debía calcular.
+\end{enumerate}
+
+{\bf Solución con lista de valores ya calculados}. Otra alternativa, que sigue usando recursión, es utilizar una lista de valores ya calculados. La lista de valores calculados va a ser una lista de pares $[[n_1,v_1], [n_2,v_2],\dots, [n_k,v_k]]$, donde sabemos que con entrada $n_i$ el resultado es $v_i$. La idea del algoritmo es que si la entrada está en la lista, usamos el valor sin volver a calcularlo y en otro caso, lo calculemos y lo agregamos a la lista. La función va a tener dos parámetros: {\tt n} y {\tt calculados}, donde el primero es el valor en el que queremos calcular la sucesión y el segundo es una lista de entradas para las que ya sabemos el resultado. La salida va a ser una lista con dos cosas, {\tt [valor, calculados]}, donde {\tt valor} es el valor de la sucesión en $n$ y {\tt calculados} es la lista de calculados, que puede estar igual que como vino o tener también nuevas entradas.
+\begin{verbatim}
+def fibo_lista(n, calculados):
+    # si n está en la lista de valores conocidos,
+    # no lo volvemos a calcular
+    for x in calculados:
+        # x es [a,b]
+        if x[0] == n:
+            # retornamos el valor de la sucesión y la lista de
+            # calculados, que no cambió
+            return [x[1], calculados]
+    
+    # si llegamos hasta acá, quiere decir que n no está en la
+    # lista de calculados. Hay que calcular el valor en n,
+    # agregarlo a la lista y retornar ambas cosas
+    if n == 0 or n == 1:
+        #agregamos que vale 1 a la lista de calculados
+        calculados.append([n,1])
+        return [1, calculados]
+    else:
+        rec1 = fibo_lista(n-1, calculados)
+        valor1 = rec1[0]
+        calculados = rec1[1] # pueden haberse calculado nuevos valores
+        
+        rec2 = fibo_lista(n-2, calculados)
+        valor2 = rec2[0]
+        calculados = rec2[1]
+        
+        #el valor en n es el siguiente
+        valorn = valor1 + valor2
+        
+        #agregamos el valor en n a la lista de calculados
+        calculados.append([n,valorn])
+        return [valorn, calculados]
+\end{verbatim}
+Para utilizar esta función, se comienza con una lista vacía de valores calculados, dejando que se vaya llenando a lo largo de la ejecución. Luego, lo que retorna es una lista cuyo primer elemento es el valor en el $n$ que pasamos.
+\begin{verbatim}
+>>> calculados = []
+>>> res = fibo_lista(5,calculados)
+>>> res[0]
+8
+\end{verbatim}
+
+Tanto la solución con vector como la solución con lista de valores ya calculados son polinomiales. Sin embargo, puede haber una diferencia de orden. La solución con el vector, como simplemente lo recorre una vez, es de orden lineal, mientras que la solución por lista de valores ya calculados puede ser de orden cuadrático, ya que en cada llamada recursiva debe hacer una búsqueda en una lista, lo cual puede llevar tiempo lineal.
+
+\subsection{Funciones con dos parámetros. Ejemplo combinaciones}
+
+Veamos ahora un ejemplo con una función recursiva que calcula combinaciones. En este caso ocurre una situación muy similar a la de la sucesión de Fibonacci, pero ahora con dos parámetros.
+
+Recordamos que las combinaciones entre $n$ y $k$, denotadas $C^n_k$, denotan la cantidad de formas de elegir $k$ elementos de un conjunto de $n$ sin repetir y sin importar el orden. Si $k>n$, $C^n_k=0$ por definición. Cuando $k\leq n$, se cumple la siguiente fórmula:
+$$C^n_k = \frac{n!}{(n-k)!k!}
+$$
+Esta fórmula no es muy práctica para calcular las combinaciones automáticamente, pues tanto el numerador como el denominador pueden ser números muy grandes. Muchas veces puede pasar que varios términos se cancelen y el resultado sea chico, pero que si calculamos el numerador y el denominador sin cancelar nada, tengamos que trabajar con números muy grandes. Un ejemplo es $C^{100}_1$, lo cual da $100$, pero si usamos la fórmula sin cancelar nada, para el numerador debemos calcular $100!$.
+
+Hay una conocida recurrencia, llamada regla de Stiffel, que para $n,k>0$ dice lo siguiente:
+$$C^n_k = C^{n-1}_k+C^{n-1}_{k-1}
+$$
+Teniendo en cuenta que si $C^n_0=1$ para todo $n$ y que $C^0_k=0$ si $k>0$, que son cosas que sirven como casos base, podemos hacer el siguiente algoritmo.
+\begin{verbatim}
+def combinaciones(n,k):
+    if k == 0:
+        return 1
+    elif n == 0:
+        return 0
+    else:
+        return combinaciones(n-1,k) + combinaciones(n-1, k-1)
+\end{verbatim}
+Al igual que ocurre en el caso de la sucesión de Fibonacci, este algoritmo es exponencial. Se puede ver que aquí también hay casos en los que algunas cuentas se repiten. Por otra parte, si ejecutamos con $n=k$ aumentándolos, el tiempo de ejecución crece de modo exponencial.
+
+Vamos a aplicar las mismas soluciones que para la sucesión de Fibonacci, con la diferencia que en el primer enfoque en lugar de utilizar un vector usaremos una matriz, ya que ahora tenemos dos parámetros.
+
+{\bf Solución con matriz}. La idea ahora es crear una matriz de $n+1$ filas y $k+1$ columnas e irla llenando de modo que cada entrada $(i,j)$ quede con el valor $C^i_j$ y por lo tanto, en particular, la entrada $(n,k)$ valga $C^n_k$. La estrategia es la misma. Creamos la matriz, inicializamos los lugares que se deducen de los casos base y luego vamos iterando según el caso recursivo.
+
+El punto que se vuelve un poco más complejo es el del orden para ir iterando. Lo importante es utilizar un orden en el que cuando vamos a calcular la entrada $(i,j)$, tanto la $(i-1,j)$ como la $(i-1,j-1)$, que son las que aparecen en la recurrencia, ya se hayan calculado. Una forma de hacer esto es ir calculando las filas de arriba a abajo, cada una de izquierda a derecha, es decir primero usar $i=1$ y calcular toda la fila con $j$ creciente: $(1,1)$, $(1,2)$, ..., $(1,k)$; luego poner $i=2$ y calcular toda la fila con $j$ creciente: $(2,1)$, $(2,2)$, ..., $(2,k)$; así sucesivamente hasta llegar a $i=n$ y $j=k$. Notar que se comienza con $i=1$ y $j=1$ porque la fórmula de Stiffel requiere que sean mayores a $0$. Las entradas en los que alguno es $0$ se completan al principio según el caso base.
+\begin{verbatim}
+def combinaciones_vector(n,k):
+    if k == 0:
+        return 1
+    elif n == 0:
+        return 0
+    else:
+        #creamos la matriz, que es una lista de listas
+        matriz = []
+        #va a tener n+1 filas
+        for i in range(n+1):
+            #creamos la fila iésima, que debe tener k+1 lugares
+            fila = []
+            for j in range(k+1):
+                fila.append(0)
+            #agregamos la fila a la matriz
+            matriz.append(fila)
+        #la matriz queda con todas las entradas valiendo 0
+        #se accede a la entrada (i,j) con matriz[i][j],
+        #pues es una lista de listas
+        
+        #usando el caso base, inicializamos los lugares
+        #con i=0 o con j=0
+        for i in range(n+1):
+            # caso k==0 del algoritmo recursivo
+            matriz[i][0] = 1
+        for j in range(1,k+1):
+            # caso n==0 del algoritmo recursivo.
+            # notar que no se aplica cuando k es 0
+            matriz[0][j] = 0
+        
+        #Ahora llenamos el resto de la matriz según el
+        #caso recursivo, siguiendo el orden explicado
+        #en el párrafo previo
+        for i in range(1,n+1):
+            for j in range(1,k+1):
+                matriz[i][j] = matriz[i-1][j] + matriz[i-1][j-1]
+        
+        #retornamos el valor del lugar (n,k)
+        return matriz[n][k]
+\end{verbatim}
+Un factor importante a tener en cuenta al hacer esto es que en la matriz las filas sean objetos lista distintos, incluso al principio tengan los mismos valores (ver sección \ref{sec-memoriaCompartida}). Como lo hicimos en este caso está bien, porque para cada fila de la matriz armamos una lista nueva a partir de la lista vacía. Por otra parte, si pensando en el hecho de que todas las filas de la matriz son iguales hiciéramos lo siguiente:
+\begin{verbatim}
+matriz = []
+
+#creamos una única fila con k+1 ceros
+fila = []
+for j in range(k+1):
+    fila.append(0)
+    
+#agregamos esa fila n+1 veces a la matriz
+for i in range(n+1):
+    matriz.append(fila)
+\end{verbatim}
+entonces quedaría una matriz de $n+1$ filas y $k+1$ columnas en las que todas las entradas valen $0$, pero en realidad todas las filas, además de ser iguales, serían \emph{la misma lista}. Si modificáramos una de estas, la misma modificación ocurriría con todas las otras.
+
+{\bf Solución con lista de valores ya calculados}. Aquí la diferencia es que como la función tiene dos parámetros, las entradas de la lista de valores ya calculados serán de la forma $[[n,k],v]$. Aparte de eso, la idea es la misma.
+\begin{verbatim}
+def combinaciones_lista(n,k,calculados):
+    for x in calculados:
+        # x es [[a,b],c]
+        if x[0][0] == n and x[0][1] == k:
+            return [x[1], calculados]
+    
+    if k == 0:
+        calculados.append([[n,k],1])
+        return [1, calculados]
+    elif n == 0:
+        calculados.append([[n,k],0])
+        return [0, calculados]
+    else:
+        rec1 = combinaciones_lista(n-1,k,calculados)
+        valor1 = rec1[0]
+        calculados = rec1[1]
+        
+        rec2 = combinaciones_lista(n-1,k-1,calculados)
+        valor2 = rec2[0]
+        calculados = rec2[1]
+        
+        valor = valor1 + valor2
+        calculados.append([[n,k],valor])
+        return [valor, calculados]
+\end{verbatim}
 \end{document}
 
 
