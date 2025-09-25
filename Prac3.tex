@@ -1,0 +1,142 @@
+\documentclass[a4paper,12pt]{book}
+\usepackage{etex}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fullpage}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{txfonts}
+\usepackage{latexsym}
+\usepackage{stmaryrd}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{hyperref}
+%\usepackage[all]{xy}
+\usepackage{proof}
+\usepackage[sans]{dsfont}
+\usepackage[spanish]{babel}
+
+
+\newcommand{\Ra}{\Rightarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\te}{\text}
+\newcommand{\Lra}{\Leftrightarrow}
+\newcommand{\lra}{\leftrightarrow}
+
+
+%%%
+\theoremstyle{definition}
+\newtheorem{ejercicio}{Ejercicio}
+\outer\long\def\COUIC#1{}
+\outer\long\def\Solucion#1{\par
+	{\sl\small\noindent\textbf{Solución:}\quad#1\par}}
+%%% Comentar la siguiente línea para mostrar las soluciones
+\outer\long\def\Solucion#1{}
+
+\begin{document}
+	
+	\noindent
+	\centerline{\sc
+		Facultad de Ciencias\hfill---\hfill
+		Computación\hfill---\hfill
+		Segundo semestre de 2025}\smallbreak\hrule
+	
+	\bigbreak
+	\centerline{\Large\textbf{Práctico 3: Funciones recursivas}}
+	\bigbreak
+	
+	Para varios de los ejercicios hay soluciones en las notas.
+	
+	\begin{ejercicio}
+		Escribir una función por recursión que dado un número $n$ retorne $\sum_{i=0}^ni$.
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		Escribir una función por recursión que dado un número retorne la lista de sus dígitos en base $10$.
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		Escribir una función por recursión que dado un string retorne la cantidad de veces que el caracter {\tt``a''} aparece.
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		\begin{enumerate}\parskip-.5ex
+			\item Escribir una función por recursión que dada una lista de enteros {\tt l} y un entero en particular {\tt n}, retorna la lista que cosiste en quitar la primera aparición de {\tt n} en {\tt l}. Por ejemplo, si {\tt l} es {\tt[1,2,3,2,3,5]} y {\tt x} es {\tt 3}, se debe retornar {\tt[1,2,2,3,5]}. Si {\tt n} no está en la lista, el resultado de la función es igual a {\tt l}.
+			\item Hacer lo mismo que en la parte anterior pero que ahora se deben eliminar todas las apariciones de {\tt n} en {\tt l}.
+		\end{enumerate}
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		Escribir una función por recursión que suma todos los elementos de una lista de enteros.
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		Escribir una función por recursión que invierte una lista.
+	\end{ejercicio}
+
+	
+	\begin{ejercicio}
+		Escribir una función por recursión que determina si dos listas son iguales.
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		\begin{enumerate}\parskip-.5ex
+			\item Escribir una función por recursión que dada una lista ordenada y un entero, lo inserta en el lugar que le corresponde y retorna la lista resultante.
+			\item Usando la parte anterior, escribir una función por recursión que ordena una lista.
+		\end{enumerate}
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		Escribir una función por recursión que determina si un elemento pertenece a una lista. La función debe tener dos parámetros: la lista y el elemento que queremos determinar si pertenece o no.
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		Escribir una función por recursión de búsqueda en una lista ordenada cuyo tiempo de ejecución sea $O(\log(n))$.
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		Escribir una función de merge de listas ordenadas, es decir, que dadas dos listas ordenadas retorna otra lista ordenada que las {\sl combina}.
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		Usando la función de merge, escribir un algoritmo de ordenamiento que sea $O(n\log(n))$.
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		Consideramos la siguiente función para calcular $2^n$.
+		\begin{verbatim}
+def expo(n):
+    if n == 0:
+        return 1
+    else:
+        return expo(n-1) + expo(n-1)
+		\end{verbatim}
+		\begin{enumerate}\parskip-.5ex
+			\item Ejecutándolo, verificar que al aumentar $n$ el tiempo de ejecución se incrementa exponencialmente.
+			\item Escribir una alternativa que sea lineal en $n$.
+		\end{enumerate}
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		\begin{enumerate}\parskip-.5ex
+			\item Hacer una función recursiva que calcule el término de orden $n$ de la sucesión $(b_n)_{n\in\N}$ tal que $b_0=1$ y $b_n= 3b_{n-1} - n$ si $n>0$. La función puede ser de orden exponencial.
+			\item Usando alguno de los métodos vistos en el curso, hacer una función equivalente que sea de orden polinomial.
+		\end{enumerate}
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		Dado un conjunto de $n$ elementos y otro de $k$ elementos, sea $\te{Sob}(n,k)$ la cantidad de funciones sobreyectivas que existen del primer conjunto al segundo.
+		
+		Se cumple que $\te{Sob}(n,1)=1$ para todo $n$ y que $\te{Sob}(1,k)=0$ si $k>1$. Por otra parte, si $n,k>1$, se cumple la siguiente recurrencia:
+		$$\te{Sob}(n,k) = k(\te{Sob}(n-1,k) + \te{Sob}(n-1,k-1))
+		$$
+		\begin{enumerate}\parskip-.5ex
+			\item Hacer una función recursiva que calcule la $\te{Sob}(n,k)$, la cual puede ser de orden exponencial.
+			\item Usando alguno de los métodos vistos en el curso, hacer una función equivalente que sea de orden polinomial.
+		\end{enumerate}
+	\end{ejercicio}
+	
+\end{document}
+

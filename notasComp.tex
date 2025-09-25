@@ -1379,7 +1379,20 @@ def suma(lista):
 \end{verbatim}
 Si la lista es vacía, la función termina en una etapa. En otro caso, se hace un llamado recursivo con la lista que tiene un elemento menos (se quita el primero), por lo que en algún momento se llega a la lista vacía y la ejecución termina.
 
-Análogamente a como se definen funciones recursivas con listas, se pueden definir también con strings, por ejemplo haciendo el caso base con el string vacío y luego el caso recursivo llamando con un substring más chico.
+Análogamente a como se definen funciones recursivas con listas, se pueden definir también con strings, por ejemplo haciendo el caso base con el string vacío y luego el caso recursivo llamando con un substring más chico. La siguiente es una función que cuenta la cantidad de veces que aparece el caracter {\tt``a''}.
+\begin{verbatim}
+def contar(s):
+    if len(s) == 0:
+        return 0
+    else:
+        # la llamada recursiva es con s[1:len(s)] que es
+        # el resto de la lista que queda después del elemenso s[0]
+        resto = s[1:len(s)]
+        if s[0] == "a":
+            return contar(resto) + 1
+        else:
+            return contar(resto)
+\end{verbatim}
 
 Las funciones recursivas no tienen por qué tener un único argumento. Por ejemplo, a partir de la función {\tt g} que reotrna el primer dígito en base $10$, podemos agregarle un nuevo parámetro $b$ y que retorne el primer dígito en base $b$. La función resultante es la siguiente.
 \begin{verbatim}
