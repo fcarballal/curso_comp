@@ -251,7 +251,7 @@ Se trata de un tipo de datos para representar enteros naturales. Los objetos son
 	\label{fig-ejemploComp}
 \end{figure}
 
-\subsection{Números de punto flotante}
+\subsection{Números de punto flotante} \label{sec-float}
 
 Se trata de una representación para operar con números reales usando información finita. De hecho lo que representan es un conjunto finito de números racionales, pero a menos de cierta aproximación se opera con ellos igual que con números reales. Estos números se escriben con la notación usual para números con parte fraccionaria o con notación científica, en ambos casos separando la parte fraccionaria con un punto. Están las mismas operaciones aritméticas y comparaciones, salvo por la división. En punto flotante tenemos el operador / para la división de números reales. Un detalle importante es que si aplicamos la operación / a enteros, el resultado es de punto flotante, independientemente de que la división de exacta o no. Se presentan ejemplos en la figura \ref{fig-ejemploFloat}.
 
@@ -2034,7 +2034,7 @@ En general las bibliotecas tienen cierta documentación oficial en internet, que
 
 Las principales bibliotecas de python son proyectos de código abierto, o {\sl open source}. Esto significa que además de que se la pueda usar gratuitamente, el código interno se puede descargar gratuitamente y modificarlo a gusto (aunque en general hay que entender muy bien el funcionamiento para poder hacer esto último). Estos proyectos se basan en gran parte en aportes voluntarios de programadores de distintas partes del mundo.
 
-\section{Módulos}
+\section{Módulos}\label{sec-modulos}
 
 Un módulo es en realidad un archivo de python con terminación <<{\tt .py}>>, como los que venimos escribiendo hasta ahora. Los contenidos del módulo son las cosas que se definen adentro, como por ejemplo funciones o variables.
 
@@ -2072,12 +2072,27 @@ Si además de las definiciones hay instrucciones dentro del módulo, al importar
 
 Cuando un módulo es importado se genera una carpeta {\tt \_pycache\_}, en la que se guarda el módulo compilado. Esto permite ahorrar tiempo si se lo vuelve a importar.
 
-La instrucción {\tt import} admite las siguientes variantes.
+La instrucción {\tt import} se puede usar también de las siguientes formas.
 \begin{enumerate}
 	\item {\tt import modulo as nombre}. Esta forma permite cambiar el identificador del módulo dentro del programa, es decir, lo que se debe escribir antes del punto para acceder a los contenidos. Por ejemplo, si ejecutamos {\tt import miModulo as miM}, luego para acceder a los contenidos escribiríamos {\tt miM.es\_par()} y {\tt miM.aprox\_pi}.
-	\item {\tt from modulo import x1,\dots,xn}. Esta sintaxis permite importar ciertas cosas del módulo y no necesariamente todos sus contenidos. Además, los elementos importados se referencian directamente por su nombre, sin tener que poner el nombre del módulo antes. Por ejemplo, si hacemos {\tt from miModulo import es\_par}, estamos importando solamente la función, la cual se puede usar con {\tt es\_par()}. También podríamos hacer {\tt from miModulo import es\_par, aprox\_pi} e importar las dos cosas de tal modo que se pueden usar sin poner el nombre del módulo antes. Para importar todos los contenidos de un módulo de este modo, se puede hacer {\tt from modulo import *}.
-	
-	
+	\item {\tt from modulo import x1,\dots,xn}. Esta sintaxis permite importar ciertas cosas del módulo y no necesariamente todos sus contenidos. Además, los elementos importados se referencian directamente por su nombre, sin tener que poner el nombre del módulo antes. Por ejemplo, si hacemos {\tt from miModulo import es\_par}, estamos importando solamente la función, la cual se puede usar con {\tt es\_par()}, sin tener que poner antes {\tt <<miModulo.>>}. Por otra parte, podemos ejecutar {\tt from miModulo import es\_par, aprox\_pi}, e importar las dos cosas de tal modo que se pueden usar con {\tt es\_par()} y {\tt aprox\_pi}. Para importar todos los contenidos de un módulo de este modo, se puede hacer {\tt from modulo import *}.
 \end{enumerate}
 
+
+\section{Bibliotecas}
+
+
+Las bibliotecas permiten extender el lenguaje con más funcionalidades. Son cosas que ya fueron implementadas por otra gente u organizaciones y están instaladas en el lenguaje, o se pueden instalar. Al momento de usarlas, es muy similar al caso de los módulos. Cuando una biblioteca tiene distintas partes con distintos nombres, se les llama también módulos a cada una de estas.
+
+Python viene con una biblioteca ya instalada, la cual se llama {\sl biblioteca estándar}. Es muy extensa, conteniendo funcionalidades muy variadas. La documentación oficial es la siguiente: \href{https://docs.python.org/3.14/library/index.html}{https://docs.python.org/3.14/library/index.html}. Hay secciones para los distintos módulos de la biblioteca.
+
+Por ejemplo está el módulo {\tt math}, que se mencionó en la sección \ref{sec-float}. Como ya vimos en la sección mencionada, se lo puede importar escribiendo {\tt import math} y luego usar por ejemplo {\tt math.sqrt()} y {\tt math.round()}. Se encuentra una lista completa de lo que incluye en \href{https://docs.python.org/3/library/math.html}{docs.python.org/3/library/math.html}.
+
+Por otra parte, hay muchas otras bibliotecas que se pueden instalar aparte y tienen otras funcionalidades. Cada una de ellas suele tener su documentación oficial disponible en internet. Por ejemplo está la biblioteca {\tt numpy}, en la que profundizaremos, cuya documentación se puede encontrar en el sitio \href{https://numpy.org/}{https://numpy.org/}.
+
+Para instalar gran parte de las bibliotecas se puede utilizar el comando {\tt pip install} con el nombre de la biblioteca desde una terminal. Por ejemplo, para instalar {\tt numpy} basta abrir una ventana de comandos y ejecutar {\tt pip install numpy}. Al hacer eso, automáticamente se descarga y se instala. Las bibliotecas más usadas se pueden instalar con {\tt pip} de esta forma.
+
+Dada una biblioteca (o módulo de biblioteca) con nombre {\tt nombre} que está instalada (ya sea porque sea parte de la biblioteca estándar o porque la instalamos aparte), se la importa con {\tt import nombre}, pudiendo luego acceder a las funcionalidades igual que si fuera un módulo. También se puede usar las otras formas de {\tt import} que se presentaron al final de la sección \ref{sec-modulos}.
+
+Tanto para la biblioteca estándar como para otras, la documentación oficial en general es muy completa y precisa, pero puede ser difícil de leer. Muchas veces buscando en internet se encuentran tutoriales o guías más sencillas, que permiten comenzar a usar las funcionalidades más rápidamente.
 \end{document}
