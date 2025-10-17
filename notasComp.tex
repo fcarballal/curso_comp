@@ -176,9 +176,9 @@ Por otra parte, el lenguaje {\tt python}, que es el que usaremos en el curso, es
 \chapter{Programación (en python)}\label{cap-prog}
 
 
-En este capítulo se presentan los conceptos básicos para programar en el lenguaje python. Si bien se trata de un lenguaje específico, los conceptos se aplican de forma muy similar en otros. El objetivo de este material es presentar los elementos de forma conceptual. Para asimilarlos bien se recomienda complementar con otros materiales que incluyan más ejemplos y además escribir y ejecutar código uno mismo (para instalación y ejecución ver sección \ref{sec-instalyEjec}).
+En este capítulo se presentan los conceptos básicos para programar en el lenguaje python. Si bien se trata de un lenguaje específico, los conceptos se aplican de forma muy similar en otros.
 
-Respecto a materiales que incluyen ejemplos, se recomienda el tutorial de la documentación oficial de python: \href{https://docs.python.org/es/3.13/tutorial/index.html}{https://docs.python.org/es/3.13/tutorial/index.html}. Ese tutorial contiene mucho más que lo que se necesita para el curso. Se recomienda ver todo el capítulo 3 y algunos conceptos del 4 para ver ejemplos, pero sin preocuparse por detalles técnicos (hay explicaciones pensadas para gente que ya conoce conceptos de programación por otros lenguajes).
+Como material complementario, se recomienda el tutorial de la documentación oficial de python: \href{https://docs.python.org/es/3.13/tutorial/index.html}{https://docs.python.org/es/3.13/tutorial/index.html}. Ese tutorial contiene mucho más que lo que se necesita para el curso. Se recomienda ver todo el capítulo 3 y algunos conceptos del 4, pero sin preocuparse por detalles técnicos (hay explicaciones pensadas para gente que ya conoce conceptos de programación por otros lenguajes).
 
 Cabe aclarar que lo que se ve en este curso es solo una pequeña introducción a python. Además, las explicaciones buscan transmitir ideas del lenguaje, sin necesariamente ser totalmente correcto con las definiciones formales de los conceptos o exactamente cómo funciona por dentro. Para esto se recomienda nuevamente la documentación (reiterando que excede los contenidos del curso).
 
@@ -2023,7 +2023,6 @@ def combinaciones_lista(n,k,calculados):
 
 \chapter{Modularidad}
 
-
 Un motivo muy importante por el que la computación ha avanzado es el enfoque de utilizar programas ya implementados, sin necesidad de tener presentes los detalles de cómo se hicieron, para programar otros más complejos. A este principio se le llama {\bf modularidad}. Un ejemplo de esto es la definición de funciones, que luego se pueden utilizar como parte de distintos programas. El beneficio que esto da es que después de que la función está definida, se la puede usar sabiendo para qué sirve, sin necesidad de preocuparse por los detalles de cómo está implementada.
 
 Si bien las funciones permiten reutilizar código, cuando el programa es muy complejo conviene además definir distintos {\bf módulos}. Esto lo que permite es separar las distintas partes del programa en distintos archivos, en lugar de tener todo junto en uno solo. Esto puede ser deseable por una parte para evitar trabajar con archivos demasiado extensos y por otra para tener por separado partes del código que conceptualmente cumplen distintas funciones.
@@ -2034,6 +2033,147 @@ En general las bibliotecas tienen cierta documentación oficial en internet, que
 
 Las principales bibliotecas de python son proyectos de código abierto, o {\sl open source}. Esto significa que además de que se la pueda usar gratuitamente, el código interno se puede descargar gratuitamente y modificarlo a gusto (aunque en general hay que entender muy bien el funcionamiento para poder hacer esto último). Estos proyectos se basan en gran parte en aportes voluntarios de programadores de distintas partes del mundo.
 
+\section{Algunos otros elementos de python}
+
+Hay elementos de python que no se introdujeron en el capítulo \ref{cap-prog} pero que se utilizan comúnmente. En esta sección se presentan brevemente algunos de ellos. Cuando sea necesario, se recomienda complementar buscando información en internet, ya sea en la documentación oficial de python o en otras fuentes de información que se encuentren. Por lo general la documentación oficial es lo más preciso pero difícil de leer, por lo que suele ser buena idea usar ambas cosas.
+
+\subsection{Tuplas y diccionarios}
+
+Las tuplas y los diccionarios son otras estructuras de datos compuestas, al igual que las listas. Con las listas se puede hacer todo, pero en algunas situaciones es más fácil o intuitivo usar estos otros tipos de datos.
+
+Las {\bf tuplas} representan vectores de objetos, como $(x_1,\dots x_n)$ y la notación es exactamente esa. Para hacer una tupla con dos objetos {\tt x} e {\tt y} se escribe {\tt (x,y)}. Con más objetos es análogo. Se puede usar indizado para acceder a los elementos, pero no se los puede cambiar. En este sentido las tuplas son un tipo de objeto inmutable.
+\begin{verbatim}
+>>> x = (1,2)
+>>> type(x)
+<class 'tuple'>
+>>> x[0]
+1
+>>> x[1]
+2
+>>> x[0] = 2 # No se puede
+Traceback (most recent call last):
+File "<stdin>", line 1, in <module>
+TypeError: 'tuple' object does not support item assignment
+\end{verbatim}
+También se pueden crear tuplas sin poner los paréntesis, solamente separando con las comas.
+\begin{verbatim}
+>>> x = 1, 2
+>>> type(x)
+<class 'tuple'>
+>>> x[0]
+1
+>>> x[1]
+2
+\end{verbatim}
+
+Un uso común de las tuplas (escritas sin paréntesis) es el de hacer asignaciones múltiples. Consideramos el siguiente ejemplo:
+\begin{verbatim}
+>>> x, y = 4, 5
+>>> x
+4
+>>> y
+5
+\end{verbatim}
+
+Otro uso común de las tuplas, también omitiendo los paréntesis, es el de una función que retorne varios objetos, haciendo que en realidad retorne una tupla. En el capítulo \ref{cap-prog} hicimos esto retornando listas, pero con tuplas queda escrito de una forma más sencilla. Por ejemplo podemos hacer una función que retorna un número y el doble:
+\begin{verbatim}
+def f(n):
+    return n, 2*n
+\end{verbatim}
+y luego para llamar la función y obtener los dos resultados se hace de la siguiente forma:
+\begin{verbatim}
+>>> x, y = f(5)
+>>> x
+5
+>>> y
+10
+\end{verbatim}
+
+Los {\bf diccionarios} son otro tipo de datos compuesto. En este caso son pares de clave y valor, donde cada valor está indizado por su clave. La sintaxis es {\tt \{clave1:valor1, clave2:valor2,\dots, claven:valorn\}}. Los valores pueden ser de cualquier tipo, mientras que las claves deben ser inmutables (por ejemplo números, strings o tuplas, pero no listas).
+\begin{verbatim}
+>>> d = {1:"aaa", 2:"bbb", "hola":5, (2,3):9}
+>>> type(d)
+<class 'dict'>
+>>> d[1]
+'aaa'
+>>> d["hola"]
+5
+>>> d[(2,3)]
+9
+>>> d[0] #Si accedemos por una clave que no está, da error
+Traceback (most recent call last):
+File "<stdin>", line 1, in <module>
+KeyError: 0
+>>> d[0] = "ccc" #Pero podemos agregar algo con esa clave
+>>> d[0] #Ahora sí está
+'ccc'
+\end{verbatim}
+\begin{ejercicio}
+	Investigar cómo se hace para iterar por un diccionario.
+\end{ejercicio}
+
+\subsection{Funciones como objetos y expresiones lambda}
+
+En python las funciones se pueden utilizar como objetos. De hecho son un tipo de datos, al igual que los enteros o los strings. Si ejecutamos lo siguiente:
+\begin{verbatim}
+def f(n):
+    return n
+
+print(type(f))
+\end{verbatim}
+la salida es {\tt \textless class \lq function\rq \textgreater}. Se puede asignar una función a una variable, por ejemplo:
+\begin{verbatim}
+def f(n):
+    return n
+
+x = f
+\end{verbatim}
+Después de eso, dado un {\tt n}, podemos escribir {\tt x(n)} y hará lo mismo que {\tt f(n)}.
+
+Se puede también pasar una función como parámetro a otra función. Por ejemplo, la siguiente es una función que dada otra función y un valor, retorna la otra función compuesta con ella misma aplicada al valor.
+\begin{verbatim}
+def comp(g,x):
+    return g(g(x))
+\end{verbatim}
+Notar que el primer parámetro, {\tt g}, se usa como una función. En caso de que se pase otra cosa, dará un error.
+
+Supongamos que definimos las siguientes otras dos funciones:
+\begin{verbatim}
+def f1(n):
+    return n + 2
+
+def f2(n):
+    return 2*n
+\end{verbatim}
+En caso de hacer {\tt comp(f1,n)}, se retornará el resultado de aplicar dos veces {\tt f1} a {\tt n}, mientras que al hacer {\tt comp(f2,n)} ocurrirá lo mismo pero con {\tt f2}. Por ejemplo:
+\begin{verbatim}
+>>> comp(f1,2)
+6
+>>> comp(f2,2)
+8
+\end{verbatim}
+
+Por otra parte, están las expresiones lambda que permiten definir una función en una sola línea. Se basa en el cálculo lambda (\href{https://es.wikipedia.org/wiki/C%C3%A1lculo_lambda}{página de wikipedia}). En cálculo lambda, se escribe un $\lambda$, la variables de la función, o las variables, luego un punto y luego lo que retorna la función. Por ejemplo, la función que dado $x$ retorna $x+1$ se escribe como $\lambda x.\,x+1$. En python en lugar del $\lambda$ se escribe {\tt lambda} (que es una palabra especial, al igual que por ejemplo {\tt if} o {\tt for}) y en lugar del punto va un \lq\lq:\rq\rq. Por ejemplo, definamos en una línea una función que duplica un número y utilicémosla.
+\begin{verbatim}
+>>> f = lambda n: 2*n
+>>> f(4)
+8
+>>> comp(f,4)
+16
+\end{verbatim}
+Si queremos definir una función con más de un parámetro, ponemos las variables separadas por comas.
+\begin{verbatim}
+>>> g = lambda x, y: x+y
+>>> g(3,3)
+6
+\end{verbatim}
+
+Por otra parte, las expresiones lambda se pueden usar para pasar una función como parámetro, sin necesariamente guardarla antes en una variable. Por ejemplo se puede hacer:
+\begin{verbatim}
+>>> comp(lambda n: 2*n, 4)
+16
+\end{verbatim}
+Que es equivalente a lo que se hizo en el ejemplo de arriba, en el que la función que duplica se guarda en una variable {\tt f} antes de pasarla a {\tt comp}.
 \section{Módulos}\label{sec-modulos}
 
 Un módulo es en realidad un archivo de python con terminación <<{\tt .py}>>, como los que venimos escribiendo hasta ahora. Los contenidos del módulo son las cosas que se definen adentro, como por ejemplo funciones o variables.
@@ -2094,5 +2234,105 @@ Para instalar gran parte de las bibliotecas se puede utilizar el comando {\tt pi
 
 Dada una biblioteca (o módulo de biblioteca) con nombre {\tt nombre} que está instalada (ya sea porque sea parte de la biblioteca estándar o porque la instalamos aparte), se la importa con {\tt import nombre}, pudiendo luego acceder a las funcionalidades igual que si fuera un módulo. También se puede usar las otras formas de {\tt import} que se presentaron al final de la sección \ref{sec-modulos}.
 
+A veces las bibliotecas tienen distintos módulos adentro, que se referencian poniendo el nombre de la biblioteca, luego un punto y luego el nombre del módulo. Por ejemplo, numpy tiene un módulo de álgebra lineal  llamado {\tt numpy.linalg}.
+
 Tanto para la biblioteca estándar como para otras, la documentación oficial en general es muy completa y precisa, pero puede ser difícil de leer. Muchas veces buscando en internet se encuentran tutoriales o guías más sencillas, que permiten comenzar a usar las funcionalidades más rápidamente.
+
+A veces se usan términos como <<biblioteca>>, <<módulo>> o <<paquete>> de modo más o menos equivalente.
+
+\subsection{Ejemplos de la biblioteca estándar}
+
+Consideremos por ejemplo la biblioteca {\tt time}, que provee funcionalidades vinculadas con datos temporales. La documentación es \href{https://docs.python.org/3/library/time.html}{https://docs.python.org/3/library/time.html} (se puede acceder también desde la página de la documentación de la biblioteca estándar).
+
+Una funcionalidad que suele ser útil es la función {\tt time.time()}, que retorna un número en punto flotante que indica el momento actual, llamado {\sl timestamp}. Este número representa el tiempo que pasó desde cierto momento en particular medido en segundos, incluyendo parte fraccionaria. Se la puede usar para medir precisamente el tiempo que tarda en ejecutarse cierto código. Por ejemplo, si queremos ver cuánto le lleva a python hacer un millón de sumas, podemos hacer lo siguiente:
+\begin{verbatim}
+import time
+
+tiempoI = time.time()
+cont = 0
+for i in range(1000000):
+    cont = cont + 1
+tiempoF = time.time()
+print(timepoF - tiempoI)
+\end{verbatim}
+
+\vspace{1em}
+Consideremos ahora la biblioteca {\tt datetime}, que permite también trabajar con fechas. Como se puede ver en la documentación (\href{https://docs.python.org/3/library/datetime.html}{docs.python.org/3/library/datetime.html}), incluye varios tipos de datos, para trabajar con fechas, con horas, con fecha y hora, y con diferencias de tiempo, entre otras cosas. Un ejemplo sencillo es el de crear un objeto de tipo {\tt date} a partir de año, mes y día, para luego utilizando la función {\tt weekday} determinar qué día de la semana fue.
+\begin{verbatim}
+import datetime as dt
+
+fecha = dt.date(2000,1,1) # 1 de enero de 2000
+print(fecha.weekday())
+\end{verbatim}
+Lo que se imprime es un número del {\tt 0} al {\tt 6}, donde {\tt 0} es lunes y {\tt 6} es domingo. Esto se especifica en la documentación, en la parte del método {\tt date.weekday()}. Un método es una función de un objeto de cierto tipo, en este caso de tipo {\tt date}.
+
+Los métodos son un concepto de programación orientada a objetos, tema en el que no ahondamos. Sí es bueno explicar algo de la terminología que aparece, ya que es muy común. Una clase es como un tipo de datos y un objeto es un elemento perteneciente a cierta clase. Un atributo es como una variable asociada a una clase o a un objeto. Un método es como una función asociada a una clase o a un objeto.
+
+Otra función (formalmente, método de la clase {\tt date}) útil es {\tt date.fromtimestamp(t)}. Esto retorna una fecha a partir de un timestamp, como los que retorna la función {\tt time()} de la biblioteca {\tt time}. Por ejemplo si hacemos lo siguiente:
+\begin{verbatim}
+import datetime as dt
+import time
+
+tiempoActual = time.time()
+fecha = dt.date.fromtimestamp(tiempoActual)
+\end{verbatim}
+la variable {\tt fecha} queda con la fecha actual. Hay un método {\tt date.today()} que retorna justamente la fecha actual, pero esto de obtener una fecha a partir de un timestamp puede tener otras utilidades.
+
+Esta biblioteca tiene también objetos de tipo {\tt datetime}, que contienen información de fecha y hora. Esta clase también tiene un método {\tt today}, en este caso {\tt datetime.today()}, que retorna la fecha y hora actual.
+
+\vspace{1em}
+Veamos ahora un ejemplo con la biblioteca {\tt os}, cuyo nombre es por la sigla de {\sl operating system} (sistema operativo en inglés). Esta biblioteca permite interactuar con el sistema operativo, permitiendo hacer varias cosas. Vamos a usarla para obtener información sobre archivos. Documentación: \href{https://docs.python.org/3/library/os.html}{https://docs.python.org/3/library/os.html}.
+
+Con la función {\tt os.stat(nombre)}, donde {\tt nombre} es el nombre de un archivo, se puede obtener información sobre el archivo, incluyendo la cantidad de bytes que ocupa y la última fecha de modificación. Lo que esto retorna es un objeto de la clase {\tt stat\_result}, lo cual contiene muchos atributos que se indican en la documentación. Para acceder a un atributo hay que poner el nombre del objeto, un punto y el nombre del atributo. Uno de los atributos es {\tt st\_size}, que contiene el tamaño en cantidad de bytes. Otro de los atributos es {\tt st\_mtime}, que es el timestamp de la fecha de modificación (mismo formato que lo que retorna la función {\tt time()} del módulo {\tt time}). A modo de ejemplo:
+\begin{verbatim}
+import os
+import datetime as dt
+
+datos = os.stat('programa.py') # infor del archivo programa.py
+print(datos.st_size) # esoacio que ocupa en bytes
+print(datos.st_mtime) # timestamp de última modificación
+fH = dt.datetime.fromtimestamp(datos.st_mtime) # fecha y hora
+print(fH) 
+\end{verbatim}
+En la penúltima línea, utilizando el módulo {\tt datetime} obtenemos la fecha y hora de última modificación a partir del timestamp.
+
+Otra función que puede ser útil es {\tt os.listdir()}, que retorna una lista con los nombres de todos los archivos en el directorio actual. Por ejemplo, el siguiente programa cuenta la cantidad de bytes ocupada por todos los archivos en la carpeta juntos.
+\begin{verbatim}
+import os
+
+cont = 0
+for nombre in os.listdir():
+    datos = os.stat(nombre)
+    cont = cont + datos.st_size
+print(cont)
+\end{verbatim}
+
+Hagamos algo un poco más difícil. Supongamos que estamos en una carpeta con imágenes y queremos cambiar los nombres de todas las imágenes por números de 1 en adelante, en orden de momento de última modificación. Supongamos que las imágenes son en formato jpg. Una forma de hacerlo es lo siguiente.
+\begin{verbatim}
+import os
+
+archivos = os.listdir()
+
+# quitamos de la lista los nombres que no sean de archivo jpg
+for nombre in archivos:
+    if nombre[-4:] != ".jpg":
+        archivos.remove(nombre)
+        # nombre[-4:] son los últimos 4 elementos
+
+# ordenamos según la fecha de creación. Para esto usamos
+# el parametro key del método sort de listas, el cual
+# permite indicar según qué ordenamos
+archivos.sort(key = lambda n: os.stat(n).st_mtime)
+
+num = 1
+for nombre in archivos:
+    nombreNuevo = str(num) + ".jpg"
+    os.rename(nombre, nombreNuevo) #operación para renombrar
+    num = num + 1
+\end{verbatim}
+
+La biblioteca {\tt os} tiene también funcionalidades vinculadas al directorio (carpeta) de trabajo. Con la operación {\tt os.getcwd()} se obtiene el directorio de trabajo actual. Por otra parte, con la operación {\tt os.chdir()} se lo puede cambiar.
+
+La posibilidad de cambiar el directorio de trabajo puede ser útil para ordenar las cosas mejor. Por ejemplo, con el ejemplo de las imágenes, en lugar de tener el programa y las imágenes en la misma carpeta, podríamos tener las imágenes dentro de una carpeta más adentro llamada {\tt img}. Lo que tendríamos que hacer es comenzar moviendo el directorio de trabajo a esa carpeta. Esto se puede hacer con {\tt os.chdir(os.getcwd()+\lq\lq/img\rq\rq)}, donde en el argumento estamos agregando {\tt \lq\lq/img\rq\rq} al directorio de trabajo actual, lo cual corresponde a meterse en esa carpeta.
+\subsection{Ejemplos de otras bibliotecas}
 \end{document}
