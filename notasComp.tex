@@ -2314,6 +2314,8 @@ import os
 archivos = os.listdir()
 
 # quitamos de la lista los nombres que no sean de archivo jpg
+# en particular sacamos archivo python de este programa, que está
+# en la misma carpeta
 for nombre in archivos:
     if nombre[-4:] != ".jpg":
         archivos.remove(nombre)
