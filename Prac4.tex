@@ -1,0 +1,98 @@
+\documentclass[a4paper,12pt]{book}
+\usepackage{etex}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fullpage}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{txfonts}
+\usepackage{latexsym}
+\usepackage{stmaryrd}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{hyperref}
+%\usepackage[all]{xy}
+\usepackage{proof}
+\usepackage[sans]{dsfont}
+\usepackage[spanish]{babel}
+
+
+\newcommand{\Ra}{\Rightarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\te}{\text}
+\newcommand{\Lra}{\Leftrightarrow}
+\newcommand{\lra}{\leftrightarrow}
+
+
+%%%
+\theoremstyle{definition}
+\newtheorem{ejercicio}{Ejercicio}
+\outer\long\def\COUIC#1{}
+\outer\long\def\Solucion#1{\par
+	{\sl\small\noindent\textbf{Solución:}\quad#1\par}}
+%%% Comentar la siguiente línea para mostrar las soluciones
+\outer\long\def\Solucion#1{}
+
+\begin{document}
+	
+	\noindent
+	\centerline{\sc
+		Facultad de Ciencias\hfill---\hfill
+		Computación\hfill---\hfill
+		Segundo semestre de 2025}\smallbreak\hrule
+	
+	\bigbreak
+	\centerline{\Large\textbf{Práctico 4: Uso variado de bibliotecas}}
+	\bigbreak
+	
+	Para este práctico se incentiva particularmente buscar información en internet, ya sea en documentación oficial o de otras fuentes.
+	
+	\begin{ejercicio}
+		Utilizando la biblioteca {\tt datetime} y en particular la clase {\tt timedelta}, determinar la cantidad de segundos que van pasando desde el comeinzo del año. Hacer lo mismo con alguna otra fecha y hora a elección.
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		Utilizando la biblioteca {\tt time} y dada una función para determinar si un número es primo, analizar cuánto tarda para distintos números de entrada.
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		Utilizando la biblioteca {\tt os} hacer un programa que determine cuanto pesan todos los archivos de al carpeta juntos.
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		Utilizando la biblioteca {\tt pypdf} hacer un programa que dado un PDF crea otro que agrega una página en blanco después de cada página del original.
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		\begin{enumerate}
+			\item Utilizando {\tt pypdf}, obtener el texto de un PDF y guardarlo en un archivo de formato txt.
+			
+			\item Utilizando {\tt pypdf}, obtener las imágenes contenidas en un PDF y guardarlas en archivos aparte.
+		\end{enumerate}
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		Utilizando {\tt pillow} hacer lo siguiente.
+		\begin{enumerate}
+			\item Rotar una imágen y guardarla.
+			\item Rotar todas las imágenes formato jpg en la carpeta y guardarlas (sugerencia: usar {\tt os.listdir()}).
+			\item Abrir una imágen de formato png y guardarla como jpg.
+			\item Para todas las imágenes jpg de una carpeta, cambiar las dimensiones a $800\times 800$ y guardarlas con {\tt quality = 50}.
+		\end{enumerate}
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		La biblioteca {\tt moviepy} (\href{https://pypi.org/project/moviepy/}{https://pypi.org/project/moviepy/}) permite procesar archivos audiovisuales. En base a esta biblioteca:
+		\begin{enumerate}
+			\item Obtener el audio de un video y guardarlo como un archivo aparte.
+			\item Hacer un recorte de un video, desde algún tiempo inicial a algún tiempo final.
+			\item Concatenar dos videos.
+			\item Poner algún efecto de transición entre los videos concatenados.
+			\item Investigar algo más que se pueda hacer.
+		\end{enumerate}
+	\end{ejercicio}
+	
+\end{document}
+

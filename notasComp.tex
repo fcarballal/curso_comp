@@ -2035,7 +2035,7 @@ Las principales bibliotecas de python son proyectos de código abierto, o {\sl o
 
 \section{Algunos otros elementos de python}
 
-Hay elementos de python que no se introdujeron en el capítulo \ref{cap-prog} pero que se utilizan comúnmente. En esta sección se presentan brevemente algunos de ellos. Cuando sea necesario, se recomienda complementar buscando información en internet, ya sea en la documentación oficial de python o en otras fuentes de información que se encuentren. Por lo general la documentación oficial es lo más preciso pero difícil de leer, por lo que suele ser buena idea usar ambas cosas.
+Hay elementos de python que no se introdujeron en el capítulo \ref{cap-prog} pero que se utilizan comúnmente. En esta sección se presentan brevemente algunos de ellos. Los otros que vayan surgiendo se irán presentando sobre la marcha. Cuando sea necesario, se recomienda complementar buscando información en internet, ya sea en la documentación oficial de python o en otras fuentes de información que se encuentren. Por lo general la documentación oficial es lo más preciso pero difícil de leer, por lo que suele ser buena idea usar ambas cosas.
 
 \subsection{Tuplas y diccionarios}
 
@@ -2174,6 +2174,37 @@ Por otra parte, las expresiones lambda se pueden usar para pasar una función co
 16
 \end{verbatim}
 Que es equivalente a lo que se hizo en el ejemplo de arriba, en el que la función que duplica se guarda en una variable {\tt f} antes de pasarla a {\tt comp}.
+
+\subsection{Manejo básico de archivos}
+
+En python se tiene la función {\tt open()} que permite abrir un archivo y utilizarlo, ya sea para leer sus contenidos o escribirle cosas. El primer parámetro que se pasa es el nombre del archivo a abrir, incluyendo la extensión ({\tt .txt}, {\tt .jpg}, {\tt .py}, etc). El segundo parámetro, que es opcional, indica si vamos a leer o escribir el archivo, entre otras posibilidades. Para leer se pone {\tt \lq\lq r\rq\rq} y para escribir {\tt\lq\lq w\rq\rq}. Si este parámetro no se ingresa, por defecto se abre en modo lectura. Luego de terminar de usar el archivo, hay que cerrarlo con el método (función del archivo) {\tt close()}.
+
+En caso de archivo abierto en modo lectura, podemos obtener el contenido con el método {\tt read()}. En caso de escritura, podemos escribir su contenido (borrando lo que había antes) con {\tt write(contenido)}.
+
+Supongamos que tenemos un archivo {\tt texto.txt}, el cual queremos abrir para leer sus contenidos e imprimirlo en la terminal. Lo podemos hacer así:
+\begin{verbatim}
+archivo = open("texto.txt")
+# Se abre por defecto en modo lectura,
+# igual que con open("texto.txt", "r")
+
+# la función read retorna el contenido del archivo
+contenido = archivo.read()
+
+print(contenido)
+
+# cerramos el archivo
+archivo.close()
+\end{verbatim}
+
+ahora supongamos que queremos escribir el archivo. Lo podemos hacer de la siguiente forma.
+\begin{verbatim}
+archivo = open("texto.txt", "w")
+archivo.write("Nuevo contenido del archivo.")
+archivo.close()
+\end{verbatim}
+Tener en cuenta que esto sobrescribe el contenido anterior del archivo. En caso de que no exista un archivo con ese nombre, se lo crea.
+
+Para más información, se puede consultar la documentación de python u otras fuentes en internet, como por ejemplo \href{https://www.w3schools.com/python/python_file_handling.asp}{www.w3schools.com/python/python\_file\_handling.asp}.
 \section{Módulos}\label{sec-modulos}
 
 Un módulo es en realidad un archivo de python con terminación <<{\tt .py}>>, como los que venimos escribiendo hasta ahora. Los contenidos del módulo son las cosas que se definen adentro, como por ejemplo funciones o variables.
@@ -2323,7 +2354,9 @@ for nombre in archivos:
 
 # ordenamos según la fecha de creación. Para esto usamos
 # el parametro key del método sort de listas, el cual
-# permite indicar según qué ordenamos
+# permite indicar según qué ordenamos.
+# Este parámetero se pasa poniendo "key = valor", donde
+# valor es la función del orden
 archivos.sort(key = lambda n: os.stat(n).st_mtime)
 
 num = 1
@@ -2337,4 +2370,127 @@ La biblioteca {\tt os} tiene también funcionalidades vinculadas al directorio (
 
 La posibilidad de cambiar el directorio de trabajo puede ser útil para ordenar las cosas mejor. Por ejemplo, con el ejemplo de las imágenes, en lugar de tener el programa y las imágenes en la misma carpeta, podríamos tener las imágenes dentro de una carpeta más adentro llamada {\tt img}. Lo que tendríamos que hacer es comenzar moviendo el directorio de trabajo a esa carpeta. Esto se puede hacer con {\tt os.chdir(os.getcwd()+\lq\lq/img\rq\rq)}, donde en el argumento estamos agregando {\tt \lq\lq/img\rq\rq} al directorio de trabajo actual, lo cual corresponde a meterse en esa carpeta.
 \subsection{Ejemplos de otras bibliotecas}
+
+Veamos a modo de ejemplo la biblioteca {\tt pypdf}, que sirve para procesar archivos en formato PDF. Esta es una biblioteca de código abierto. El repositorio con el código fuente es \href{https://github.com/py-pdf/pypdf}{github.com/py-pdf/pypdf}. Documentación oficial: \href{https://pypdf.readthedocs.io/en/stable/}{pypdf.readthedocs.io/en/stable/}.
+
+Para instalar la biblioteca hay que ejecutar {\tt pip install pypdf} desde una consola.
+
+Hagamos un programa para concatenar archivos PDF. Supongamos que son 5 archivos y que los llamamos {\tt 1.pdf}, {\tt 2.pdf}, hasta {\tt 5.pdf}. En esta biblioteca tenemos, entre otras cosas, objetos de tipo {\tt PdfReader} que permiten leer archivos PDF y objetos de tipo {\tt PdfWriter} que permiten crear nuevos archivos PDF. Podemos hacer lo siguiente:
+\begin{verbatim}
+from pypdf import PdfReader, PdfWriter
+
+# lista con nombres de los pdf a concatenar
+inputs = ["1.pdf", "2.pdf", "3.pdf", "4.pdf", "5.pdf"]
+
+# objeto para crear el pdf nuevo
+writer = PdfWriter()
+
+for input in inputs:
+    # leemos el pdf input
+    reader = PdfReader(input)
+    
+    # iteramos en las páginas del pdf
+    for pag in reader.pages:
+        # agregamos la página al w
+        writer.add_page(pag)
+
+# creamos el nuevo PDF con nombre pdfConcatenado
+writer.write("pdfConcatenado.pdf")
+#cerramos al writer
+writer.close()
+\end{verbatim}
+
+Supongamos ahora que queremos agregar una página en blanco al final de un PDF. Podríamos hacer lo siguiente:
+\begin{verbatim}
+from pypdf import PdfReader, PdfWriter
+
+reader = PdfReader("input.pdf")
+writer = PdfWriter()
+
+# agregamos las páginas del pdf al objeto writer
+for page in reader.pages:
+    writer.add_page(page)
+
+# luego agregamos una página en blanco
+writer.add_blank_page()
+
+# guardamos con otro nombre y cerramos
+writer.write("output.pdf")
+writer.close()
+\end{verbatim}
+
+\vspace{1em}
+Veamos ahora un poco sobre la biblioteca {\tt Pillow}, que sirve para procesar imágenes. Documentación: \href{https://pillow.readthedocs.io/en/stable/}{pillow.readthedocs.io/en/stable/}.
+
+Hay una clase {\tt Image}, que se usa para trabajar con datos que son justamente imágenes. Con el método {\tt open()} podemos abrir una imagen, con el método {\tt save} podemos guardar una imágen y tiene varios otros con los que se pueden realizar transformaciones. Por ejemplo, si queremos cambiar las dimensiones de una imágen, por ejemplo a $600\times 600$, podemos hacer lo siguiente.
+\begin{verbatim}
+from PIL import Image
+
+image = Image.open("input.jpg")
+
+new_size = (600, 600)
+
+# creamos una nueva imágen con el nuevo tamaño
+resized_image = image.resize(new_size)
+
+#guardamos la nueva imágen con nombre output.jpg
+resized_image.save("output.jpg")
+\end{verbatim}
+
+Las imágenes en formato jpg se guardan con cierto nivel de compresión, para disminuir el espacio que se ocupa a coste de bajar también la calidad. En el método {\tt save} hay un parámetro {\tt quality} al que se le puede dar un valor entre {\tt 0} y {\tt 100}, siendo {\tt 0} máxima compresión y {\tt 100} la menor. Al disminuir ese parámetro, bajan el espacio que se ocupa y la calidad de la imagen. En general no se usa más que 95. El siguiente es un ejemplo:
+\begin{verbatim}
+from PIL import Image
+
+image = Image.open("input.jpg")
+image.save("output.jpg", quality = 50)
+\end{verbatim}
+Notar que el parámetro se pasa poniendo {\tt quality=50} dentro de los argumentos de la función. Es una forma de pasar parámetro en funciones de python, que se usa también por ejemplo en {\tt lista.sort(key = f)}, que apareció en uno de los ejemplos de la biblioteca {\tt os}.
+
+Supongamos que necesitamos que la imagen pese a lo sumo 300KB, lo cual es más o menos 300000 bytes. Para encontrar el valor de compresión óptimo que nos da ese peso, podemos hacer una iteración en la que vamos bajando dicho valor y chequeando el peso del archivo resultante con la biblioteca {\tt os}.
+\begin{verbatim}
+import os
+from PIL import Image
+
+# 300 KB
+pesoMax = 300*1024
+
+image = Image.open("input.jpg")
+
+calidad = 95
+
+image.save("output.jpg", quality = calidad)
+peso = os.stat("output.jpg").st_size
+while peso > pesoMax and calidad > 0:
+    calidad = calidad - 1
+    image.save("output.jpg", quality = calidad)
+    peso = os.stat("output.jpg").st_size
+\end{verbatim}
+Se podría hacer como una estrategia de búsqueda binaria para encontrar el óptimo con menos intentos. La idea sería probar con 50. Si es más pesado, pasamos a 25 y si es más liviano pasamos a 75. Terminaríamos al encontrar un $n$ tal que con $n$ de menor o igual pero con $n+1$ de mayor. Sería de la siguiente forma.
+\begin{verbatim}
+import os
+from PIL import Image
+
+# 300 KB
+pesoMax = 300*1024
+image = Image.open("input.jpg")
+
+arriba = 100
+abajo = 0
+calidad = (arriba + abajo)//2
+
+image.save("output.jpg", quality = calidad)
+peso = os.stat("output.jpg").st_size
+while arriba - abajo > 1:
+    if peso <= pesoMax:
+        abajo = calidad
+    else:
+        arriba = calidad
+    calidad = (arriba + abajo)//2
+    
+    image.save("output.jpg", quality = calidad)
+    peso = os.stat("output.jpg").st_size
+
+# el extremos de abajo es el que es <=
+image.save("output.jpg", quality = abajo)
+\end{verbatim}
 \end{document}
