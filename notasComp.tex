@@ -2493,4 +2493,134 @@ while arriba - abajo > 1:
 # el extremos de abajo es el que es <=
 image.save("output.jpg", quality = abajo)
 \end{verbatim}
+
+\section{La biblioteca numpy}
+
+La biblioteca numpy (\href{https://numpy.org/}{numpy.org/}) (\href{https://github.com/numpy/numpy}{github.com/numpy/numpy}) provee de funcionalidades eficientes para trabajar con datos vectoriales y matriciales (y en general con lo que se define como arreglos N dimensionales). Es la base de la computación científica en python. Documentación: \href{https://numpy.org/doc/stable/}{numpy.org/doc/stable/}.
+
+Python ya tiene listas, con las que se puede codificar vectores y matrices, por lo que a primera vista podría parecer que no hace falta una biblioteca específica. Lo que no estamos teniendo en cuenta es la {\bf eficiencia}.
+
+Las listas de python son objetos muy versátiles, que permiten entre otras cosas ir cambiando el tamaño dinámicamente e incluso que los objetos sean de distintos tipos de datos. Sin embargo, esta gran flexibilidad tiene asociado un costo en términos de eficiencia. Con una estructura de datos más rígida la computadora podría operar mucho más rápidamente.
+
+Por otra parte, {\tt python} es un lenguaje de muy alto nivel, lo cual en comparación con lenguajes más básicos como {\tt c}, lo hace más fácil de usar pero también menos eficiente. En python cada instrucción puede implicar muchas cosas que se hacen de fondo (para simplificar la tarea del programador), mientras que en {\tt c} eso no ocurre. En este lenguaje, el programador define precisamente lo que hace la computadora. Esto hace que sea más difícil programar, pero a su vez da más control sobre cómo opera la computadora, lo cual se puede traducir en mayor eficiencia, si las cosas se hacen bien. Además, los programas en {\tt c} se compilan de una antes de ejecutarse, mientras que los de {\tt python} se compilan línea por línea durante la ejecución. Compilar todo el programa de una aporta a la eficiencia, porque no hay que irlo compilando después mientras se ejecuta y además el compilador aplica optimizaciones que tienen en cuenta la totalidad del programa.
+
+La biblioteca {\tt numpy} aplica lo mencionado en los últimos dos párrafos para mejorar la eficiencia. Por una parte, si bien es una biblioteca de {\tt python}, las funciones están programadas y compiladas en {\tt c}, logrando algo así como un lenguaje híbrido, en el que tenemos funciones de python que encapsulan cosas programadas en {\tt c}. Por otra parte, las estructuras de datos son en el fondo {\bf arreglos}, que a diferencia de las listas, tienen un tamaño fijo y los elementos deben ser todos del mismo tipo de datos. Esta rigidez permite que la memoria se use de modo más eficiente, logrando mucha mayor velocidad en la ejecución.
+
+En esta sección veremos lo básico de la biblioteca y algunas aplicaciones. En la documentación y buscando en internet se pueden encontrar muchas más cosas. En particular, hay una guía para principiantes, \href{https://numpy.org/doc/stable/user/absolute_beginners.html}{numpy.org/doc/stable/user/absolute\_beginners.html}, que puede ser útil.
+
+\subsection{Arraglos}
+
+El tipo central  de numpy es {\tt numpy.array}, que representa arreglos multidimensionales con tamaño y tipo de dato fijo. Un arreglo de dimensión 1 es un vector y uno de dimensión 2 es una matriz. Se puede inicializar un arreglo a partir de una lista o de una lista de listas.
+\begin{verbatim}
+>>> import numpy as np # se suele importar así
+>>> vector = np.array([1,2,3,4]) # creamos un vector
+>>> vector
+array([1, 2, 3, 4])
+>>> type(vector)
+<class 'numpy.ndarray'>
+>>> matriz = np.array([[1,2],[3,4],[5,6]])
+>>> matriz
+array([[1, 2],
+[3, 4],
+[5, 6]])
+\end{verbatim}
+Para saber las dimensiones de un arreglo se puede usar el atributo {\tt shape}.
+\begin{verbatim}
+>>> vector.shape # vector de 4 elementos
+(4,)
+>>> matriz.shape # matriz de 3x2
+(3, 2)
+\end{verbatim}
+Para saber el tipo de datos de los elementos de un arreglo (que se define al crear el arreglo y todos sus elementos deben ser de ese tipo), se  puede usar el atributo {\tt dtype}.
+\begin{verbatim}
+>>> vector.dtype
+dtype('int64')
+>>> matriz.dtype
+dtype('int64')
+>>> arreglo = np.array([1.6,2.7,0.0])
+>>> arreglo.dtype
+dtype('float64')
+\end{verbatim}
+El nombre de cada tipo de datos indica el tipo de los objetos y la cantidad de bits que ocupan. Por ejemplo, {\tt int64} son enteros de 64 bits y {\tt float64} son números en punto flotante de 64 bits. En la mayoría de los casos vamos a usar punto flotante.
+
+Cabe aclarar que los tipos de datos que se usan en los arreglos de numpy no son los mismos que los de python. Los de numpy siempre tienen fija la cantidad de bits que ocupan, cosa que a veces no se cumple con los de python. Por ejemplo, los enteros {\tt int64} se representan por una cantidad de bits fija que es 64. Esto implica que están restrictos a números entre $-2^{63}$ y $2^{63}$. Por otra parte, los números enteros de python no tienen una cantidad fija de memoria, sino que cuanto más grande son, más memoria se usa para guardarlos. Esto nos permite hacer cuentas como $2^{1500}$ sin preocuparnos, pero en general reduce la eficiencia.
+
+
+Hay otras funciones para crear arreglos a partir de las dimensiones. Por ejemplo la función {\tt np.ceros()} crea un arreglo de ceros con las dimensiones que se le pasen. Si se le pasa un número {\tt n}, es un vector de $n$ ceros. Si se le pasa una tupla {\tt (n,m)}, es una matriz de $n\times m$ de ceros.
+\begin{verbatim}
+>>> vCeros = np.zeros(7)
+>>> vCeros
+array([0., 0., 0., 0., 0., 0., 0.])
+>>> mCeros = np.zeros((4,5)) # notar los paréntesis dobles
+>>> mCeros
+array([[0., 0., 0., 0., 0.],
+[0., 0., 0., 0., 0.],
+[0., 0., 0., 0., 0.],
+[0., 0., 0., 0., 0.]])
+\end{verbatim}
+La función {\tt np.ones()} hace los mismo pero inicializando con unos. Crear un arreglo con estas funciones es más rápido que hacerlo a partir de listas de python. De todos modos, independientemente de cómo creemos el arreglo, una vez que está creado es lo mismo.
+
+También hay funciones para crear arreglos con rangos de números. Por ejemplo la función {\tt np.linspace(min, max, cant)} genera un vector con la cantidad indicada de puntos equiespaciados entre el mínimo y el máximo.
+\begin{verbatim}
+>>> arreglo = np.linspace(1,10,20)
+>>> arreglo
+array([ 1.        ,  1.47368421,  1.94736842,  2.42105263,  2.89473684,
+3.36842105,  3.84210526,  4.31578947,  4.78947368,  5.26315789,
+5.73684211,  6.21052632,  6.68421053,  7.15789474,  7.63157895,
+8.10526316,  8.57894737,  9.05263158,  9.52631579, 10.        ])
+\end{verbatim}
+En \href{https://numpy.org/doc/stable/reference/routines.array-creation.html}{numpy.org/doc/stable/reference/routines.array-creation.html} hay más funciones de creación de arreglos en numpy.
+
+Se puede indizar arreglos de modo análogo a con las listas de python. La diferenia es que con matrices (y arreglos de mayor dimensión) se permite poner las dos coordenadas separadas por comas, es decir {\tt matriz[i,j]}, lo cual se siente más intuitivo que {\tt matriz[i][j]} (y de hecho es más eficiente).
+\begin{verbatim}
+>>> vector
+array([1, 2, 3, 4])
+>>> matriz
+array([[1, 2],
+[3, 4],
+[5, 6]])
+>>> vector[1]
+np.int64(2)
+>>> matriz[1,0]
+np.int64(3)
+\end{verbatim}
+El valor {\tt np.int64(2)} es el número 2 con su tipo indicado. Análogamente con {\tt np.int64(3)}. También se puede realizar asignaciones para cambiar el valor de alguna entrada del arreglo.
+\begin{verbatim}
+>>> vector
+array([1, 2, 3, 4])
+>>> vector[0] = 5
+>>> vector
+array([5, 2, 3, 4])
+>>> matriz
+array([[1., 1., 1., 1.],
+[1., 1., 1., 1.],
+[1., 1., 1., 1.],
+[1., 1., 1., 1.]])
+>>> matriz[1,2] = 5.7
+>>> matriz
+array([[1. , 1. , 1. , 1. ],
+[1. , 1. , 5.7, 1. ],
+[1. , 1. , 1. , 1. ],
+[1. , 1. , 1. , 1. ]])
+\end{verbatim}
+
+
+\subsection{Operaciones de álgebra lineal}
+
+Se puede hacer suma de vetores o matrices y producto de matrices con los símbolos {\tt +} y {\tt @}, resepctivamente.
+\begin{verbatim}
+>>> v1 = np.array([1,3,5,7])
+>>> v2 = np.array([4,4,4,4])
+>>> v1+v2
+array([ 5,  7,  9, 11])
+>>> matriz = np.ones((4,4))
+>>> matriz @ matriz
+array([[4., 4., 4., 4.],
+[4., 4., 4., 4.],
+[4., 4., 4., 4.],
+[4., 4., 4., 4.]])
+>>> v1 @ matriz
+array([16., 16., 16., 16.])
+\end{verbatim}
+
 \end{document}
