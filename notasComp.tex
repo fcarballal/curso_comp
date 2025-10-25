@@ -2521,8 +2521,8 @@ array([1, 2, 3, 4])
 >>> matriz = np.array([[1,2],[3,4],[5,6]])
 >>> matriz
 array([[1, 2],
-[3, 4],
-[5, 6]])
+       [3, 4],
+       [5, 6]])
 \end{verbatim}
 Para saber las dimensiones de un arreglo se puede usar el atributo {\tt shape}.
 \begin{verbatim}
@@ -2546,7 +2546,7 @@ El nombre de cada tipo de datos indica el tipo de los objetos y la cantidad de b
 Cabe aclarar que los tipos de datos que se usan en los arreglos de numpy no son los mismos que los de python. Los de numpy siempre tienen fija la cantidad de bits que ocupan, cosa que a veces no se cumple con los de python. Por ejemplo, los enteros {\tt int64} se representan por una cantidad de bits fija que es 64. Esto implica que están restrictos a números entre $-2^{63}$ y $2^{63}$. Por otra parte, los números enteros de python no tienen una cantidad fija de memoria, sino que cuanto más grande son, más memoria se usa para guardarlos. Esto nos permite hacer cuentas como $2^{1500}$ sin preocuparnos, pero en general reduce la eficiencia.
 
 
-Hay otras funciones para crear arreglos a partir de las dimensiones. Por ejemplo la función {\tt np.ceros()} crea un arreglo de ceros con las dimensiones que se le pasen. Si se le pasa un número {\tt n}, es un vector de $n$ ceros. Si se le pasa una tupla {\tt (n,m)}, es una matriz de $n\times m$ de ceros.
+Hay otras funciones para crear arreglos a partir de las dimensiones. Por ejemplo la función {\tt np.ceros()} crea un arreglo de ceros con las dimensiones que se le pasen de tipo de datos {\tt float64}. Si se le pasa un número {\tt n}, es un vector de $n$ ceros. Si se le pasa una tupla {\tt (n,m)}, es una matriz de $n\times m$ de ceros.
 \begin{verbatim}
 >>> vCeros = np.zeros(7)
 >>> vCeros
@@ -2554,10 +2554,12 @@ array([0., 0., 0., 0., 0., 0., 0.])
 >>> mCeros = np.zeros((4,5)) # notar los paréntesis dobles
 >>> mCeros
 array([[0., 0., 0., 0., 0.],
-[0., 0., 0., 0., 0.],
-[0., 0., 0., 0., 0.],
-[0., 0., 0., 0., 0.]])
+       [0., 0., 0., 0., 0.],
+       [0., 0., 0., 0., 0.],
+       [0., 0., 0., 0., 0.]])
 \end{verbatim}
+Notar que los ceros aparecen como {\tt <<0.>>}. Los puntos son para indicar que son número en punto flotante y no enteros.
+
 La función {\tt np.ones()} hace los mismo pero inicializando con unos. Crear un arreglo con estas funciones es más rápido que hacerlo a partir de listas de python. De todos modos, independientemente de cómo creemos el arreglo, una vez que está creado es lo mismo.
 
 También hay funciones para crear arreglos con rangos de números. Por ejemplo la función {\tt np.linspace(min, max, cant)} genera un vector con la cantidad indicada de puntos equiespaciados entre el mínimo y el máximo.
@@ -2569,6 +2571,15 @@ array([ 1.        ,  1.47368421,  1.94736842,  2.42105263,  2.89473684,
 5.73684211,  6.21052632,  6.68421053,  7.15789474,  7.63157895,
 8.10526316,  8.57894737,  9.05263158,  9.52631579, 10.        ])
 \end{verbatim}
+
+También tenemos la función {\tt np.identity(n)} que retorna la matriz identidad de $n\times n$.
+\begin{verbatim}
+>>> np.identity(3)
+array([[1., 0., 0.],
+       [0., 1., 0.],
+       [0., 0., 1.]])
+\end{verbatim}
+
 En \href{https://numpy.org/doc/stable/reference/routines.array-creation.html}{numpy.org/doc/stable/reference/routines.array-creation.html} hay más funciones de creación de arreglos en numpy.
 
 Se puede indizar arreglos de modo análogo a con las listas de python. La diferenia es que con matrices (y arreglos de mayor dimensión) se permite poner las dos coordenadas separadas por comas, es decir {\tt matriz[i,j]}, lo cual se siente más intuitivo que {\tt matriz[i][j]} (y de hecho es más eficiente).
@@ -2593,19 +2604,37 @@ array([1, 2, 3, 4])
 array([5, 2, 3, 4])
 >>> matriz
 array([[1., 1., 1., 1.],
-[1., 1., 1., 1.],
-[1., 1., 1., 1.],
-[1., 1., 1., 1.]])
+       [1., 1., 1., 1.],
+       [1., 1., 1., 1.],
+       [1., 1., 1., 1.]])
 >>> matriz[1,2] = 5.7
 >>> matriz
 array([[1. , 1. , 1. , 1. ],
-[1. , 1. , 5.7, 1. ],
-[1. , 1. , 1. , 1. ],
-[1. , 1. , 1. , 1. ]])
+       [1. , 1. , 5.7, 1. ],
+       [1. , 1. , 1. , 1. ],
+       [1. , 1. , 1. , 1. ]])
 \end{verbatim}
 
+Dada una matriz {\tt m}, se puede indizar con rangos para obtener una submatriz. Dada una matriz {\tt m}, tenemos que {\tt m[i1:i2,j1:j2]} es la submatriz con las filas dadas por el rango {\tt i1:i2} y las columnas dadas por el rango {\tt j1:j2}. La convención de los rangos es la misma que siempre en python: {\tt x1:x2} son los {\tt x} tales que {\tt x1 $\leq$ x $<$ x2}. Por otra parte, podemos hacer {\tt m[i,:]} para obtener la fila {\tt i}-ésima y {\tt m[:,j]} para la columna {\tt j}-ésima.
+\begin{verbatim}
+>>> m = np.array([[1,2,3],[4,5,6],[7,8,9]])
+>>> m
+array([[1, 2, 3],
+       [4, 5, 6],
+       [7, 8, 9]])
+>>> m[0:2,0:2]
+array([[1, 2],
+       [4, 5]])
+>>> m[0:2,1:3]
+array([[2, 3],
+       [5, 6]])
+>>> m[0,:]
+array([1, 2, 3])
+>>> m[:,0]
+array([1, 4, 7])
+\end{verbatim}
 
-\subsection{Operaciones de álgebra lineal}
+\subsection{Operaciones con arreglos}
 
 Se puede hacer suma de vetores o matrices y producto de matrices con los símbolos {\tt +} y {\tt @}, resepctivamente.
 \begin{verbatim}
@@ -2614,13 +2643,196 @@ Se puede hacer suma de vetores o matrices y producto de matrices con los símbol
 >>> v1+v2
 array([ 5,  7,  9, 11])
 >>> matriz = np.ones((4,4))
+>>> matriz + matriz
+array([[2., 2., 2., 2.],
+       [2., 2., 2., 2.],
+       [2., 2., 2., 2.],
+       [2., 2., 2., 2.]])
 >>> matriz @ matriz
 array([[4., 4., 4., 4.],
-[4., 4., 4., 4.],
-[4., 4., 4., 4.],
-[4., 4., 4., 4.]])
+       [4., 4., 4., 4.],
+       [4., 4., 4., 4.],
+       [4., 4., 4., 4.]])
 >>> v1 @ matriz
 array([16., 16., 16., 16.])
 \end{verbatim}
 
+En este punto se puede hacer un experimento para ver la diferencia de tiempo de ejecución entre arreglos de numpy y listas de python. Por ejemplo, podemos ver cuánto lleva multiplicar dos matrices de $1000\times 1000$ en las que todas las entradas son $1$. Con listas de python se puede hacer de la siguiente forma.
+\begin{verbatim}
+def mult(m1,m2):
+    N = len(m1)
+    res = []
+    for i in range(N):
+        fila = []
+        for j in range(N):
+            valor = 0
+            for k in range(N):
+                valor += m1[i][k] * m2[k][j]
+            fila.append(valor)
+        res.append(fila)
+    return res
+
+def matriz(N):
+    matriz = []
+    for i in range(N):
+        fila = []
+        for j in range(N):
+            fila.append(1)
+        matriz.append(fila)
+    return matriz
+
+A = matriz(1000)
+B = mult(A,A)
+\end{verbatim}
+Con numpy es lo siguiente.
+\begin{verbatim}
+import numpy as np
+
+A = np.ones((1000,1000))
+B = A@A
+\end{verbatim}
+Se recomienda ejecutar ambos y ver la diferencia de tiempo que tardan.
+
+Para transponer una matriz alcanza escribir el nombre de la matriz y {\tt <<.T>>}.
+\begin{verbatim}
+>>> m = np.array([[1,2],[3,4]])
+>>> m
+array([[1, 2],
+       [3, 4]])
+>>> m.T
+array([[1, 3],
+       [2, 4]])
+\end{verbatim}
+
+\subsection{Álgebra lineal}
+
+El módulo {\tt numpy.linalg} incluye funcionalidades de álgebra lineal. Tiene su página dentro de la documentación: \href{https://numpy.org/doc/stable/reference/routines.linalg.html}{numpy.org/doc/stable/reference/routines.linalg.html}. Veamos algunas de las funcionalidades.
+
+Se puede calcular determinantes, invertir matrices y resolver sistemas de tipo $Ax=b$.
+\begin{verbatim}
+>>> a = np.array([[1,1,1],[0,1,0],[1,1,0]])
+>>> a
+array([[1, 1, 1],
+       [0, 1, 0],
+       [1, 1, 0]])
+>>> np.linalg.det(a) # calcula el determinante
+np.float64(-1.0)
+>>> np.linalg.inv(a) # calcula la inversa
+array([[ 0., -1.,  1.],
+       [ 0.,  1.,  0.],
+       [ 1., -0., -1.]])
+>>> b = np.array([0,1,1])
+>>> b
+array([0, 1, 1])
+>>> x = np.linalg.solve(a,b) # resuelve ax = b
+>>> x
+array([ 0.,  1., -1.])
+>>> a@x # verificación
+array([0., 1., 1.])
+\end{verbatim}
+Por otra parte, con {\tt np.linalg.eig()} se pueden determinar valores propios y vectores propios de una matriz. Esta operación retorna un objeto con dos atributos: {\tt eigenvalues} con los valores propios y {\tt eigenvectors} con una matriz cuyas columnas son los vectores propios asociados a los valores propios.
+\begin{verbatim}
+>>> m = np.array([[1,2,1],[1,2,2],[0,0,5]])
+>>> m
+array([[1, 2, 1],
+       [1, 2, 2],
+       [0, 0, 5]])
+>>> res = np.linalg.eig(m)
+>>> res.eigenvalues # valores propios
+array([0., 3., 5.])
+>>> res.eigenvectors # matriz con vectores propios en columnas
+array([[-0.89442719, -0.70710678,  0.46156633],
+       [ 0.4472136 , -0.70710678,  0.59344243],
+       [ 0.        ,  0.        ,  0.65938047]])
+>>> vep1 = res.eigenvectors[:,0] # esto da la primera columna
+>>> vep2 = res.eigenvectors[:,1]
+>>> vep3 = res.eigenvectors[:,2]
+>>> m @ vep1
+array([0., 0., 0.])
+>>> res.eigenvalues[0] * vep1 # debería dar lo mismo
+array([-0.,  0.,  0.])
+>>> m @ vep2
+array([-2.12132034, -2.12132034,  0.        ])
+>>> res.eigenvalues[1] * vep2
+array([-2.12132034, -2.12132034,  0.        ])
+>>> m @ vep3
+array([2.30783166, 2.96721213, 3.29690237])
+>>> res.eigenvalues[2] * vep3
+array([2.30783166, 2.96721213, 3.29690237])
+\end{verbatim}
+En caso de que sea necesario se trabaja con números complejos. De hecho numpy tiene un tipo de datos de números complejos de 128 bits, en los que la parte imaginaria se indica con {\tt j}.
+\begin{verbatim}
+>>> m = np.array([[1,1],[-1,1]])
+>>> res = np.linalg.eig(m)
+>>> res.eigenvalues
+array([1.+1.j, 1.-1.j])
+>>> res.eigenvalues.dtype
+dtype('complex128')
+>>> res.eigenvectors
+array([[0.70710678+0.j        , 0.70710678-0.j        ],
+       [0.        +0.70710678j, 0.        -0.70710678j]])
+\end{verbatim}
+
+\subsection{Mínimos cuadrados}
+
+Dada una matriz $A$ de $m\times n$ y un vector $b\in \R^m$, el problema de mínimos cuadrados lineal (PMCL) consiste en hallar $x\in\R^n$ que minimice $||Ax-b||_2$. Si el sistema es compatible, la solución al PMCL es solución al sistema, ya que en ese caso se tiene que la norma es $0$. En caso de que el sistema no sea compatible, el PMCL busca hallar el $x$ que {\sl más se aproxima a ser solución}, en el sentido de la norma euclídea.
+
+Un caso en el que esto se aplica es el de determinar parámetros de un modelo matemático aplicado en base a datos. Puede ser por ejemplo una ecuación física con ciertos coeficientes que se cumple y queremos determinar los valores de estos. En general los modelos son simplificaciones de la realidad y además las mediciones tienen erroes, por lo que no se cumplen de modo exacto y hay que aplicar algo como mínimos cuadrados para obtener la solución que mejor se ajusta a los datos. Veamos cómo se escribe un problema de este tipo en el marco de PMCL, lo cual implica definir $A$, $b$ y $x$.
+
+Supongamos que tenemos un conjunto de datos $\{(t_i,y_i)\}_{1\leq i\leq n}$, que según cierto modelo (o ley) cumplen la ecuación $y=\alpha t + \beta$ para ciertos valores $\alpha$ y $\beta$ a determinar. Las ecuaciones que resultan de aplicar el modelo a los datos son las siguientes.
+\begin{align*}
+	\alpha t_1 + \beta &= y_1\\
+	\alpha t_2 + \beta &= y_2\\
+	\vdots \\
+	\alpha t_n + \beta &= y_n
+\end{align*}
+Esto se puede traducir a un sistema $Ax=b$ con las siguientes definiciones.
+$$A=
+\begin{pmatrix}
+	 t_1 & 1\\
+	 t_2 & 1\\
+	 \vdots &\vdots\\
+	 t_n & 1 \\
+\end{pmatrix}
+\quad
+x=
+\begin{pmatrix}
+	\alpha\\
+	\beta
+\end{pmatrix}
+\quad
+b=
+\begin{pmatrix}
+	y_1\\
+	y_2\\
+	\vdots\\
+	y_n
+\end{pmatrix}
+$$
+De esta forma, hallar los parámetros se corresponde con resolver el sistema $Ax=b$. En el caso ideal de que el modelo sea exacto y los datos no tengan errores, se podrá resolver el sistema de ecuaciones directamente. Sin embargo, normalmente eso no es el caso y para obtener los valores de $\alpha$ y $\beta$ (vector $x$) se debe resolver el problema de mínimos cuadrados asociado.
+
+En numpy tenemos la función {\tt np.linalg.lstsq()} que resuelve problemas de mínimos cuadrados. Recibe dos parámetros, de los cuales el primero es la matriz $A$ y el segundo el vector $b$. Retorna varias cosas, de las cuales la primera es la solución. Página de la función en la documentación: \href{https://numpy.org/doc/2.0/reference/generated/numpy.linalg.lstsq.html}{numpy.org/doc/2.0/reference/generated/numpy.linalg.lstsq.html}.
+
+Usemos esto para resolver el problema anterior con datos $\{(1,1), (2,3), (3,2), (4,4)\}$.
+\begin{verbatim}
+>>> t = np.array([1,2,3,4]) # t de los datos
+>>> y = np.array([1,3,2,4]) # y de los datos
+>>> a = np.ones((4,2)) # matriz inicializada con unos
+>>> # la segunda columna ya queda como tiene que estar
+>>> a[:,0] = t # en la primera columna van los valores de t
+>>> a # vemos la matriz
+array([[1., 1.],
+       [2., 1.],
+       [3., 1.],
+       [4., 1.]])
+>>> res = np.linalg.lstsq(a,y)  # el b es igual a y
+>>> x = res[0] # lsqsr retorna varias cosas. La sol es lo primero
+>>> x
+array([0.8, 0.5])
+>>> alpha = x[0]
+>>> beta = x[1]
+\end{verbatim}
+Concluimos que los valores de los parámetros que mejor se ajustan a estos datos (en el sentido de mínimos cuadrados) son $\alpha=0.8$ y $\beta = 0.5$. Con la biblioteca {\tt matplotlib} veremos formas de hacer gráficas a partir de esto.
+
+En caso de otros modelos, como uno cuadrático con tres parámetros $y = \alpha t^2 + \beta t + \gamma$, la construcción de la matriz $A$ y del vector $b$ es análoga. En general si la cantidad de datos es $m$ y la cantidad de parámetros por determinar es $n$, la matriz $A$ resulta de $m\times n$ y el vector $b$ de $m$ coordenadas. Para un desarrollo más completo, se recomiendan las notas de teórico del curso \lq\lq Métodos Numéricos\rq\rq{} de la Facultad de Ingeniería, FIng, sección 5.1.
 \end{document}
