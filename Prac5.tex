@@ -1,0 +1,107 @@
+\documentclass[a4paper,12pt]{book}
+\usepackage{etex}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fullpage}
+\usepackage{amsthm}
+\usepackage{txfonts}
+\usepackage{latexsym}
+\usepackage{stmaryrd}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{hyperref}
+%\usepackage[all]{xy}
+\usepackage{proof}
+\usepackage[sans]{dsfont}
+\usepackage[spanish]{babel}
+
+
+\newcommand{\Ra}{\Rightarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\te}{\text}
+\newcommand{\Lra}{\Leftrightarrow}
+\newcommand{\lra}{\leftrightarrow}
+
+
+%%%
+\theoremstyle{definition}
+\newtheorem{ejercicio}{Ejercicio}
+\outer\long\def\COUIC#1{}
+\outer\long\def\Solucion#1{\par
+	{\sl\small\noindent\textbf{Solución:}\quad#1\par}}
+%%% Comentar la siguiente línea para mostrar las soluciones
+\outer\long\def\Solucion#1{}
+
+\begin{document}
+	
+	\noindent
+	\centerline{\sc
+		Facultad de Ciencias\hfill---\hfill
+		Computación\hfill---\hfill
+		Segundo semestre de 2025}\smallbreak\hrule
+	
+	\bigbreak
+	\centerline{\Large\textbf{Práctico 5: Bibliotecas matemáticas}}
+	\bigbreak
+	
+	La idea del práctico es que se usen las bibliotecas {\tt numpy}, {\tt matplotlib}, {\tt scipy} y {\tt sympy}. Salvo que se indique lo contrario, lo que se pide calcular y graficar es de modo aproximado, con las primeras tres bibliotecas. En los casos que se deba usar la cuarta para operar simbólicamente, se indicará en la letra (últimos ejercicios).
+
+	\begin{ejercicio}
+		Hallar el determinante, la inversa, los valores y vectores propios de la matriz
+		$$\pmatrix{3.5 & -0.5 & 0.5 & 0 \cr
+		-1 & 4 & 1 & 0 \cr
+		-0.5 & 0.5 & 4.5 & 0 \cr
+		0 & 1 & 2 & 2}
+		$$
+		
+		Repetir con matrices sacadas de algún curso de álgebra lineal.
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		Usando {\tt np.roots()} hallar las raíces del polinomio $x^4 -3x^3 + 6x^2 + 12x - 3$. Ver \href{https://numpy.org/doc/stable/reference/generated/numpy.roots.html}{numpy.org/doc/stable/reference/generated/numpy.roots.html}. Luego graficar el polinomio con matplotlib y verificar a ojo.
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		Con matplotlib al graficar una función lo que hacemos de hecho es graficar una lineal a trozos entre varios puntos. Para la función seno entre $0$ y $2\pi$ analizar a partir de qué cantidad de puntos se deja que notar que es lineal a trozos y empieza a verse bien.
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		Con {\tt plot()} graficar una circunferencia de centro $(0,0)$ y radio $1$. Luego hacer lo mismo con una circunferencia de centro $(3,2)$ y radio $0.7$.
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		Graficar la función $f(t) = t^2$ poniéndole un título e indicando que le eje {\tt x} es el tiempo y que el eje {\tt y} es la posición. Ver \href{https://matplotlib.org/stable/users/explain/quick_start.html}{matplotlib.org/stable/users/explain/quick\_start.html}.
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		En \href{https://matplotlib.org/stable/users/explain/quick_start.html}{matplotlib.org/stable/users/explain/quick\_start.html} ver el primer ejemplo en la sección \lq\lq The explicit and the implicit interfaces\rq\rq. ¿Qué hacen los parámetros {\tt label=} dentro de los {\tt plot()} y la función {\tt ax.lengends()}?
+		
+		Ver alguna otra cosa que aparezca en la página e intentar entender lo que hace.
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		Graficar las siguientes funciones en $[0,5]$
+		\begin{enumerate}
+			\item $f(x) = x^2 - 3$
+			\item $f(x) = \cos(x)$
+			\item $f(x) = e^{-x^2}$
+			\item $f(x) = \int_0^xe^{-t^2}dt$
+		\end{enumerate}
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		En una sola figura poner dos ejes uno arriba del otro y graficar alineadas las funciones $f(x)=\sin(x^2)$ y $g(x)=\int_0^x\sin(t^2)dt$, de modo que se visualice que $g'=f$. 
+	\end{ejercicio}
+	
+	\begin{ejercicio}[Mínimos cuadrados]
+		\begin{enumerate}
+			\item Dados los datos $\{(0,2), (1,3), (2,2), (3,3), (4,5)\}$, hallar la recta que mejor los aproxime en sentido de mínimos cuadrados. graficar los datos junto con la recta.
+			
+			\item Con los mismos datos, hallar la parábola ($y = \alpha t^2 + \beta t + \gamma$) que mejor aproxime en sentido de mínimos cuadrados. Graficar los datos junto con la parábola.
+		\end{enumerate}
+	\end{ejercicio}
+	
+\end{document}
+

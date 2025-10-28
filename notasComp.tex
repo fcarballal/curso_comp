@@ -40,6 +40,8 @@
 \theoremstyle{definition}
 \newtheorem{ejercicio}{Ejercicio}[section]
 
+
+
 \begin{document}
 
 \centerline{\Huge\bf Apuntes de Introducción a la Computación}
@@ -2271,6 +2273,8 @@ Tanto para la biblioteca estándar como para otras, la documentación oficial en
 
 A veces se usan términos como <<biblioteca>>, <<módulo>> o <<paquete>> de modo más o menos equivalente.
 
+En el resto del capítulo estudiaremos un poco algunas bibliotecas. Lo que queda de esta sección está dedicado a ejemplos de biblioteca estándar y de otras bibliotecas de usos variados (concretamente, procesar archivos PDF e imágenes). En las secciones posteriores, se introducen algunas bibliotecas con funcionalidades específicamente matemáticas. Hay muchas más bibliotecas que las que mencionamos aquí. Además, las que aparecen tienen más (la mayoría muchas más) cosas que lo que vemos aquí.
+
 \subsection{Ejemplos de la biblioteca estándar}
 
 Consideremos por ejemplo la biblioteca {\tt time}, que provee funcionalidades vinculadas con datos temporales. La documentación es \href{https://docs.python.org/3/library/time.html}{https://docs.python.org/3/library/time.html} (se puede acceder también desde la página de la documentación de la biblioteca estándar).
@@ -2371,7 +2375,7 @@ La biblioteca {\tt os} tiene también funcionalidades vinculadas al directorio (
 La posibilidad de cambiar el directorio de trabajo puede ser útil para ordenar las cosas mejor. Por ejemplo, con el ejemplo de las imágenes, en lugar de tener el programa y las imágenes en la misma carpeta, podríamos tener las imágenes dentro de una carpeta más adentro llamada {\tt img}. Lo que tendríamos que hacer es comenzar moviendo el directorio de trabajo a esa carpeta. Esto se puede hacer con {\tt os.chdir(os.getcwd()+\lq\lq/img\rq\rq)}, donde en el argumento estamos agregando {\tt \lq\lq/img\rq\rq} al directorio de trabajo actual, lo cual corresponde a meterse en esa carpeta.
 \subsection{Ejemplos de otras bibliotecas}
 
-Veamos a modo de ejemplo la biblioteca {\tt pypdf}, que sirve para procesar archivos en formato PDF. Esta es una biblioteca de código abierto. El repositorio con el código fuente es \href{https://github.com/py-pdf/pypdf}{github.com/py-pdf/pypdf}. Documentación oficial: \href{https://pypdf.readthedocs.io/en/stable/}{pypdf.readthedocs.io/en/stable/}.
+Comencemos con la biblioteca {\tt pypdf}, que sirve para procesar archivos en formato PDF. Esta es una biblioteca de código abierto. El repositorio con el código fuente es \href{https://github.com/py-pdf/pypdf}{github.com/py-pdf/pypdf}. Documentación oficial: \href{https://pypdf.readthedocs.io/en/stable/}{pypdf.readthedocs.io/en/stable/}.
 
 Para instalar la biblioteca hay que ejecutar {\tt pip install pypdf} desde una consola.
 
@@ -2494,7 +2498,7 @@ while arriba - abajo > 1:
 image.save("output.jpg", quality = abajo)
 \end{verbatim}
 
-\section{La biblioteca numpy}
+\section{numpy}
 
 La biblioteca numpy (\href{https://numpy.org/}{numpy.org/}) (\href{https://github.com/numpy/numpy}{github.com/numpy/numpy}) provee de funcionalidades eficientes para trabajar con datos vectoriales y matriciales (y en general con lo que se define como arreglos N dimensionales). Es la base de la computación científica en python. Documentación: \href{https://numpy.org/doc/stable/}{numpy.org/doc/stable/}.
 
@@ -2773,7 +2777,7 @@ array([[0.70710678+0.j        , 0.70710678-0.j        ],
        [0.        +0.70710678j, 0.        -0.70710678j]])
 \end{verbatim}
 
-\subsection{Mínimos cuadrados}
+\subsection{Mínimos cuadrados}\label{sec-minCuad}
 
 Dada una matriz $A$ de $m\times n$ y un vector $b\in \R^m$, el problema de mínimos cuadrados lineal (PMCL) consiste en hallar $x\in\R^n$ que minimice $||Ax-b||_2$. Si el sistema es compatible, la solución al PMCL es solución al sistema, ya que en ese caso se tiene que la norma es $0$. En caso de que el sistema no sea compatible, el PMCL busca hallar el $x$ que {\sl más se aproxima a ser solución}, en el sentido de la norma euclídea.
 
@@ -2835,4 +2839,249 @@ array([0.8, 0.5])
 Concluimos que los valores de los parámetros que mejor se ajustan a estos datos (en el sentido de mínimos cuadrados) son $\alpha=0.8$ y $\beta = 0.5$. Con la biblioteca {\tt matplotlib} veremos formas de hacer gráficas a partir de esto.
 
 En caso de otros modelos, como uno cuadrático con tres parámetros $y = \alpha t^2 + \beta t + \gamma$, la construcción de la matriz $A$ y del vector $b$ es análoga. En general si la cantidad de datos es $m$ y la cantidad de parámetros por determinar es $n$, la matriz $A$ resulta de $m\times n$ y el vector $b$ de $m$ coordenadas. Para un desarrollo más completo, se recomiendan las notas de teórico del curso \lq\lq Métodos Numéricos\rq\rq{} de la Facultad de Ingeniería, FIng, sección 5.1.
+
+\section{matplotlib}
+
+La biblioteca {\tt matplotlib} (\href{https://matplotlib.org/}{matplotlib.org/}) (\href{https://github.com/matplotlib/matplotlib}{github.com/matplotlib/matplotlib}) provee de funcionalidades para generar gráficas y otro tipo de visualizaciones de datos en python. En esta sección veremos algunas de las funcionalidades básicas, las cuales usaremos para graficar distintas cosas que calculemos con otras bibliotecas. En la página hay documentación, que incluye tutoriales y ejemplos con muchas otras funcionalidades, pero también una guía básica en \href{https://matplotlib.org/stable/users/explain/quick_start.html}{matplotlib.org/stable/users/explain/quick\_start.html}.
+
+En general de matplotlib se utiliza el módulo {\tt matplotlib.pyplot}, que suele importarse como:
+
+\centerline{\tt import matplotlib.pyplot as plt}
+
+\vspace{1em}
+Los datos que se grafican suelen ser dados por arreglos de numpy, así que lo más común es importarlo también.
+
+Para representar las figuras y los distintos ejes de coordenadas, tenemos los objetos {\tt Figure} y {\tt Axes}. Cada objeto Figure representa una imagen, la cual puede contener uno o más objetos Axes, que son dentro de los cuales se realizan las gráficas. Si quisiéramos una sola figura con dos gráficas, tendríamos que crear un objeto Figure con dos objetos Axes. Una forma sencilla de crear una figura con un objeto axes es:
+
+\vspace{.8em}
+\centerline{\tt fig, ax = plt.subplots()}
+
+\vspace{1em}
+Después de hacer eso, {\tt fig} es la figura y {\tt ax} es el axes perteneciente. En este momento la figura consta de ejes cartesianos sin datos adentro.
+
+Podemos guardar la figura en una imagen con {\tt fig.savefig('nombre.png')}.
+
+Podemos mostrar la figura en una ventana con {\tt plt.show()}. Al hacer esto la ejecución del código se interrumpe hasta que la ventana se cierre y después de esto, internamente la figura se cierra, por lo que si volvemos a ejecutar {\tt plt.show()}, esta vez no se muestra.
+
+
+Para graficar datos se puede usar {\tt ax.plot(x,y)}, donde {\tt x} e {\tt y} son arreglos de numpy unidimensionales con las coordenadas de los puntos a graficar. Por defecto lo que hace es graficar una función lineal a trozos entre los puntos dados. Por ejemplo si queremos hacer esto con los puntos $(1,1)$, $(2,4)$, $(3,2)$ y $(4,3)$ alcanza con lo siguiente:
+\begin{verbatim}
+import numpy as np # en caso de que no lo hayamos importado antes
+
+x = np.array([1,2,3,4]) # las coordenadas x de los puntos
+y = np.array([1,4,2,3]) # las coordenadas y de los puntos
+ax.plot(x,y)
+plt.show() # si queremos que lo muestre
+\end{verbatim}
+En la figura \ref{fig-ejMPL} vemos la gráfica que se genera. De aquí en más, se incentiva al lector a ejecutar los códigos para generarlas por si mismo.
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.7]{ejemploGrafMPL.png}
+	\caption{Ejemplo con matplotlib}
+	\label{fig-ejMPL}
+\end{figure}
+
+\shorthandoff{"}
+Se puede pasar un tercer parámetro para indicar el formato con el que se grafican los datos. Por ejemplo con {\tt "ro"} los puntos se grafican con círculos rojos. La instrucción completa es {\tt ax.plot(x,y, "ro")}. Para más información, la documentación tiene una página sobre {\tt plot}: \href{https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html}{matplotlib.org/stable/api/\_as\_gen/matplotlib.pyplot.plot.html}. \footnote{De hecho, es común que las documentaciones tengan una página para cada función en particular, en la que se explican al menos los parámetros y lo que se retorna.}
+
+Para graficar varias cosas en los mismos ejes, se puede simplemente ejecutar varias veces la instrucción {\tt ax.plot()}.
+
+Si queremos graficar una función que no sea lineal a trozos, lo que hacemos es dibujar una lineal a trozos con puntos muy cercanos, de modo que con la resolución de la computadora se vea como la función. Para esto es útil la función {\tt np.linspace()}, con la que podemos obtener un vector de muchos puntos equiespaciados. Por ejemplo para graficar la función seno podemos hacer lo siguiente.
+\begin{verbatim}
+fig, ax = plt.subplots()
+x = np.linspace(0,2*np.pi,100) # 100 puntos equiesp entre 0 y 2pi
+y = np.sin(x) # seno coordenada a coordenada
+ax.plot(x,y)
+plt.show()
+\end{verbatim}
+Con la resolución que viene por defecto se ve como la función seno. Haciendo zoom sobre un máximo o un mínimo (se puede hacer desde la ventana del {\tt plt.show()}) se puede ver que de hecho es lineal a trozos pero con líneas chicas.
+
+En general la forma de graficar una función $f$ en $[a,b]$ es genera un vector {\tt x} de varios puntos equiespaciados entre $a$ y $b$, luego generar un vector {\tt y} del mismo tamaño con los valores de la función evaluada en los puntos del vector {\tt x} y finalmente hacer {\tt ax.plot(x,y)}. A veces el vector {\tt y} se puede hacer de una con alguna función de numpy que se ejecute coordenada a coordenada, como en el ejemplo del seno, mientras que otras veces hay que calcular las entradas una a una con un {\tt for} de python.
+
+Dado el ejemplo de mínimos cuadrados que vimos en \ref{sec-minCuad}, podemos usar matplotlib para hacer una gráfica y visualizar la recta que mejor aproxima los puntos. Lo hacemos de la siguiente forma.
+\begin{verbatim}
+t = np.array([1,2,3,4]) # t de los datos
+y = np.array([1,3,2,4]) # y de los datos
+a = np.ones((4,2)) # matriz inicializada con unos
+# la segunda columna ya queda como tiene que estar
+a[:,0] = t # en la primera columna van los valores de t
+res = np.linalg.lstsq(a,y)  # el b es igual a y
+x = res[0] # lsqsr retorna varias cosas. La sol es lo primero
+alpha = x[0]
+beta = x[1]
+
+# ahora graficamos
+fig, ax = plt.subplots()
+ax.plot(t, y, "ro") # graficamos los puntos con circulos rojos
+
+# la recta es y = alpha*x + beta. La graficamos con dos puntos
+rectaX = np.array([1,4])
+rectaY = np.array([alpha*1 + beta, alpha*4 + beta])
+ax.plot(rectaX, rectaY) # graficamos la recta arriba de los puntos
+plt.show()
+\end{verbatim}
+
+\section{scipy}
+
+La biblioteca {\tt scipy} (\href{https://scipy.org/es/}{scipy.org/es/}) (\href{https://github.com/scipy/scipy}{github.com/scipy/scipy}) contiene funcionalidades para distintos problemas de matemática pura o aplicada, como integración y ecuaciones diferenciales. Aquí veremos justamente esas dos, pero en la página se pueden encontrar muchas otras cosas. Documentación: \href{https://docs.scipy.org/doc/scipy/}{docs.scipy.org/doc/scipy/}.
+
+Las dos funcionalidades que veremos están dentro del módulo {\tt scipy.integrate}. Hacemos la siguiente importación:
+
+\centerline{\tt import scipy.integrate as integrate}
+
+Para calcular numéricamente integrales se usa la función {\tt quad(f,a,b)}, a la que se le pasan como parámetros la función a integrar y los extremos de integración. La función puede estar definida con {\tt def} o mediante una expresión lambda. Se retornan dos cosas: el valor de la integral y una estimación del error numérico que puede haber. La integral que se calcula es:
+$$\int_a^bf(x)dx
+$$
+
+
+Veamos algunos ejemplos:
+\begin{verbatim}
+>>> import scipy.integrate as integrate
+>>> import numpy as np
+>>> integrate.quad(lambda x: x**2, 0, 1)
+(0.33333333333333337, 3.700743415417189e-15) # (valor, error)
+>>> integrate.quad(lambda x: 1/x, 1, np.e)
+(0.9999999999999998, 1.1102230246251562e-14)
+>>> integrate.quad(lambda x: np.exp(-x**2), 0, 1)
+(0.7468241328124271, 8.291413475940725e-15)
+>>> integrate.quad(lambda x: np.exp(-x**2), 0, 2)
+(0.8820813907624215, 9.793070696178202e-15)
+>>> integrate.quad(lambda x: np.exp(-x**2), -np.inf, np.inf) # impropia
+(1.7724538509055159, 1.4202636756659625e-08)
+\end{verbatim}
+
+Pasemos ahora al problema de las ecuaciones diferenciales ordinarias. Queremos resolver un problema de valores iniciales, lo cual es:
+$$\begin{cases}
+	y'(t) = f(t(t),t)  \quad\te{ con }t\in[a,b]\cr
+	y(a) = y_0 
+\end{cases}
+$$
+Es decir, queremos hallar una función $y:[a,b]\to \R$ que cumpla la ecuación diferencial $y'(t) = f(t(t),t)$ y la condición inicial $y(a) = y_0$.
+
+Para esto usamos la función {\tt odeint(f,y0,t)}, donde {\tt f} es la función que define la ecuación diferencial, {\tt y0} es el valor inicial y {\tt t} es el vector de los tiempos en los que queremos determinar el valor de la solución. Los $a$ y $b$ están dados por el vector {\tt t}. El valor de $a$ es la primera entrada del vector, mientras que el de $b$ es la última. Se retorna un vector con los valores de la solución a la ecuación diferencial en los tiempos dados por el vector {\tt t}.
+
+A modo de ejemplo, podemos usar esto para resolver al ecuación diferencial $y' = \sin(y+t)$ con condición inicial $y(0)=0$ en el intervalo $[0,10]$ y graficarla con matplotlib.
+\begin{verbatim}
+import numpy as np
+import matplotlib.pyplot as plt
+import scipy.integrate as integrate
+
+# definimos la función de la ecuación diferencial
+def pend(y,t): # el orden de los parámetros importa
+    return np.sin(y+t)
+
+y0 = 0 # valor inicial
+t = np.linspace(0,10,100) # tiempos para calcular la sol
+y = integrate.odeint(pend, y0, t)
+# y queda con los valores de la solución en los timepos de t
+
+fig, ax = plt.subplots()
+ax.plot(t,y)
+plt.show()
+\end{verbatim}
+
+Se puede trabajar también con sistemas de ecuaciones diferenciales, en los que $y(t)$ es un vector de funciones. La idea es que $y(t) = (y_1(t),\dots, y_n(t))$, con lo que $y'(t)=(y_1'(t),\dots, y_n'(t))$. Consideremos a modo de ejemplo el sistema con dos funciones incógnita dado por $y_1'(t) = -y_2(t)$ y $y_2'(t) = y_1(t)$ con condiciones iniciales $y_1(0)=1$ y $y_2(0)=0$. De modo vectorial se escribe de la siguiente forma.
+$$\begin{cases}
+\begin{aligned}
+	\left({\displaystyle y_1(t)\atop\displaystyle y_2(t)}\right)' &=\, \left({\displaystyle -y_2(t)\atop\displaystyle y_1(t)}\right)\\[1ex]
+	\left({\displaystyle y_1(0)\atop\displaystyle y_2(0)}\right) &= \left({\displaystyle 1\atop\displaystyle 0}\right)
+\end{aligned}	 
+\end{cases}
+$$
+
+Ahora la función $f$ es  $f((y_1,y_2),t) = (-y_2,y_1)$, una función $f:\R^2\times\R\to \R^2$. Al hacelo en python será una función {\tt pend(y,t)}, donde {\tt y} es una lista con dos entradas y {\tt t} es un número, la cual retorna una lista de dos entradas.
+Resolvamos en el intervalo $[0,10]$ y grafiquemos las dos funciones juntas.
+\begin{verbatim}
+import numpy as np
+import matplotlib.pyplot as plt
+import scipy.integrate as integrate
+
+def pend(y,t): 
+    return [-y[1], y[0]]
+
+y0 = [1,0] # ahora el valor inicial es lista de dos números
+t = np.linspace(0,10,100) # tiempos para calcular la sol
+y = integrate.odeint(pend, y0, t)
+# y es una matriz de 2x100, tal que la primera columna son
+# los valores de y1 y la segunda son los de y2
+y1 = y[:,0]
+y2 = y[:,1]
+
+fig, ax = plt.subplots()
+ax.plot(t,y1)
+ax.plot(t,y2, "r") # esta roja
+plt.show()
+\end{verbatim}
+
+\section{sympy}
+
+La biblioteca {\tt sympy} (\href{https://www.sympy.org/en/index.html}{sympy.org/en/index.html}) (\href{https://github.com/sympy/sympy}{github.com/sympy/sympy}) es para hacer operaciones matemáticas de modo simbólico, en lugar de trabajar con aproximaciones. En ese sentido es muy diferente a las otras que venimos viendo. En la página hay documentación, de la cual se recomienda el tutorial introductorio.
+
+A modo de ejemplo de computación simbólica, al trabajar con raíces cuadradas, si el resultado es exacto se lo calcula, pero en otro caso se las manipula simbólicamente, aplicando de modo automático algunas simplificaciones cuando se puede. Por ejemplo:
+\begin{verbatim}
+>>> sympy.sqrt(4)
+2
+>>> sympy.sqrt(5)
+sqrt(5)
+>>> sympy.sqrt(8)
+2*sqrt(2)
+\end{verbatim}
+
+Se puede introducir variables con la función {\tt sympy.symbols()} y luego usarlas para distintas cosas. Por ejemplo, podemos trabajar con polinomios, desarrollándolos o factorizándolos.
+\begin{verbatim}
+>>> x, y = sympy.symbols('x y')
+>>> expr = (x**2 + 2*x)*(y**2 - x**2)
+>>> expr
+(-x**2 + y**2)*(x**2 + 2*x)
+>>> sympy.expand(expr)
+-x**4 - 2*x**3 + x**2*y**2 + 2*x*y**2
+>>> sympy.factor(expr)
+-x*(x + 2)*(x - y)*(x + y)
+\end{verbatim}
+
+También podemos calcular derivadas e integrales.
+\begin{verbatim}
+>>> f = y*x**2 - sympy.sin(x)
+>>> sympy.diff(f,x) # respecto a x
+2*x*y - cos(x)
+>>> sympy.diff(f,y) # respecto a y
+x**2
+>>> sympy.diff(expr,x)
+-2*x*(x**2 + 2*x) + (2*x + 2)*(-x**2 + y**2)
+>>> cuad = x**2
+>>> sympy.integrate(cuad,x) # primitiva respecto a x
+x**3/3
+>>> sympy.integrate(cuad,(x,0,1)) # integral entre 0 y 1
+1/3
+>>> sympy.integrate(f,(x,0,1)) # va a depender de y
+y/3 - 1 + cos(1)
+>>> sympy.integrate(sympy.exp(x),x)
+exp(x)
+>>> sympy.integrate(sympy.exp(-x**2),(x,-sympy.oo,sympy.oo)) #impropia
+sqrt(pi)
+\end{verbatim}
+También podemos trabajar con matrices, por ejemplo hallando valores propios, forma diagonal y forma de Jordan.
+\begin{verbatim}
+>>> m = sympy.Matrix([[1,1,1],[1,1,0],[0,0,1]])
+>>> m
+Matrix([
+[1, 1, 1],
+[1, 1, 0],
+[0, 0, 1]])
+>>> m.eigenvals()
+{1: 1, 2: 1, 0: 1} # los :1 indican multiplicidad
+>>> P, D = m.diagonalize()
+>>> D
+Matrix([
+[0, 0, 0],
+[0, 1, 0],
+[0, 0, 2]])
+>>> m = sympy.Matrix([[1,2,0],[0,1,0],[0,0,1]])
+>>> P,J = m.jordan_form()
+>>> J
+Matrix([
+[1, 1, 0],
+[0, 1, 0],
+[0, 0, 1]])
+\end{verbatim}
 \end{document}
