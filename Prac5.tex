@@ -95,12 +95,62 @@
 		En una sola figura poner dos ejes uno arriba del otro y graficar alineadas las funciones $f(x)=\sin(x^2)$ y $g(x)=\int_0^x\sin(t^2)dt$, de modo que se visualice que $g'=f$. 
 	\end{ejercicio}
 	
+	\begin{ejercicio}
+		Investigar cómo hacer con matplotlib para graficar una función de dos variables y hacerlo con $f(x,y) = x^2 - y^2$ en $[-1,1]\times[-1,1]$.
+	\end{ejercicio}
+	
 	\begin{ejercicio}[Mínimos cuadrados]
 		\begin{enumerate}
 			\item Dados los datos $\{(0,2), (1,3), (2,2), (3,3), (4,5)\}$, hallar la recta que mejor los aproxime en sentido de mínimos cuadrados. graficar los datos junto con la recta.
 			
 			\item Con los mismos datos, hallar la parábola ($y = \alpha t^2 + \beta t + \gamma$) que mejor aproxime en sentido de mínimos cuadrados. Graficar los datos junto con la parábola.
 		\end{enumerate}
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		Calcular la integral entre $0$ y $5$ de las siguientes funciones. Para las que de finito, calcular también la integral de $0$ a $\infty$ y la de $-\infty$ a $\infty$ .
+		\begin{enumerate}
+			\item $f(x) = e^{-x^2}$
+			\item $f(x) = e^{-x^2|\sin(x)|}$
+			\item $f(x) = \int_0^xe^{-t^2}dt$
+		\end{enumerate}
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		Para los siguientes problemas de valores iniciales, determinar cuanto vale la solución en $t=5$ y graficar en $[0,5]$.
+		\begin{enumerate}
+			\item $y'(t) = y(t)e^t$ con $y(0) = 1$.
+			\item $y'(t) = \sin(y(t)^2)$ con $y(0) = 1$.
+			\item $y_1'(t) = -y_1(t) + y_2(t)$, $y_2(t) = -y_2(t) - y_1(t)$ con $y_1(0) = 1$ y $y_2(0) = 0$.
+		\end{enumerate}
+	\end{ejercicio}
+	\begin{ejercicio}
+		Consideramos la ecuación diferencial de segundo orden $\theta''(t) = -\sin(\theta(t))$ con $\theta(0) = 0$ y $\theta'(0) = 1$. Haciendo el cambio de variable  $y_1(t) = \theta(t)$, $y_2(t) = \theta'(t)$ llevarla a una de primer orden con dos funciones incógnita. Hallar el valor de $\theta(5)$ y graficar $\theta$ en $[0,5]$. Luego graficarla en conjunto con $\theta'$ en el mismo intervalo.
+	\end{ejercicio}
+	\begin{ejercicio}
+		Usando sympy:
+		\begin{enumerate}
+			\item Desarrollar $(x^2+3x+1)^2(x^3-4x+1)^3$.
+			\item Hallar las raíces de $x^3 - 7x^2-20x+96$.
+			\item Hallar la derivada de $e^{\sin(\log(x^2+1))}$.
+			\item Derivar $\sin(x+y)e^x(xy+y^2)$ respecto a $x$ y respecto a $y$.
+			\item Hallar una primitiva de $1/\cos(x)$.
+			\item Hallar $\int_0^\infty \sin(x)e^{-x}dx$.
+			\item Hallar $\int_{-\infty}^\infty e^{-x^2}dx$.
+		\end{enumerate} 
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		Usando sympy encontrar la forma de Jordan de la siguiente matriz:
+		$$\pmatrix{0 & -3 & 1 & 2 \cr
+			-2 & 1 & -1 & 2 \cr
+			-2 & 1 & -1 & 2 \cr
+			-2 & -3 & 1 & 4}
+		$$
+	\end{ejercicio}
+	
+	\begin{ejercicio}
+		Consideramos $f(x,y) = (e^x(x+y),\, \sin(y)x^2)$. Usando sympy calcular su jacobiano. Ver en \href{https://docs.sympy.org/latest/modules/matrices/matrices.html}{docs.sympy.org/latest/modules/matrices/matrices.html} la función {\tt jacobian(X)}.
 	\end{ejercicio}
 	
 \end{document}

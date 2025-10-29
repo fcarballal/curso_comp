@@ -2261,7 +2261,7 @@ Python viene con una biblioteca ya instalada, la cual se llama {\sl biblioteca e
 
 Por ejemplo está el módulo {\tt math}, que se mencionó en la sección \ref{sec-float}. Como ya vimos en la sección mencionada, se lo puede importar escribiendo {\tt import math} y luego usar por ejemplo {\tt math.sqrt()} y {\tt math.round()}. Se encuentra una lista completa de lo que incluye en \href{https://docs.python.org/3/library/math.html}{docs.python.org/3/library/math.html}.
 
-Por otra parte, hay muchas otras bibliotecas que se pueden instalar aparte y tienen otras funcionalidades. Cada una de ellas suele tener su documentación oficial disponible en internet. Por ejemplo está la biblioteca {\tt numpy}, en la que profundizaremos, cuya documentación se puede encontrar en el sitio \href{https://numpy.org/}{https://numpy.org/}.
+Por otra parte, hay muchas otras bibliotecas que se pueden instalar aparte y tienen otras funcionalidades. Cada una de ellas suele tener su documentación oficial disponible en internet. Por ejemplo está la biblioteca {\tt numpy}, la cual vemos más adelante, cuya documentación se puede encontrar en el sitio \href{https://numpy.org/}{numpy.org/}.
 
 Para instalar gran parte de las bibliotecas se puede utilizar el comando {\tt pip install} con el nombre de la biblioteca desde una terminal. Por ejemplo, para instalar {\tt numpy} basta abrir una ventana de comandos y ejecutar {\tt pip install numpy}. Al hacer eso, automáticamente se descarga y se instala. Las bibliotecas más usadas se pueden instalar con {\tt pip} de esta forma.
 
@@ -2269,11 +2269,17 @@ Dada una biblioteca (o módulo de biblioteca) con nombre {\tt nombre} que está 
 
 A veces las bibliotecas tienen distintos módulos adentro, que se referencian poniendo el nombre de la biblioteca, luego un punto y luego el nombre del módulo. Por ejemplo, numpy tiene un módulo de álgebra lineal  llamado {\tt numpy.linalg}.
 
-Tanto para la biblioteca estándar como para otras, la documentación oficial en general es muy completa y precisa, pero puede ser difícil de leer. Muchas veces buscando en internet se encuentran tutoriales o guías más sencillas, que permiten comenzar a usar las funcionalidades más rápidamente.
-
 A veces se usan términos como <<biblioteca>>, <<módulo>> o <<paquete>> de modo más o menos equivalente.
 
-En el resto del capítulo estudiaremos un poco algunas bibliotecas. Lo que queda de esta sección está dedicado a ejemplos de biblioteca estándar y de otras bibliotecas de usos variados (concretamente, procesar archivos PDF e imágenes). En las secciones posteriores, se introducen algunas bibliotecas con funcionalidades específicamente matemáticas. Hay muchas más bibliotecas que las que mencionamos aquí. Además, las que aparecen tienen más (la mayoría muchas más) cosas que lo que vemos aquí.
+En el resto del capítulo estudiaremos un poco algunas bibliotecas. En el resto de esta sección hay ejemplos de biblioteca estándar y de otras bibliotecas de usos variados (concretamente, procesar archivos PDF e imágenes). En las secciones posteriores, se introducen algunas bibliotecas con funcionalidades específicamente matemáticas. Hay muchas más bibliotecas que las que mencionamos aquí. Además, las que aparecen tienen más (la mayoría muchas más) cosas que lo que vemos aquí.
+
+\subsubsection{Sobre las documentaciones}
+
+Las documentaciones suelen tener explicaciones conceptuales del funcionamiento de la biblioteca en cuestión, explicaciones detalladas de las distintas funcionalidades y ejemplos. Para cada función disponible suele haber una sección en la que se explica precisamente lo que hace, qué parámetros recibe y que cosas retorna. Es común que haya mucha más información que lo que se necesita,  por lo que en general lo mejor es a priori ver solo lo básico e ir profundizando conforme vaya siendo necesario.
+
+Dentro de la explicación de cada función  también puede haber más información de la que se requiere, por ejemplo con parámetros opcionales o con datos {\sl extra} que se retornan. Ahí también suele ser recomendable leer lo básico, solo prestarle atención a los parámetros opcionales que se necesiten e ignorar las cosas que se retornan que no vamos a usar. Ver por ejemplo \href{https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.quad.html#scipy.integrate.quad}{\footnotesize docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.quad.html\#scipy.integrate.quad}, que es una función de scipy que usaremos más adelante. Esta muestra más de diez parámetros, pero solo usaremos los primeros tres. Por otra parte, presenta cuatro cosas distintas que se retornan, de las cuales en general solo usaremos la primera. Por lo tanto, puede alcanzar con leer la descripción de la función, la de los primeros tres parámetros y la del primer dato que retorna, además de ver el primero de los ejemplos de abajo.
+
+Tanto para la biblioteca estándar como para otras, la documentación oficial en general es muy completa y precisa, pero puede ser difícil de leer. Muchas veces buscando en internet se encuentran tutoriales o guías más sencillas, que permiten comenzar a usar las funcionalidades más rápidamente.
 
 \subsection{Ejemplos de la biblioteca estándar}
 
@@ -2882,7 +2888,7 @@ En la figura \ref{fig-ejMPL} vemos la gráfica que se genera. De aquí en más, 
 \end{figure}
 
 \shorthandoff{"}
-Se puede pasar un tercer parámetro para indicar el formato con el que se grafican los datos. Por ejemplo con {\tt "ro"} los puntos se grafican con círculos rojos. La instrucción completa es {\tt ax.plot(x,y, "ro")}. Para más información, la documentación tiene una página sobre {\tt plot}: \href{https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html}{matplotlib.org/stable/api/\_as\_gen/matplotlib.pyplot.plot.html}. \footnote{De hecho, es común que las documentaciones tengan una página para cada función en particular, en la que se explican al menos los parámetros y lo que se retorna.}
+Se puede pasar un tercer parámetro para indicar el formato con el que se grafican los datos. Por ejemplo con {\tt "ro"} los puntos se grafican con círculos rojos. La instrucción completa es {\tt ax.plot(x,y, "ro")}. Para más información, la documentación tiene una página sobre {\tt plot}: \href{https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html}{matplotlib.org/stable/api/\_as\_gen/matplotlib.pyplot.plot.html}.
 
 Para graficar varias cosas en los mismos ejes, se puede simplemente ejecutar varias veces la instrucción {\tt ax.plot()}.
 
