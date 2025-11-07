@@ -40,7 +40,7 @@
 \theoremstyle{definition}
 \newtheorem{ejercicio}{Ejercicio}[section]
 
-
+\def\tbs{\textbackslash}
 
 \begin{document}
 
@@ -2958,7 +2958,7 @@ Veamos algunos ejemplos:
 
 Pasemos ahora al problema de las ecuaciones diferenciales ordinarias. Queremos resolver un problema de valores iniciales, lo cual es:
 $$\begin{cases}
-	y'(t) = f(t(t),t)  \quad\te{ con }t\in[a,b]\cr
+	y'(t) = f(y(t),t)  \quad\te{ con }t\in[a,b]\cr
 	y(a) = y_0 
 \end{cases}
 $$
@@ -3090,4 +3090,194 @@ Matrix([
 [0, 1, 0],
 [0, 0, 1]])
 \end{verbatim}
+
+
+\chapter{Introducción a LaTeX}
+
+Latex, escrito de modo estilizado \LaTeX{} o LaTeX, es un lenguaje para generar documentos científicos de alta calidad tipográfica, especialmente aquellos con presencia de fórmulas matemáticas. Aquí el sentido de \lq\lq alta calidad tipográfica\rq\rq{} es que el texto y las fórmulas quedan organizadas de modo fácilmente legible. No es una herramienta que destaque por la posibilidad de hacer cosas {\sl creativas} (aunque sí que se las puede hacer si uno profundiza), sino por la facilidad de generar textos bien ordenados que transmiten la información de modo claro. Que un material se entienda requiere de dos cosas: primero, que el contenido del material sea claro y segundo, que la organización sea prolija. Latex se encarga de la segunda parte.
+
+Los materiales de este curso están hechos con latex. Se puede acceder a los archivos fuente en \href{https://github.com/fcarballal/curso_comp}{https://github.com/fcarballal/curso\_comp}.
+
+Latex está basado en \TeX, el cual es un lenguaje más elemental (aunque muy potente) para generación de documentos que puede extenderse con elementos llamados {\sl macros}. De hecho, LaTeX es TeX junto con un gran conjunto de macros que simplifica la creación de documentos. Las cosas de LaTeX son elementos básicos de TeX o macros definidos por LaTeX.
+
+Tex fue hecho por Donald Knuth y Latex por Leslie Lamport algunos años después. Tras hacer tex, Knuth creó un conjunto de macros llamado \lq\lq plain tex\rq\rq{}, que facilita el uso.
+$$
+\hbox{\TeX}\rightarrow\left\{ {\hbox{Plain \TeX} \atop \hbox{\LaTeX}\hfill} \right.
+$$
+Latex (que se creó después) incluye la mayoría de los macros de plain tex, pero no todos. Aparte de eso tiene muchas más cosas y una gran cantidad de paquetes con los que se puede extender (análogamente al uso de bibliotecas en python).
+
+Respecto a materiales para estudiar latex, considerar los siguientes:
+\begin{enumerate}
+	\item {\sl The Texbook} por Donald Knuth. Es el manual de tex y plain tex escrito por el autor del sistema. A pesar de ser un manual, es un libro muy claro, escrito de modo que es útil tanto para principiantes como para expertos, pues indica claramente qué partes son elementos básicos y qué partes son detalles técnicos. Si bien hay cosas que en latex no están incluidas, por la claridad de las explicaciones puede realmente valer la pena. Además las cosas no incluidas en latex suelen tener una alternativa de funcionamiento similar, por lo que los conceptos aprendidos pueden ser útiles.
+	\item {\sl The Not So Short Introduction to Latex}. Un manual de latex disponible en internet con traducciones a distintos lenguajes (incluyendo español). Se puede acceder en la página {\href{https://ctan.org/pkg/lshort-spanish}{ctan.org/pkg/lshort-spanish}}.
+\end{enumerate}
+Por otra parte, en internet se puede encontrar mucha información al respecto.
+
+\section{Instalación y uso de latex}
+
+Hay que instalar un compilador y opcionalmente un entorno de desarrollo integrado (un programa que facilita el uso). Respecto al compilador, se puede usar por ejemplo {\sl MiKTeX}: \href{https://miktex.org/}{miktex.org/}. Respecto al entorno de desarrollo integrado, se puede usar por ejemplo {\sl TeXstudio}: \href{https://www.texstudio.org/}{texstudio.org/}.
+
+El modo de usar latex es el siguiente. Primero se escribe {\sl código latex} que especifica el contenido y la estructura del documento y luego el compilador genera el archivo pdf. El código latex se escribe en un archivo de formato {\tt\lq\lq.tex\rq\rq}. El pdf queda en la misma carpeta. 
+
+Los entornos integrados de desarrollo suelen permitir visualizar a la vez el código latex y el pdf generado. También suelen tener algún botón para compilar. Para comenzar, con el entorno de desarrollo se abre un archivo tex preexistente o se crea uno nuevo.
+
+\section{Estructura de un archivo latex}
+
+Los archivos de latex comienzan con una línea en la que se indica el tipo de documento. Algunos de los posibles tipos son {\tt article, report} y {\tt beamer} (siendo este último para hacer disapositivas). Luego viene el preámbulo, que es una parte en al que se suelen importar paquetes y definir cosas que se usarán en el resto del documento. Finalmente, va el contenido del documento entre {\tt\textbackslash begin\{document\}} y {\tt\textbackslash end\{document\}}.
+$$\vbox
+{
+	\hbox{\tt \textbackslash documentclass[a4paper, 12pt]\{article\}\quad $\rightarrow$ \rm tipo de documento}
+	\kern1em
+	\hbox{$\left.\vcenter{
+			\hbox{\tt\textbackslash usepackage[spanish]\{babel\}}
+			\hbox{\tt\textbackslash usepackage\{amsmath\}}
+			\hbox{\tt\textbackslash usepackage\{amssymb\}}
+			\hbox{\quad$\vdots$}
+		}\quad\right\}$ preámbulo
+	}
+	\kern1em
+	\hbox{\tt\textbackslash begin\{document\}}
+	%\hbox{\qquad contenidos}
+	\hbox{\quad $\vdots$ \kern1.5in$\rightarrow${} contenidos}
+	\hbox{\tt\textbackslash end\{document\}}
+}
+$$
+
+\section{Escritura básica de texto}
+
+Los párrafos en lenguaje natural (español, inglés, etc.) son una parte muy importante de los textos científicos. Un documento que solamente tiene fórmulas y diagramas sin explicaciones suele ser mucho más difícil de entender que uno que incluye párrafos en los que se explican las ideas.
+
+Para hacer un párrafo, uno escribe el texto con las palabras, signos de puntuación y espacios y luego LaTeX (de hecho TeX) se ocupa de armar el párrafo, eligiendo los puntos en los que terminan las líneas y la cantidad de espacio entre las palabras (que no es algo fijo) de modo que quede lo mejor posible.
+
+\hbox{\vrule\vbox{Armar el párrafo no es trivial porque se hacen de modo que tanto el borde izquierdo como el derecho del texto sean rectos. Para ilustrar esto, se colocan líneas verticales a los lados de este párrafo. Para lograrlo minimizando la cantidad de palabras que se deben cortar por la mitad, la cantidad de espacio entre las palabras varía de una línea a otra. El algoritmo de TeX elige los puntos en los que terminar las líneas y la sepacación entre las palabras de modo que quede lo mejor posible (evitando tener que separar palabras con guiónes y que los espacios sean demasiado apretados u holgados, entre otras cosas). En este párrafo, la segunda línea tiene espacios un poco más cortos que la tercera.}\vrule}
+
+Como el que se encarga de determinar el espacio entre las palabras es TeX, en el código latex {\bf no se tienen en cuenta espacios múltiples}, es decir, muchos espacios juntos se tratan de modo igual que un espacio solo.
+
+Por otra parte, un salto de línea solo se toma como equivalente a un espacio. Para indicar el final de un párrafo se debe dejar una línea en blanco, es decir, dos saltos de línea seguidos. La primera línea de cada párrafo tiene sangría por defecto.
+
+A modo de ejemplo, lo siguiente es un código de latex a la izquierda con los párrafos generados a la derecha.
+$$
+\hbox
+{
+	\vbox
+	{
+		\hsize = .4\hsize
+		\noindent
+		\vtop{\hbox{\tt  Este \quad es un ejemplo\quad de}
+			\hbox{\tt párrafo~~~~~~ para ilustrar }
+			\hbox{\tt el funcionamiento de tex con} 
+			\hbox{\tt espacios y saltos de línea.}   
+			\hbox{ }
+			\hbox{\tt Aquí tenemos otro párrafo.} }
+		  
+		
+	}
+	\qquad
+	\vtop
+	{
+		\hsize = .4\hsize
+		Este es un ejemplo de párrafo para ilustrar el funcionamiento de tex con espacios y saltos de línea.
+		
+		Aquí tenemos otro párrafo.
+	}
+}
+$$
+
+Hay algunos símbolos que tienen usos especiales en TeX, que si los escribimos en el código, en lugar de agregar el símbolo al documento resultante, ser toman como algún tipo de comando. Son los siguientes:
+$$
+\hbox{\large\tt \tbs\quad\{\quad\}\quad\$\quad\&\quad\#\quad\char94 \quad \_ \quad\%\quad \char126}
+$$
+Puede haber más símbolos con usos especiales que provengan de latex o de los paquetes que importamos en el preámbulo del documento.
+
+El símbolo \char126{} sirve para crear lo que se llama un {\sl espacio irrompible}. Esto es un espacio en el que se prohíbe realizar un salto de línea. Por ejemplo, si escribimos {\tt Juan\char126 Perez}, no se permitirá que una línea termine entre medio de \lq\lq Juan\rq\rq{} y \lq\lq Perez\rq\rq.
+
+El símbolo \% sirve para hacer comentarios, los cuales cumplen el mismo fin que los comentarios de python: dejar aclaraciones para quien lee el código. Lo que se escriba después del símbolo es ignorado por el compilador y no afecta el documento. Cabe destacar que también se ignora el salto de línea, por lo que si se pone el \% después de una palabra y en la siguiente línea se comienza con una palabra, estas dos quedarán jun%
+tas. Para evitar esto se puede por ejemplo poner un espacio %
+antes del \%.
+
+Los otros símbolos reservados irán apareciendo a lo largo del capítulo.
+
+Un aspecto que requiere cierta atención es el uso de comillas. Si bien muchas veces simplemente escribimos el símbolo \char34, en realidad existen símbolos distintos para comillas de apertura y de  cierre: <<\,\lq\lq\,>> y <<\,\rq\rq\,>>. Esas son de hecho comillas dobles. También tenemos las comillas simples que son <<\,\char96\,>> y <<\,'\,>>. Las comillas simples de apertura y de cierre se escriben en el código con {\tt \char96} y {\tt\char39} respectivamente (acento agudo y apóstrofe). Las doble se escriben con los mismos símbolos dos veces, es decir {\tt \char96\char96} y {\tt\char39\char39}. En caso de que en el teclado falte alguno de los acentos (en los teclados españoles puede no estar el acento agudo), se pueden remplazar con los comandos {\tt \tbs lq} y {\tt \tbs rq} (veremos comandos en una sección posterior). Por otra parte, las comillas españolas \lq\lq\,<<\,\rq\rq{} y \lq\lq\,>>\,\rq\rq{} se generan con dos \char60{} juntos y dos~\char62{} juntos, respectivamente.
+
+\section{Modos}
+
+TeX tiene distintos modos, entre los que va cambiando al procesar el código. Estos son: vertical, horizontal, matemático y {\sl display} matemático. Es importante entenderlos al menos hasta cierto punto, ya que hay funcionalidades que se pueden aplicar solamente en ciertos modos.
+
+TeX está en modo vertical cuando organiza contenido de modo vertical (una cosa arriba de otra) y en modo horizontal cuando organiza contenido de modo horizontal. En la generación de párrafos comunes y corrientes TeX va alternando entre estos dos modos. Al generar una línea está en modo horizontal, pues está poniendo una letra al lado de otra, mientras que al armar el párrafo a partir de las líneas está en modo vertical, ya que pone una linea arriba de otra. Cuando veamos cajas (en una sección posterior), tendremos una forma de alternar flexiblemente entre estos dos modos y ordenar lo que queramos de modo horizontal o vertical.
+
+El modo matemático es para ingresar fórmulas matemáticas en el medio del texto. Por ejemplo $x+y=z$ y $x - y=z$ son fórmulas hechas con el modo matemático. Las fórmulas se delimitan con símbolos \$. Para generar las anteriores, en el código se escribió {\tt \$x+y=z\$} y {\tt \$x-y=z\$}. 
+Se puede observar que los símbolos se escriben con una fuente distinta. Comparar la fórmula $x+y=z$ con el texto x+y=z, que tiene los mismos símbolos.
+
+En modo matemático, los espacios entre los símbolos se manejan de modo distinto. Los espacios que pongamos entre los símbolos son totalmente ignorados. Por ejemplo, tanto {\tt\$xy\$} como {\$x~y\$} generan $xy$. Por otra parte, automáticamente se coloca algo de espacio entre símbolos de operación (como {\tt+}) y más espacio entre símbolos de relación (como {\tt=}). Observar la fórmula $xy+z=w$, que tiene los tres espaciamientos. Esta convención de espaciamiento ayuda a entender fácilmente las fórmulas. Más adelante (cuando nos enfoquemos en la escritura de fórmulas) veremos modos de alterar el espaciamiento entre los elementos (aunque en la mayoría de las situaciones no es necesario).
+
+El modo display matemático es para mostrar una fórmula centrada y con margen arriba y abajo. Se hace escribiendo la fórmula delimitada con dos \$ juntos de cada lado. Por ejemplo con {\tt\$\$x+y=z\$\$} se genera $$x+y=z$$
+y si seguimos escribiendo después continúa el párrafo.
+
+Si ponemos una línea en blanco antes de la fórmula, esta comienza un párrafo nuevo, lo cual aumenta el espacio en blanco. Por otra parte, una línea en blanco después de la fórmula hace que lo que viene después comience un párrafo nuevo.
+
+\section{Grupos y estructuras de control}
+
+Se pueden delimitar grupos con los símbolos reservados \lq\lq\{\rq\rq{} y \lq\lq\}\rq\rq. Los grupos se pueden usar para tratar su contenido como una unidad y para aislarlo del resto del documento. En seguida veremos varios usos en conjunto con las estructuras de control. Un grupo que puede ser sorprendentemente útil es el grupo vacío \{\}. No produce nada en el documento, pero tiene varias aplicaciones dentro del código.
+
+Las estructuras de control son instrucciones dadas por el símbolo reservado {\tt\tbs} seguido de algún símbolo o palabra en particular.
+Permiten hacer cosas que no sean simplemente agregar al documento lo que escribimos en el código. Hay estructuras de control para escribir ciertos símbolos (en especial símbolos que no están en el teclado) y otras que producen ciertas acciones o alteraciones de partes del documento. Veremos algunos comandos, pero hay muchísimos más.
+
+En caso de que el \tbs sea seguido por un símbolo, como {\tt\tbs\{} o {\tt\tbs\$}, la estructura de control termina con el símbolo, independientemente de los que venga después. En caso de que sea seguido por una palabra, como {\tt\tbs rq} o {\tt\tbs lq}, la estructura de control termina cuando se llega a un símbolo que no sea una letra, como por ejemplo un espacio.
+
+
+Ejemplos de estructuras de control para producir símbolos que ya vimos son {\tt\tbs lq} y {\tt\tbs rq}, para las comillas. Para poner en el documento algunos de los símbolos reservados hay comandos como {\tt\tbs\$} y {\tt\tbs\{}. Hay estructuras de control para letras griegas para fórmulas, las cuales solo se pueden usar en modo matemático o modo display. Es una contrabarra y el nombre de la letra griega. Por ejemplo con {\tt\$\tbs alpha\$} se produce $\alpha$.
+
+Hay estructuras de control para cambiar la fuente y el tamaño. Estas instrucciones realizan el cambio desde el punto que se escriben en adelante. Por ejemplo, si escribimos {\tt\tbs sl}, de ese punto en adelante se usa una {\sl fuente de letras torcidas}. Si escribimos {\tt\tbs rm} se vuelve a la fuente básica. Con {\tt\tbs bf} se cambia a {\bf en negrita}. Para cambiar el tamaño se pueden usar comandos como {\tt\tbs small}, {\tt\tbs normalsize} o {\tt\tbs large} de modo análogo.
+
+Con las estructuras de control que cambian algo de ese punto en adelante, como las de las fuentes, si se pone adentro de un grupo, solo tiene efecto dentro del grupo. Por lo tanto, una forma de hacer que una sola palabra quede en negrita es con {\tt\{\tbs bf palabra\}}.
+
+Para una estructura de control dada por una palabra, tex interpreta los espacios que vengan después como delimitadores de la estructura de control y no como un espacio que deba ir en el documento. Por ejemplo, si escribimos {\tt \tbs lq hola}, el resultado es <<\lq hola>>. El espacio entre {\tt\tbs lq} y {\tt hola} se interpreta como que está para terminar la estructura de control y no para agregar un espacio al documento.
+
+En el caso anterior, que los espacios después de estructuras de control no vayan al documento vino bien, pero hay casos en los que quisiéramos tener un espacio. Por ejemplo, entre la comilla de cierre y la siguiente palabra queremos que haya un espacio. Si escribimos {\tt \tbs lq hola \tbs rq dijo Juan}, el resultado es <<\lq hola\rq dijo Juan>>, que tiene el defecto de que la comilla de cierre y la palabra <<dijo>> están pegadas. Si agregamos más espacios entre {\tt\tbs rq} y {\tt dijo} el problema no se soluciona, ya que tex trata espacios múltiples como uno solo. Una forma de resolverlo es poner un grupo vacío después del comando, el cual no agrega nada al documento, y luego un espacio. Este grupo vacío cumple la función de separar la estructura de control del espacio posterior, por lo que este se trata como un espacio normal. El código es {\tt \tbs lq hola \tbs rq\{\} dijo Juan} y la salida <<\lq hola\rq{} dijo Juan>>.
+
+Hay estructuras de control que funcionan con uno o más parámetros. Por ejemplo, {\tt\tbs centerline} recibe un parámetro y lo que hace es poner ese parámetro centrado, mientras que {\tt\tbs frac} recibe dos parámetros y los pone en una fracción. En caso de un solo parámetro, el valor es lo primero que viene después de la estructura de control excepto espacios. En caso de dos parámetros, los valores son las primeras dos y así sucesivamente con más parámetros. Por ejemplo, si escribimos {\tt\tbs centerline A} la salida es:
+\centerline A
+mientras que si escribimos {\tt\$\$\tbs frac xy\$\$} la salida es:
+$$\frac xy$$
+Si queremos que la acción se realice con algo más grande que un solo símbolo, hay que usar agrupamiento, de modo que la estructura de control tome al contenido entero del grupo como lo primero que tiene después. Por ejemplo si hacemos {\tt\tbs centerline \{Introducción\}} obtenemos:
+
+\centerline{Introducción}
+\noindent y si hacemos {\tt\$\$\tbs frac \{x+y\}\{2\}\$\$} obtenemos:$$\frac{x+y}{2}$$
+
+Hay estructuras de control que solamente se pueden usar en ciertos modos. Por ejemplo, el comando {\tt\tbs hrule} es para hacer una línea horizontal y solamente se puede usar en modo vertical. Se se pone ese comando dentro de modo horizontal, tex pasa a modo vertical y lo que venga después lo toma como un nuevo párrafo. Por otra parte, el comando {\tt \tbs vrule} es para hacer una linea vertical y solo funciona en modo horizontal. Hay también estructuras de control cuyo comportamiento cambia según el modo. Por ejemplo, {\tt\tbs kern} agrega o quita espacio dado por una medida que le pongamos después (por ejemplo {\tt 1cm, 0.3cm} para agregar o {\tt -1cm, -0.3cm} para quitar), pero si ese espacio es horizontal o vertical depende del modo actual. Hay muchas estructuras de control específicas para el modo matemático, de las cuales veremos algunas más adelante.
+
+
+Latex introduce otras estructuras de control que son entornos dados por {\tt\tbs begin\{nombre\}} y {\tt \tbs end\{nombre\}}. Hay este tipo de entornos para hacer cosas muy variadas. Por ejemplo, el entorno {\tt itemize} permite hacer listas, poniendo adentro el comando {\tt\tbs item} para cada elemento. Por ejemplo, si escribimos lo siguiente:
+$$
+\hbox
+{
+	\vtop
+	{
+		\hsize = .4\hsize
+		\hbox{\tt\tbs begin\{itemize\}}
+		\hbox{\tt\tbs item Primer item}
+		\hbox{\tt\tbs item Segundo item}
+		\hbox{\tt\tbs item Tercer item}
+		\hbox{\tt\tbs end\{itemize\}}
+	}
+}
+$$
+la salida es:
+\begin{itemize}
+	\item Primer item
+	\item Segundo item
+	\item Tercer item
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
 \end{document}
