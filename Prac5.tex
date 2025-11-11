@@ -153,5 +153,18 @@
 		Consideramos $f(x,y) = (e^x(x+y),\, \sin(y)x^2)$. Usando sympy calcular su jacobiano. Ver en \href{https://docs.sympy.org/latest/modules/matrices/matrices.html}{docs.sympy.org/latest/modules/matrices/matrices.html} la función {\tt jacobian(X)}.
 	\end{ejercicio}
 	
+	\begin{ejercicio}
+		Usando la función {\tt evalf} de sympy se puede obtener valores aproximados en punto flotante, los cuales pueden usarse por ejemplo para graficar. Dada una expresión {\tt f} que depende de la variable {\tt x}, se hace {\tt f.evalf(subs=\{x:val\})}, donde {\tt val} es el valor que queremos darle a {\tt x}. A modo de ejemplo:
+		\begin{verbatim}
+>>> import sympy as sp
+>>> x = sp.symbols('x')
+>>> f = sp.sqrt(x)
+>>> f.evalf(subs={x:2})
+1.41421356237310
+		\end{verbatim}
+		
+		Usando esto, escribir una función {\tt plotDeriv(f,x,n,a,b)} que dada una función {\tt f} de la variable {\tt x}, un entero no negativo {\tt n} y dos números {\tt a} y {\tt b}, grafique la derivada enésima de {\tt f} en el intervalo [{\tt a,b}]. Tomamos la derivada {\sl cero ésima} como la misma función. Hacer otra versión que grafique la función original junto con su derivada enésima con colores distintos.
+	\end{ejercicio}
+	
 \end{document}
 
