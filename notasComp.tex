@@ -3121,7 +3121,7 @@ El modo de usar latex es el siguiente. Primero se escribe {\sl código latex} qu
 
 Los entornos integrados de desarrollo suelen permitir visualizar a la vez el código latex y el pdf generado. También suelen tener algún botón para compilar. Para comenzar, con el entorno de desarrollo se abre un archivo tex preexistente o se crea uno nuevo.
 
-\section{Estructura de un archivo latex}
+\section{Estructura de un archivo latex}\label{sec-estrArchivoTex}
 
 Los archivos de latex comienzan con una línea en la que se indica el tipo de documento. Algunos de los posibles tipos son {\tt article, report} y {\tt beamer} (siendo este último para hacer disapositivas). Luego viene el preámbulo, que es una parte en al que se suelen importar paquetes y definir cosas que se usarán en el resto del documento. Finalmente, va el contenido del documento entre {\tt\textbackslash begin\{document\}} y {\tt\textbackslash end\{document\}}.
 $$\vbox
@@ -3199,7 +3199,7 @@ Los otros símbolos reservados irán apareciendo a lo largo del capítulo.
 
 Un aspecto que requiere cierta atención es el uso de comillas. Si bien muchas veces simplemente escribimos el símbolo \char34, en realidad existen símbolos distintos para comillas de apertura y de  cierre: <<\,\lq\lq\,>> y <<\,\rq\rq\,>>. Esas son de hecho comillas dobles. También tenemos las comillas simples que son <<\,\char96\,>> y <<\,'\,>>. Las comillas simples de apertura y de cierre se escriben en el código con {\tt \char96} y {\tt\char39} respectivamente (acento agudo y apóstrofe). Las doble se escriben con los mismos símbolos dos veces, es decir {\tt \char96\char96} y {\tt\char39\char39}. En caso de que en el teclado falte alguno de los acentos (en los teclados españoles puede no estar el acento agudo), se pueden remplazar con los comandos {\tt \tbs lq} y {\tt \tbs rq} (veremos comandos en una sección posterior). Por otra parte, las comillas españolas \lq\lq\,<<\,\rq\rq{} y \lq\lq\,>>\,\rq\rq{} se generan con dos \char60{} juntos y dos~\char62{} juntos, respectivamente.
 
-\section{Modos}
+\section{Modos}\label{sec-modos}
 
 TeX tiene distintos modos, entre los que va cambiando al procesar el código. Estos son: vertical, horizontal, matemático y {\sl display} matemático. Es importante entenderlos al menos hasta cierto punto, ya que hay funcionalidades que se pueden aplicar solamente en ciertos modos.
 
@@ -3269,11 +3269,27 @@ la salida es:
 	\item Tercer item
 \end{itemize}
 
+\section{Cajas y pegamento}
 
+Las cajas y el pegamento son conceptos fundamentales en TeX. Todos los elementos visibles del archivo resultante se procesan con cajas y para determinar los espacios vacíos entre estos elementos se utiliza pegamento. No es común que los manipulemos a mano, pero los comandos que utilizamos funcionan en base a estos conceptos. Por lo tanto, para entender bien el funcionamiento de TeX, hay que saber al menos lo básico sobre cajas y pegamento. Por otra parte, el uso directo de cajas puede ser útil para hacer algunas cosas muy específicas, como el diagrama de la sección \ref{sec-estrArchivoTex}. Para una buena explicación detallada, ver los capítulos \lq\lq Boxes\rq\rq{} y \lq\lq Glue\rq\rq{} del Texbook.
 
+Las cajas delimitan (al menos conceptualmente) cierto elemento que va a ir en el documento. Algunas cajas son básicas y otras están conformadas por otras cajas. Las cajas compuestas pueden ser horizontales o verticales, según cómo se organizan sus elementos. Cada letra es una caja básica. Cada palabra es una caja horizontal formada por sus letras. Cada línea es una caja horizontal formada por las palabra. Cada párrafo es una caja vertical formada por sus líneas. En general una página es una caja vertical formada por distintos elementos, que pueden ser líneas o fórmulas matemáticas, entre otros.
 
+Recordando los modos de tex que vimos en la sección \ref{sec-modos}, el modo vertical es en el que está cuando arma una caja vertical, mientras que el modo horizontal es en el que está cuando arma una horizontal.
 
+Cada fórmula matemática es una caja que se forma combinando de distintos modos las cajas más chicas de las subfórmulas. Por ejemplo, un cociente será una caja vertical formada por el numerador, la barra de divisón y el denominador. El numerador y el denominador son en sí otras cajas, que pueden ser horizontales formadas por símbolos. Por ejemplo en
+$$\frac{x+y}{2\alpha}
+$$
+tenemos una caja vertical formada por las subcajas horizontales de $x+y$, de $2\alpha$ y por la barra de división.
 
+En general todo lo que TeX genera se descompone en cajas de alguna forma. Saber esto puede ayudar a comprender mejor los resultados, pero en general no es necesario conocer profundamente los detalles.
+
+Cada símbolo (por ejemplo las letras) es una caja básica. Otras cajas básicas que pueden ser útiles son las reglas y los espacios fijos (el pegamento, que veremos más adelante, es espacio variable).
+
+Las reglas son líneas, las cuales pueden ser verticales u horizontales. Las líneas verticales se generan con \verb|\vrule| y se ven como <<\vrule>>. Se pueden usar solamente como parte de cajas horizontales y la longitud se determina a partir de la altura de la caja a la que pertenecen (en le ejemplo anterior, la caja horizontal a la que pertenece es el renglón). Las líneas horizontales, por el contrario, se generan con con \verb|\hrule| y solamente pueden formar parte de cajas verticales. La longitud de la linea es el ancho de la caja vertical a la que pertenece. Después de este párrafo hay una línea horizontal, que pertenece a la caja vertical que forma la página.\hrule
+\smallbreak 
+Hay distintas formas de poner espacios fijos en una caja. Uno de ellos es el comando \verb|\kern| seguido por una dimensión. El resultado es la cantidad dada por la magnitud de espacio en blanco. Dentro de una caja vertical, el espacio es vertical, mientras que dentro de una caja horizontal, el espacio es horizontal.
+Las dimensiones son números con la parte fraccionaria separada por un punto seguidos de una unidad, la cual puede ser {\tt cm}, {\tt in} o {\tt em} entre otras (ver el capítulo \lq\lq Dimensions\rq\rq{} del Texbook). La dimensión puede tener signo negativo, lo cual hace que se quite espacio. Si el número es {\tt 0.d} se puede omitir el {\tt 0}. Ejemplos de usos válidos son \verb|\kern .3em|, \verb|\kern -.3em|. El primero agrega una separación de {\tt 0.3em} y el segundo la quita, juntando lo anterior con lo siguiente.
 
 
 
