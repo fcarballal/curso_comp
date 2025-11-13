@@ -3271,25 +3271,95 @@ la salida es:
 
 \section{Cajas y pegamento}
 
-Las cajas y el pegamento son conceptos fundamentales en TeX. Todos los elementos visibles del archivo resultante se procesan con cajas y para determinar los espacios vacíos entre estos elementos se utiliza pegamento. No es común que los manipulemos a mano, pero los comandos que utilizamos funcionan en base a estos conceptos. Por lo tanto, para entender bien el funcionamiento de TeX, hay que saber al menos lo básico sobre cajas y pegamento. Por otra parte, el uso directo de cajas puede ser útil para hacer algunas cosas muy específicas, como el diagrama de la sección \ref{sec-estrArchivoTex}. Para una buena explicación detallada, ver los capítulos \lq\lq Boxes\rq\rq{} y \lq\lq Glue\rq\rq{} del Texbook.
+Las cajas y el pegamento son conceptos de bajo nivel fundamentales en TeX. Todos los elementos visibles del archivo resultante se procesan con cajas y para determinar los espacios vacíos entre algunos de estos elementos se utiliza pegamento. En general no los manipulemos a mano, pero los comandos que utilizamos funcionan en base a estos conceptos. Por lo tanto, para entender bien el funcionamiento de TeX, hay que saber al menos lo básico sobre cajas y pegamento. Por otra parte, el uso directo de cajas puede ser útil para hacer algunas cosas muy específicas, como el diagrama de la sección \ref{sec-estrArchivoTex}. Para una buena explicación detallada, ver los capítulos \lq\lq Boxes\rq\rq{} y \lq\lq Glue\rq\rq{} del Texbook.
 
-Las cajas delimitan (al menos conceptualmente) cierto elemento que va a ir en el documento. Algunas cajas son básicas y otras están conformadas por otras cajas. Las cajas compuestas pueden ser horizontales o verticales, según cómo se organizan sus elementos. Cada letra es una caja básica. Cada palabra es una caja horizontal formada por sus letras. Cada línea es una caja horizontal formada por las palabra. Cada párrafo es una caja vertical formada por sus líneas. En general una página es una caja vertical formada por distintos elementos, que pueden ser líneas o fórmulas matemáticas, entre otros.
+Las cajas delimitan (al menos conceptualmente) cierto elemento que va a ir en el documento. Cada caja contiene una lista de elementos, que pueden ser otras cajas. Las cajas pueden ser horizontales o verticales, según cómo se organizan sus elementos. Cada letra conforma una caja básica. Cada palabra es una caja horizontal formada por sus letras. Cada línea es una caja horizontal formada por las palabras y los espacios. Cada párrafo es una caja vertical formada por sus líneas y el espacio entre ellas. En general una página es una caja vertical formada por distintos elementos, que pueden ser líneas, fórmulas matemáticas, o espacios vacíos, entre otros.
 
 Recordando los modos de tex que vimos en la sección \ref{sec-modos}, el modo vertical es en el que está cuando arma una caja vertical, mientras que el modo horizontal es en el que está cuando arma una horizontal.
 
-Cada fórmula matemática es una caja que se forma combinando de distintos modos las cajas más chicas de las subfórmulas. Por ejemplo, un cociente será una caja vertical formada por el numerador, la barra de divisón y el denominador. El numerador y el denominador son en sí otras cajas, que pueden ser horizontales formadas por símbolos. Por ejemplo en
+Cada fórmula matemática es una caja que se forma combinando de distintos modos las cajas más chicas de las subfórmulas. Por ejemplo, un cociente será una caja vertical formada por el numerador, la barra de divisón y el denominador (tal vez junto con elementos para las separaciones). El numerador y el denominador son en sí otras cajas, que pueden ser horizontales formadas por símbolos. Por ejemplo en
 $$\frac{x+y}{2\alpha}
 $$
 tenemos una caja vertical formada por las subcajas horizontales de $x+y$, de $2\alpha$ y por la barra de división.
 
 En general todo lo que TeX genera se descompone en cajas de alguna forma. Saber esto puede ayudar a comprender mejor los resultados, pero en general no es necesario conocer profundamente los detalles.
 
-Cada símbolo (por ejemplo las letras) es una caja básica. Otras cajas básicas que pueden ser útiles son las reglas y los espacios fijos (el pegamento, que veremos más adelante, es espacio variable).
+\subsubsection{Elementos básicos de cajas}
 
-Las reglas son líneas, las cuales pueden ser verticales u horizontales. Las líneas verticales se generan con \verb|\vrule| y se ven como <<\vrule>>. Se pueden usar solamente como parte de cajas horizontales y la longitud se determina a partir de la altura de la caja a la que pertenecen (en le ejemplo anterior, la caja horizontal a la que pertenece es el renglón). Las líneas horizontales, por el contrario, se generan con con \verb|\hrule| y solamente pueden formar parte de cajas verticales. La longitud de la linea es el ancho de la caja vertical a la que pertenece. Después de este párrafo hay una línea horizontal, que pertenece a la caja vertical que forma la página.\hrule
+Enfoquémonos en algunos de los elementos básicos de cajas, es decir, los que no son otras cajas. Existen otros elementos básicos además de los que vemos aquí.
+
+Cada símbolo (por ejemplo una letra) es un elemento básico. Otros elementos básicos son las reglas y los espacios fijos llamados {\tt kern}. Otro elemento básico es el pegamento, el cual veremos más adelante, pero que esencialmente es espacio variable.
+
+Las reglas son líneas, las cuales pueden ser verticales u horizontales. Las líneas verticales se generan con \verb|\vrule|, por ejemplo <<\vrule>>. Se pueden usar solamente como parte de cajas horizontales y la longitud se determina a partir de la altura de la caja a la que pertenecen (en le ejemplo anterior, la caja horizontal a la que pertenece es el renglón). Las líneas horizontales, por el contrario, se generan con con \verb|\hrule| y solamente pueden formar parte de cajas verticales. La longitud de la linea es el ancho de la caja vertical a la que pertenece. Después de este párrafo hay una línea horizontal, que pertenece a la caja vertical que forma la página.\hrule
 \smallbreak 
 Hay distintas formas de poner espacios fijos en una caja. Uno de ellos es el comando \verb|\kern| seguido por una dimensión. El resultado es la cantidad dada por la magnitud de espacio en blanco. Dentro de una caja vertical, el espacio es vertical, mientras que dentro de una caja horizontal, el espacio es horizontal.
-Las dimensiones son números con la parte fraccionaria separada por un punto seguidos de una unidad, la cual puede ser {\tt cm}, {\tt in} o {\tt em} entre otras (ver el capítulo \lq\lq Dimensions\rq\rq{} del Texbook). La dimensión puede tener signo negativo, lo cual hace que se quite espacio. Si el número es {\tt 0.d} se puede omitir el {\tt 0}. Ejemplos de usos válidos son \verb|\kern .3em|, \verb|\kern -.3em|. El primero agrega una separación de {\tt 0.3em} y el segundo la quita, juntando lo anterior con lo siguiente.
+Las dimensiones son números con la parte fraccionaria separada por un punto seguidos de una unidad, la cual puede ser {\tt cm}, {\tt in} o {\tt em}, entre otras (ver el capítulo \lq\lq Dimensions\rq\rq{} del Texbook). Si el número es {\tt 0.d}, se puede omitir el cero, por ejemplo en \verb|\kern .3em|.
+
+La dimensión puede tener signo negativo, lo cual hace que se quite espacio. En otras palabras, acerca lo que tiene antes y lo que tiene después, pudiendo llegar a hacer que se superpongan. Un ejemplo es \verb|\kern -.3em|.
+
+A modo de ejemplo, \verb|{Este \kern 1em es\kern -3em un ejemplo.}| produce
+$$\hbox{Este \kern 1em es\kern -.3em un ejemplo.} $$
+Por supuesto que en general no tiene mucho sentido usar estas cosas en medio de texto. Para el diagrama de la sección \ref{sec-estrArchivoTex} fueron útiles y tal vez aparezca en ejemplos posteriores. Cabe aclarar que normalmente los comandos de alto nivel de latex están hechos de modo que no haga falta ajustar los espacios de esta forma.
+
+Hay otros comandos de espaciamiento, de los que hablaremos más adelante. Por ejemplo, \verb|\quad| es uno muy común para producir cierta cantidad fija de espacio horizontal.
+
+\subsubsection{Creación de cajas compuestas}
+
+Para crear explícitamente una caja horizontal se usa el comando {\verb|\hbox|} y para crear una vertical \verb|\vbox|, los cuales arman una caja con lo que venga después (que en general es un grupo, delimitado por corchetes). Dentro del contenido de una caja se pueden poner otras cajas. Por ejemplo, al crear una caja vertical, es común que adentro cajas horizontales, las cuales quedarán una arriba de la otra. Considerar el siguiente ejemplo (recordar que el código fuente está disponible en el git del curso, cuya página se indica al principio de este capítulo).
+$$\vbox{\hbox{lo de arriba}\kern3pt \hrule\kern 3pt\hbox{y lo de abajo}}
+$$
+
+Se pueden poner cajas en el modo matemático y el modo display. Al hacer eso, dentro de la caja se pasa a modo vertical si es vertical y a modo horizontal si es vertical. En cualquiera de los dos casos, se escribe texto de modo usual. Esto es una forma sencilla de poner texto dentro de una fórmula matemática. Por otra parte, dentro del modo display puede servir para poner texto centrado en medio de la página, como se hizo en el ejemplo de arriba y en el siguiente.
+$$\hbox{Ejemplo de texto centrado con hbox en modo display.}
+$$
+
+Las cajas verticales hechas con \verb|\vbox| se alinean según el elemento de más abajo. Para hacer una caja que se alinea según el de arriba se usa \verb|\vtop| y para una que se alinie por el centro, \verb|\vcenter|, siendo que este último solo se puede usar en modo matemático. En el siguiente ejemplo (no muy bello) usamos los tres tipos.
+$$
+\hbox{El \quad\vbox{\hbox{supremo}\hbox{ínfimo}}\quad es el \quad$\vcenter{\hbox{mínimo}\hbox{máximo}}$\quad de las cotas \quad\vtop{\hbox{superiores}\hbox{inferiores}}.}
+$$
+
+Si ponemos texto suelto dentro de una caja vertical funciona como un párrafo. Para hacer una caja vertical que sea un párrafo más chico, dentro de esa caja se puede cambiar el \verb|\hsize|, que indica el ancho del texto. Por ejemplo, podemos hacer \verb|\hsize=.4\hsize| para que sea el 40\% (por el funcionamiento de los grupos, fuera de la caja se mantiene el valor original). En el siguiente ejemplo hacemos eso, junto con reglas para meter el párrafo en una caja visible.
+
+$$
+\hbox
+{\vrule
+	\vbox
+	{
+		\hsize=.4\hsize
+		\hrule
+		\kern 2pt
+		Este es un párrafo de ejemplo, que queda metido dentro de una caja. Seguramente se puede hacer con algún paquete, pero ¿quién nos quita la diversión?\par
+		\kern 2pt
+		\hrule
+	}\vrule
+}
+$$
+Ejercicio: modificarlo para que los bordes laterales también queden dos puntos separados del párrafo. Si solamente se agregan los espacios a los lados, las esquinas de la caja no quedan bien cerradas.
+
+Se puede fijar el ancho de una caja horizontal con \verb|\hbox to ancho|. Con una caja vertical se puede definir la altura del mismo modo. Si ponemos un ancho mayor al tamaño natural de los contenidos, tex intenta espaciarlos para que quede completo, de acuerdo al funcionamiento del pegamento (que veremos a continuación). Por ejemplo. \verb|\hbox| {\tt to 2in} \verb|{Ejemplo de texto.}| da:
+$$\hbox to 2in{Ejemplo de texto.}
+$$
+Puede ser útil en conjunto con pegamentos infinitos, cosa que veremos a continuación.
+
+\subsubsection{Pegamento}
+
+El pegamento son espacios variables que suelen formar parte de cajas. Si el espacio es horizontal o vertical depende del tipo de caja. Cada pegamento tiene un tamaño natural, una compresibilidad y una extensibilidad. La compresibilidad dice qué tanto se puede achicar, mientras que la extensibilidad qué tanto se puede agrandar.
+
+Un ejemplo son los espacios entre las palabras de cada línea de un párrafo. Tex separa el párrafo en línas, que son cajas horizontales y en cada una de esas líneas, los espacios se ajustan de acuerdo a la extensibilidad y compresibilidad para que el largo total sea adecuado. En caso de que no haya ninguna solución que respete la compresibilidad y extensibilidad de los pegamentos, tex genera una caja horizontal que se pasa del largo estipulado y genera una advertencia ({\sl warning}) de {\sl overfull hbox}.
+
+Cuando ocurre un overfull hbox, lo mejor es escribir las cosas de modo distinto para evitar el problema. Por otra parte, se puede aumentar la tolerancia de tex, haciendo que permita estirar los pegamentos más que la extensibilidad (lo que nunca se hace es achicarlos más que lo que permite la compresibilidad). Esto hace que las palabras puedan separarse más, lo cual puede solucionar el problema a costo de que el párrafo se vea más feo, al tener las palabras demasiado sueltas. Para cambiar la tolerancia se hace \verb|\tolerante=|$n$. La tolerancia por defecto es 200.
+
+Si el contenido de una caja horizontal no alcanza para completar el tamaño estipulado, se estiran los pegamentos por encima de la extensibilidad y se produce un warning de {\sl underfull hbox}. Esto es lo que pasa por ejemplo si hacemos {\verb|\hbox|} {\tt to ancho \{contenido\}} con un contenido que no alcanza para el ancho dado. En caso de que en el contenido no haya pegamento, no se estira nada e igual se produce el warning.
+
+También hay pegamento vertical. No se utiliza para las líneas de texto, ya que estas se tratan de modo distinto, pues en general se desea que estén equiespaciadas, pero sí se utiliza al rededor de los títulos y de las fórmulas matemáticas en modo display, entre otras cosas.
+
+Un ejemplo de pegamento vertical que puede ser útil para organizar texto son los \verb|\smallbreak|, \verb|\medbreak| y \verb|\bigbreak|, los cuales agregan espacio vertical el cual es un poco flexible. Como sugieren las palabras, son de tres tamaños distintos. Entre este párrafo y el siguiente hay un \verb|\smallbreak|.
+\smallbreak
+
+Un ejemplo conceptualmente interesante y además útil es el de pegamento infinito. Se trata de pegamento con extensibilidad infinita.
+
+
+
 
 
 
