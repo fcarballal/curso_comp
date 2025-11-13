@@ -3351,9 +3351,11 @@ Cuando ocurre un overfull hbox, lo mejor es escribir las cosas de modo distinto 
 
 Si el contenido de una caja horizontal no alcanza para completar el tamaño estipulado, se estiran los pegamentos por encima de la extensibilidad y se produce un warning de {\sl underfull hbox}. Esto es lo que pasa por ejemplo si hacemos {\verb|\hbox|} {\tt to ancho \{contenido\}} con un contenido que no alcanza para el ancho dado. En caso de que en el contenido no haya pegamento, no se estira nada e igual se produce el warning.
 
+En las fórmulas también puede haber pegamento horizontal. Por ejemplo, $xy+z=w$ tiene pegamento a los lados del símbolo de operación $+$ y del símbolo de relación $=$.
+
 También hay pegamento vertical. No se utiliza para las líneas de texto, ya que estas se tratan de modo distinto, pues en general se desea que estén equiespaciadas, pero sí se utiliza al rededor de los títulos y de las fórmulas matemáticas en modo display, entre otras cosas.
 
-Un ejemplo de pegamento vertical que puede ser útil para organizar texto son los \verb|\smallbreak|, \verb|\medbreak| y \verb|\bigbreak|, los cuales agregan espacio vertical el cual es un poco flexible. Como sugieren las palabras, son de tres tamaños distintos. Entre este párrafo y el siguiente hay un \verb|\smallbreak|.
+Los comandos \verb|\smallbreak|, \verb|\medbreak| y \verb|\bigbreak| producen pegamento vertical, de tres tamaños distintos como sugieren los nombres. Entre este párrafo y el siguiente hay un \verb|\smallbreak|.
 \smallbreak
 
 Un ejemplo conceptualmente interesante y además útil es el de pegamento infinito. Se trata de pegamento con extensibilidad infinita.
