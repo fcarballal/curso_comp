@@ -3117,9 +3117,13 @@ Por otra parte, en internet se puede encontrar mucha información al respecto.
 
 Hay que instalar un compilador y opcionalmente un entorno de desarrollo integrado (un programa que facilita el uso). Respecto al compilador, se puede usar por ejemplo {\sl MiKTeX}: \href{https://miktex.org/}{miktex.org/}. Respecto al entorno de desarrollo integrado, se puede usar por ejemplo {\sl TeXstudio}: \href{https://www.texstudio.org/}{texstudio.org/}.
 
-El modo de usar latex es el siguiente. Primero se escribe {\sl código latex} que especifica el contenido y la estructura del documento y luego el compilador genera el archivo pdf. El código latex se escribe en un archivo de formato {\tt\lq\lq.tex\rq\rq}. El pdf queda en la misma carpeta. 
+El modo de usar latex es el siguiente. Primero se escribe {\sl código latex} que especifica el contenido y la estructura del documento y luego con el compilador se genera el archivo pdf junto con otros archivos auxiliares. El código latex se escribe en un archivo de formato {\tt\lq\lq.tex\rq\rq}. El pdf y los archivos auxiliares quedan en la misma carpeta que el código fuente (es decir, el código latex).
 
-Los entornos integrados de desarrollo suelen permitir visualizar a la vez el código latex y el pdf generado. También suelen tener algún botón para compilar. Para comenzar, con el entorno de desarrollo se abre un archivo tex preexistente o se crea uno nuevo.
+Los entornos integrados de desarrollo suelen permitir visualizar a la vez el código latex y el pdf generado. Para comenzar, con el entorno de desarrollo se abre un archivo tex preexistente o se crea uno nuevo. Suele haber un botón para compilar y mostrar el pdf generado.
+
+También se puede compilar desde la terminal sin necesidad de entorno de desarrollo integrado. Teniendo miktex instalado, una forma básica de hacerlo es ejecutando el comando $$\hbox{\tt pdflatex nombre}$$ en la carpeta en que tenemos el archivo fuente {\tt nombre.tex}. Cabe aclarar que esta forma básica de compilación a veces no genera bien ciertas cosas. Por ejemplo, para que el índice quede bien hay que compilar dos veces seguidas. Esto parece ser porque el índice referencia cosas posteriores y la ejecución es lineal; con cosas de tex que no implican referencias parece funcionar bien de una. Hay otras formas de compilar desde la terminal que resuelven esos problemas de modo más prolijo.
+
+
 
 \section{Estructura de un archivo latex}\label{sec-estrArchivoTex}
 
@@ -3269,6 +3273,10 @@ la salida es:
 	\item Tercer item
 \end{itemize}
 
+\subsubsection{Ver la definición de un comando (técnico)}
+
+Algunos comandos son primitivos de tex y otros son definidos a partir de comandos más básicos. Con \verb|\show| podemos ver la definición de un comando. Lo que hay que hacer es ponerlo seguido del comando cuya definición queremos ver y ejecutar desde la terminal. Dentro de la salida que latex produce en la terminal se incluye la definición del comando (ver Texbook p.\ 10, dentro del capítulo 3). 
+
 \section{Cajas y pegamento}
 
 Las cajas y el pegamento son conceptos de bajo nivel fundamentales en TeX. Todos los elementos visibles del archivo resultante se procesan con cajas y para determinar los espacios vacíos entre algunos de estos elementos se utiliza pegamento. En general no los manipulemos a mano, pero los comandos que utilizamos funcionan en base a estos conceptos. Por lo tanto, para entender bien el funcionamiento de TeX, hay que saber al menos lo básico sobre cajas y pegamento. Por otra parte, el uso directo de cajas puede ser útil para hacer algunas cosas muy específicas, como el diagrama de la sección \ref{sec-estrArchivoTex}. Para una buena explicación detallada, ver los capítulos \lq\lq Boxes\rq\rq{} y \lq\lq Glue\rq\rq{} del Texbook.
@@ -3309,7 +3317,7 @@ Para crear explícitamente una caja horizontal se usa el comando {\verb|\hbox|} 
 $$\vbox{\hbox{lo de arriba}\kern3pt \hrule\kern 3pt\hbox{y lo de abajo}}
 $$
 
-Se pueden poner cajas en el modo matemático y el modo display. Al hacer eso, dentro de la caja se pasa a modo vertical si es vertical y a modo horizontal si es vertical. En cualquiera de los dos casos, se escribe texto de modo usual. Esto es una forma sencilla de poner texto dentro de una fórmula matemática. Por otra parte, dentro del modo display puede servir para poner texto centrado en medio de la página, como se hizo en el ejemplo de arriba y en el siguiente.
+Se pueden poner cajas en el modo matemático y el modo display. Al hacer eso, dentro de la caja se pasa a modo vertical si es vertical y a modo horizontal si es horizontal. En cualquiera de los dos casos, se escribe texto de modo usual. Esto es una forma sencilla de poner texto dentro de una fórmula matemática. Por otra parte, dentro del modo display puede servir para poner texto centrado en medio de la página, como se hizo en el ejemplo de arriba y en el siguiente.
 $$\hbox{Ejemplo de texto centrado con hbox en modo display.}
 $$
 
@@ -3328,7 +3336,7 @@ $$
 		\hsize=.4\hsize
 		\hrule
 		\kern 2pt
-		Este es un párrafo de ejemplo, que queda metido dentro de una caja. Seguramente se puede hacer con algún paquete, pero ¿quién nos quita la diversión?\par
+		Este es un párrafo de ejemplo que queda metido dentro de una caja. Seguramente se puede hacer con algún paquete, pero ¿quién nos quita la diversión?\par
 		\kern 2pt
 		\hrule
 	}\vrule
@@ -3355,17 +3363,63 @@ En las fórmulas también puede haber pegamento horizontal. Por ejemplo, $xy+z=w
 
 También hay pegamento vertical. No se utiliza para las líneas de texto, ya que estas se tratan de modo distinto, pues en general se desea que estén equiespaciadas, pero sí se utiliza al rededor de los títulos y de las fórmulas matemáticas en modo display, entre otras cosas.
 
-Los comandos \verb|\smallbreak|, \verb|\medbreak| y \verb|\bigbreak| producen pegamento vertical, de tres tamaños distintos como sugieren los nombres. Entre este párrafo y el siguiente hay un \verb|\smallbreak|.
+Los comandos \verb|\smallbreak|, \verb|\medbreak| y \verb|\bigbreak| producen pegamento vertical, de tres tamaños distintos como sugieren los nombres. El chico es de {\tt 3pt$\pm$1}, el mediano es el doble y el grande es el doble del mediano. Entre este párrafo y el siguiente hay un \verb|\smallbreak|.
 \smallbreak
 
-Un ejemplo conceptualmente interesante y además útil es el de pegamento infinito. Se trata de pegamento con extensibilidad infinita.
+Un ejemplo conceptualmente interesante y además útil es el de pegamento infinito. Se trata de pegamento con extensibilidad infinita. La versión horizontal es \verb|\hfill| y la vertical es \verb|\vfill|. Si colocamos pegamento infinito en una caja, los otros pegamentos quedan todos en su tamaño natural y el pegamento infinito se extiende lo que haga falta. En caso de que hayan varios pegamentos infinitos, el espacio se reparte equitativamente entre ellos.
 
+Una aplicación común es la de  correr a la izquierda, correr a la derecha o centrar algo. Para correr a la izquierda ponemos un \verb|\hfill| a la derecha. Para correr a la derecha ponemos el \verb|\hfill| a la izquierda. Para centrar, ponemos un \verb|\hfill| a la izquierda y otro a la derecha. Considerar los siguientes ejemplos.
+$$\vrule\vcenter{\hbox to 4cm{\hfill Un texto\hfill}\hbox to 4cm{\hfill Un texto más grande\hfill }}\vrule\qquad \frac{1\hfill}{x+y}\qquad \frac{\hfill1}{x+y}
+$$
 
+\subsubsection{Usos de registros de cajas (técnico)}
 
+Tex tiene registros en los que se pueden guardar cajas para ciertos usos. Son como variables de un lenguaje de programación. En el capítulo \lq\lq How TeX Makes Lines into pages\rq\rq{} del Texbook se explican los registros de modo detallado. Los registros de cajas permiten ver cómo es la estructura interna de la caja y acceder a sus dimensiones.
 
+Para ingresar una caja en el registro 0 alcanza \verb|\setebox0 = caja|. Luego de hacer esto, podemos por ejemplo acceder a su ancho con \verb|\wd0|. Para ver la estructura de la caja, hay que poner primero el comando \verb|\showoutput|, luego \verb|\showbox0| y ejecutar desde la terminal. En el texto de salida de la terminal se incluye la estructura interna de la caja. En el capítulo \lq\lq Boxes\rq\rq{} del Texbook hay un ejemplo.
 
+Conocer el ancho de una caja puede ser útil para hacer que otra caja tenga exactamente el mismo. Considerar el siguiente ejemplo.
+\setbox0 = \hbox{Línea más grande}
+$$
+\vbox{\hbox to \wd0{\hfill Línea}\hbox{Línea más grande}}
+$$
 
+\subsubsection{Comentario final sobre cajas y pegamento}
 
+Lo que acabamos de introducir en esta sección son elementos básicos del funcionamiento de Tex. Las instrucciones más complejas se definen a partir de conceptos como estos. Haciendo una analogía con los lenguajes de programación, las cajas y el pegamento son como instrucciones básicas del procesador. Si bien saber armar cajas explícitamente puede ser útil para hacer ciertas cosas muy específicas, en general es preferible utilizar las instrucciones de más alto nivel, ya que lo que hay que escribir es menos y el código queda más fácil de entender.
 
+\section{Escritura matemática}
+
+En esta sección veremos funcionalidades del modo matemático y el modo display. Los capítulos \lq\lq Typing Math Formulas\rq\rq, \lq\lq More about Math\rq\rq, \lq\lq Fine Points of Mathematical Typing\rq\rq{} y \lq\lq Displayed Equations\rq\rq{} del Texbook tienen lo que se presenta aquí con explicaciones menos escuetas, varios ejemplos y ejercicios (cuyas soluciones están en un apéndice), por lo que puede ser muy útil. El único detalle a tener en cuenta es que algunas cosas, como las matrices y las ecuaciones alineadas, se escriben distinto en latex con el paquete {\sl amsmath}, pero la idea de cómo funcionan es análoga. En esta sección usaremos las notaciones que funcionan en latex con el paquete amsmath (pero las explicaciones no serán tan completas como las del Texbook).
+
+\subsubsection{Fuentes y texto en fórmulas}
+
+Dentro de fórmulas se pueden cambiar las fuentes igual que en texto. Por ejemplo, para obtener la fórmula ${\rm cos}(x)$ se puede escribir \verb|${\rm cos}(x)$|. También puede ser útil usar fuente en negrita, por ejemplo en $\alpha{\bf x^{\rm T}Tx}$ (ejemplo que también usa fuente rm). La fuente por defecto en matemática es \verb|\mit|. No es lo mismo que la itálica \verb|\it|, en particular por el espaciamiento de las letras (comparar $Hom$ con {\it Hom}). Para nombres de funciones es muy común que se use la fuente rm, por lo que hay comandos específicos. Por ejemplo, otra forma de escribir el coseno de $x$ es \verb|$\cos(x)$|.
+
+Para cambiar a modo texto en una fórmula se puede usar \verb|\hbox|, como ya vimos. Hay otro comando que es \verb|\text|, que tiene en cuenta ciertos aspectos del tamaño de fuente (si lo ponemos en un subíndice, el texto queda chico, por ejemplo). Escribir texto adentro de una fórmula no es lo mismo que solamente cambiar la fuente. En el texto los espacios se tienen en cuenta mientras que en las fórmulas no, independientemente de la fuente. Por ejemplo, \verb|$x{\rm tal que }P$| produce $x{\rm tal que }P$ mientras que \verb|$x\text{ tal que }P$| produce $x\text{ tal que }P$.
+
+\subsubsection{Subíndices y supraíndices}
+
+\subsubsection{raíces, barras, fracciones y corchetes con comentarios}
+
+\subsubsection{Delimitadores}
+
+\subsubsection{Espaciamiento}
+
+\subsubsection{Matrices}
+
+\subsubsection{Alineamiento}
+
+\section{Macros}
+
+\section{Funcionalidades de latex}
+
+No veremos la creación de tablas. Para esto lo usual es el entorno {\tt tabular} de latex, el cual se presenta en {\sl The Not So Short Introduction to Latex}.
+
+\subsection{Secciones}
+
+\subsection{Imágenes}
+
+\subsection{Referencias}
 
 \end{document}
