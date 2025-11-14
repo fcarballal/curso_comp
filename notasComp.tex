@@ -3098,18 +3098,18 @@ Latex, escrito de modo estilizado \LaTeX{} o LaTeX, es un lenguaje para generar 
 
 Los materiales de este curso están hechos con latex. Se puede acceder a los archivos fuente en \href{https://github.com/fcarballal/curso_comp}{https://github.com/fcarballal/curso\_comp}.
 
-Latex está basado en \TeX, el cual es un lenguaje más elemental (aunque muy potente) para generación de documentos que puede extenderse con elementos llamados {\sl macros}. De hecho, LaTeX es TeX junto con un gran conjunto de macros que simplifica la creación de documentos. Las cosas de LaTeX son elementos básicos de TeX o macros definidos por LaTeX.
+Latex está basado en \TeX, el cual es un lenguaje más elemental (aunque muy potente) para generación de documentos que puede extenderse con elementos llamados {\sl macros}. De hecho, LaTeX es TeX junto con un conjunto de macros que simplifica la creación de documentos. Las cosas de LaTeX son elementos básicos de TeX o macros definidos por LaTeX.
 
 Tex fue hecho por Donald Knuth y Latex por Leslie Lamport algunos años después. Tras hacer tex, Knuth creó un conjunto de macros llamado \lq\lq plain tex\rq\rq{}, que facilita el uso.
 $$
 \hbox{\TeX}\rightarrow\left\{ {\hbox{Plain \TeX} \atop \hbox{\LaTeX}\hfill} \right.
 $$
-Latex (que se creó después) incluye la mayoría de los macros de plain tex, pero no todos. Aparte de eso tiene muchas más cosas y una gran cantidad de paquetes con los que se puede extender (análogamente al uso de bibliotecas en python).
+Latex (que se creó después) incluye la mayoría de los macros de plain tex, pero no todos. Aparte de eso tiene muchas más cosas y una gran cantidad de paquetes con los que se puede extender (análogamente al uso de bibliotecas en python). Los paquetes de latex suelen tener documentación en \href{https://ctan.org}{ctan.org}
 
 Respecto a materiales para estudiar latex, considerar los siguientes:
 \begin{enumerate}
-	\item {\sl The Not So Short Introduction to Latex}. Se puede acceder a la versión en español en la página {\href{https://ctan.org/pkg/lshort-spanish}{ctan.org/pkg/lshort-spanish}}. Introduce los conceptos y además explica y ejemplifica los elementos que se usan comúnmente.
-	\item {\sl The Texbook} por Donald Knuth. Es el manual de tex y plain tex escrito por el autor del sistema. A pesar de ser un manual, es muy didáctico y agradable de leer, al menos para quien escribe estos apuntes. Además de explicar tex, tiene comentarios sobre buenas prácticas de tipografía.
+	\item {\sl La introducción no-tan-corta a latex}. Se puede acceder a la versión en español en la página {\href{https://ctan.org/pkg/lshort-spanish}{ctan.org/pkg/lshort-spanish}}. Introduce los conceptos y además explica y ejemplifica los elementos que se usan comúnmente.
+	\item {\sl The Texbook} por Donald Knuth. Es el manual de tex y plain tex escrito por el autor del sistema. A pesar de ser un manual, es muy didáctico y agradable de leer, al menos para quien escribe estos apuntes. Además de explicar tex, tiene muchos comentarios sobre buenas prácticas de tipografía.
 \end{enumerate}
 Por otra parte, en internet se puede encontrar mucha información al respecto.
 
@@ -3247,6 +3247,8 @@ Si queremos que la acción se realice con algo más grande que un solo símbolo,
 
 \centerline{Introducción}
 \noindent y si hacemos {\tt\$\$\tbs frac \{x+y\}\{2\}\$\$} obtenemos:$$\frac{x+y}{2}$$
+
+Las estructuras de control de cambio de fuente tienen versiones con parámetros que son las más usadas en latex. Por ejemplo, se puede poner una palabra en negrita con \verb|\textbf{palabra}|. En el capítulo <<fundiciones y tamaños>> de <<La introducción no-tan-corta a latex>> se presentan varias fuentes y tamaños.
 
 Hay estructuras de control que solamente se pueden usar en ciertos modos. Por ejemplo, el comando {\tt\tbs hrule} es para hacer una línea horizontal y solamente se puede usar en modo vertical. Se se pone ese comando dentro de modo horizontal, tex pasa a modo vertical y lo que venga después lo toma como un nuevo párrafo. Por otra parte, el comando {\tt \tbs vrule} es para hacer una linea vertical y solo funciona en modo horizontal. Hay también estructuras de control cuyo comportamiento cambia según el modo. Por ejemplo, {\tt\tbs kern} agrega o quita espacio dado por una medida que le pongamos después (por ejemplo {\tt 1cm, 0.3cm} para agregar o {\tt -1cm, -0.3cm} para quitar), pero si ese espacio es horizontal o vertical depende del modo actual. Hay muchas estructuras de control específicas para el modo matemático, de las cuales veremos algunas más adelante.
 
@@ -3390,11 +3392,17 @@ Lo que acabamos de introducir en esta sección son elementos básicos del funcio
 
 \section{Escritura matemática}
 
-En esta sección veremos funcionalidades del modo matemático y el modo display. Los capítulos \lq\lq Typing Math Formulas\rq\rq, \lq\lq More about Math\rq\rq, \lq\lq Fine Points of Mathematical Typing\rq\rq{} y \lq\lq Displayed Equations\rq\rq{} del Texbook tienen lo que se presenta aquí con explicaciones menos escuetas, varios ejemplos y ejercicios (cuyas soluciones están en un apéndice), por lo que puede ser muy útil. El único detalle a tener en cuenta es que algunas cosas, como las matrices y las ecuaciones alineadas, se escriben distinto en latex con el paquete {\sl amsmath}, pero la idea de cómo funcionan es análoga. En esta sección usaremos las notaciones que funcionan en latex con el paquete amsmath (pero las explicaciones no serán tan completas como las del Texbook).
+En esta sección veremos funcionalidades del modo matemático y el modo display. Lo que explicaremos son funcionalidades básicas de tex, cosas de latex y cosas agregadas por paquetes, en particular por {\tt amsmath}, que es un paquete muy común para escritura matemática (documentación: \href{https://ctan.org/pkg/amsmath}{ctan.org/pkg/amsmath}).
+
+Los capítulos \lq\lq Typing Math Formulas\rq\rq, \lq\lq More about Math\rq\rq, \lq\lq Fine Points of Mathematical Typing\rq\rq{} y \lq\lq Displayed Equations\rq\rq{} del Texbook tienen lo central que se presenta aquí con explicaciones menos escuetas, varios ejemplos y ejercicios (cuyas soluciones están en un apéndice), por lo que puede aportar mucho.
+Un detalle a tener en cuenta es que algunas cosas, como las matrices y las ecuaciones alineadas, en latex con el paquete amsmath se escriben distinto, pero la idea de cómo funcionan es análoga.
+
 
 \subsubsection{Fuentes y texto en fórmulas}
 
 Dentro de fórmulas se pueden cambiar las fuentes igual que en texto. Por ejemplo, para obtener la fórmula ${\rm cos}(x)$ se puede escribir \verb|${\rm cos}(x)$|. También puede ser útil usar fuente en negrita, por ejemplo en $\alpha{\bf x^{\rm T}Tx}$ (ejemplo que también usa fuente rm). La fuente por defecto en matemática es \verb|\mit|. No es lo mismo que la itálica \verb|\it|, en particular por el espaciamiento de las letras (comparar $Hom$ con {\it Hom}). Para nombres de funciones es muy común que se use la fuente rm, por lo que hay comandos específicos. Por ejemplo, otra forma de escribir el coseno de $x$ es \verb|$\cos(x)$|.
+
+Hay fuentes que no hemos mencionado que suelen ser útiles en fórmulas. Una de ellas es \verb|\cal|, la cual funciona con letras mayúsculas, dando resultados como $\cal R$. El paquete {\tt amsfonts} agrega fuentes dadas por los comandos \verb|\mathbb| y \verb|\mathfrak|. Un ejemplo de la primera es $\mathbb{R}$ y uno de la segunda es $\mathfrak{s}$. La primera es solo para mayúsculas. Estos comandos funcionan con parámetros, es decir, aplican esa fuente solamente a lo que venga después. Para aplicarlos a varios símbolos seguidos hay que usar grupos, pero justo con estas fuentes no es común.
 
 Para cambiar a modo texto en una fórmula se puede usar \verb|\hbox|, como ya vimos. Hay otro comando que es \verb|\text|, que tiene en cuenta ciertos aspectos del tamaño de fuente (si lo ponemos en un subíndice, el texto queda chico, por ejemplo). Escribir texto adentro de una fórmula no es lo mismo que solamente cambiar la fuente. En el texto los espacios se tienen en cuenta mientras que en las fórmulas no, independientemente de la fuente. Por ejemplo, \verb|$x{\rm tal que }P$| produce $x{\rm tal que }P$ mientras que \verb|$x\text{ tal que }P$| produce $x\text{ tal que }P$.
 
@@ -3414,7 +3422,7 @@ Para cambiar a modo texto en una fórmula se puede usar \verb|\hbox|, como ya vi
 
 \section{Funcionalidades de latex}
 
-No veremos la creación de tablas. Para esto lo usual es el entorno {\tt tabular} de latex, el cual se presenta en {\sl The Not So Short Introduction to Latex}.
+No veremos la creación de tablas. Para esto lo usual es el entorno {\tt tabular} de latex, el cual se trata en {\sl La introducción no-tan-corta a latex}.
 
 \subsection{Secciones}
 
