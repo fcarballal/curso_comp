@@ -3212,13 +3212,32 @@ TeX está en modo vertical cuando organiza contenido de modo vertical (una cosa 
 El modo matemático es para ingresar fórmulas matemáticas en el medio del texto. Por ejemplo $x+y=z$ y $x - y=z$ son fórmulas hechas con el modo matemático. Las fórmulas se delimitan con símbolos \$. Para generar las anteriores, en el código se escribió {\tt \$x+y=z\$} y {\tt \$x-y=z\$}. 
 Se puede observar que los símbolos se escriben con una fuente distinta. Comparar la fórmula $x+y=z$ con el texto x+y=z, que tiene los mismos símbolos.
 
-En modo matemático, los espacios entre los símbolos se manejan de modo distinto. Los espacios que pongamos entre los símbolos son totalmente ignorados. Por ejemplo, tanto {\tt\$xy\$} como {\$x~y\$} generan $xy$. Por otra parte, automáticamente se coloca algo de espacio entre símbolos de operación (como {\tt+}) y más espacio entre símbolos de relación (como {\tt=}). Observar la fórmula $xy+z=w$, que tiene los tres espaciamientos. Esta convención de espaciamiento ayuda a entender fácilmente las fórmulas. Más adelante (cuando nos enfoquemos en la escritura de fórmulas) veremos modos de alterar el espaciamiento entre los elementos (aunque en la mayoría de las situaciones no es necesario).
+En modo matemático, el espaciamiento entre los símbolos funciona de modo distinto. Los espacios y saltos de línea que pongamos son ignorados y no se permiten líneas en blanco (da error). Por ejemplo, tanto {\tt\$xy\$} como {\$x~y\$} generan $xy$. Por otra parte, automáticamente se coloca algo de espacio entre símbolos de operación (como {\tt+}) y más espacio entre símbolos de relación (como {\tt=}). Observar la fórmula $xy+z=w$, que tiene los tres espaciamientos. Esta convención de espaciamiento ayuda a entender fácilmente las fórmulas. Más adelante (cuando nos enfoquemos en la escritura de fórmulas) veremos modos de alterar el espaciamiento entre los elementos (aunque en la mayoría de las situaciones no es necesario).
 
 El modo display matemático es para mostrar una fórmula centrada y con margen arriba y abajo. Se hace escribiendo la fórmula delimitada con dos \$ juntos de cada lado. Por ejemplo con {\tt\$\$x+y=z\$\$} se genera $$x+y=z$$
 y si seguimos escribiendo después continúa el párrafo.
 
 Si ponemos una línea en blanco antes de la fórmula, esta comienza un párrafo nuevo, lo cual aumenta el espacio en blanco. Por otra parte, una línea en blanco después de la fórmula hace que lo que viene después comience un párrafo nuevo.
 
+Que tex ignore los espacios y saltos de línea en modo matemático, permite escribir fórmulas complejas con una estructura que nos resulte más fácil de manejar. Eso sí, si dejamos una línea en blanco, da error. Lo que sí podemos hacer es poner una línea con un comentario vacío, si queremos separar más las cosas. La siguiente fórmula
+$$
+(x+y/2)z
+-
+10w(13y+2u)
+=
+40i + 3j
+$$
+es puede escribir por ejemplo como:
+\begin{verbatim}
+$$
+(x+y/2)z
+-
+10w(13y+2u)
+=
+40i + 3j
+$$
+\end{verbatim}
+Conforme vamos agregando cosas más complejas, el uso de esto puede volverse muy útil. En algunas de las fórmulas posteriores de este capítulo se aplica.
 \section{Grupos y estructuras de control}
 
 Se pueden delimitar grupos con los símbolos reservados \lq\lq\{\rq\rq{} y \lq\lq\}\rq\rq. Los grupos se pueden usar para tratar su contenido como una unidad y para aislarlo del resto del documento. En seguida veremos varios usos en conjunto con las estructuras de control. Un grupo que puede ser sorprendentemente útil es el grupo vacío \{\}. No produce nada en el documento, pero tiene varias aplicaciones dentro del código.
@@ -3330,6 +3349,9 @@ $$
 
 Si ponemos texto suelto dentro de una caja vertical funciona como un párrafo. Para hacer una caja vertical que sea un párrafo más chico, dentro de esa caja se puede cambiar el \verb|\hsize|, que indica el ancho del texto. Por ejemplo, podemos hacer \verb|\hsize=.4\hsize| para que sea el 40\% (por el funcionamiento de los grupos, fuera de la caja se mantiene el valor original). En el siguiente ejemplo hacemos eso, junto con reglas para meter el párrafo en una caja visible.
 
+% lo hacemos organizando el código según los grupos.
+% hay que tener cuidado porque en modos de texto un
+% salto de línea son como un espacio
 $$
 \hbox
 {\vrule
@@ -3404,6 +3426,8 @@ Dentro de fórmulas se pueden cambiar las fuentes igual que en texto. Por ejempl
 
 Hay fuentes que no hemos mencionado que suelen ser útiles en fórmulas. Una de ellas es \verb|\cal|, la cual funciona con letras mayúsculas, dando resultados como $\cal R$. El paquete {\tt amsfonts} agrega fuentes dadas por los comandos \verb|\mathbb| y \verb|\mathfrak|. Un ejemplo de la primera es $\mathbb{R}$ y uno de la segunda es $\mathfrak{s}$. La primera es solo para mayúsculas. Estos comandos funcionan con parámetros, es decir, aplican esa fuente solamente a lo que venga después. Para aplicarlos a varios símbolos seguidos hay que usar grupos, pero justo con estas fuentes no es común.
 
+Hay ciertos acentos sobre letras que se suelen usar en matemática. En general son con un comando antes de la letra. Por ejemplo \verb|\dot x| da $\dot x$
+
 Para cambiar a modo texto en una fórmula se puede usar \verb|\hbox|, como ya vimos. Hay otro comando que es \verb|\text|, que tiene en cuenta ciertos aspectos del tamaño de fuente (si lo ponemos en un subíndice, el texto queda chico, por ejemplo). Escribir texto adentro de una fórmula no es lo mismo que solamente cambiar la fuente. En el texto los espacios se tienen en cuenta mientras que en las fórmulas no, independientemente de la fuente. Por ejemplo, \verb|$x{\rm tal que }P$| produce $x{\rm tal que }P$ mientras que \verb|$x\text{ tal que }P$| produce $x\text{ tal que }P$.
 
 \subsubsection{Subíndices y supraíndices}
@@ -3425,28 +3449,118 @@ $$
 {}_4^3x_1^2\qquad \Gamma_i{}^{jk}{}_l
 $$
 
-\subsubsection{raíces, barras, fracciones y corchetes con comentarios}
+Algunos símbolos de tex son {\sl operadores grandes}. Un ejemplo es la sumatoria $\sum$, que se escribe con \verb|\sum| (no es lo mismo que \verb|\Sigma|, la letra sigma mayúscula). Lo que caracteriza a los operadores grandes es que en modo display los subíndices y supraíndices van exactamente abajo y arriba del símbolo. La idea es usarlos para indicar extremos o dominios. Para escribir la sumatoria de~$i$ desde $0$ hasta $n$, se escribe \verb|\sum_{i=0}^ni|. En modo matemático de texto queda $\sum_{i=0}^ni$, mientras que en modo display queda
+$$\sum_{i=0}^ni.
+$$
+Otro ejemplo:
+$$\bigcup_{x\in A}x
+$$
+\subsubsection{raíces, barras y corchetes con comentarios}
+
+Para hacer una raiz cuadrada se usa el comando \verb|\sqrt|, que recibe un parámetro que es lo que va adentro. Por ejemplo:$$\sqrt{1 + \sqrt x}.$$
+Notar que  el tamaño del símbolo de raiz se ajusta a lo que hay adentro.
+
+Para la raiz enésima, se puede usar \verb|\root n \of x|. Por ejemplo, $\root 3 \of {x+y}$.
+
+Para poner una barra arriba o abajo de algo se puede usar \verb|\overline| o \verb|\underline|, con un parámetro que es a lo que queremos ponerle la barra. Por ejemplo, $\overline{x + \underline y}$.
+
+Podemos también sacar corchetes para arriba o abajo de cierta parte de una fórmula y agregar explicaciones. Esto se hace con los comandos \verb|\overbrace| y \verb|\underbrace|. Estos comandos por sí solos solamente ponen el corchete arriba o abajo. Lo que los hace fáciles de usar para poner comentarios es que son operadores grandes, por lo que los subíndices van abajo y los supraíndices arriba. Lo siguiente son dos ejemplos.
+$$
+\overbrace{x+y}^{\text{par}}=z
+$$
+% el siguiente ejemplo se escribe indentando los grupos,
+% lo cual ayuda a manipular la fórmula más fácilmente.
+% aprovechamos que en modo matemático se ignoran
+% espacios y saltos de línea
+$$
+g^n*g^m =
+\underbrace
+{
+	\overbrace
+	{
+		g*g*\cdots*g
+	}^{n\text{ veces}}
+	*
+	\overbrace
+	{
+		g*g*\cdots*g
+	}^{m\text{ veces}}
+}_{n+m\text{ veces}}
+= g^{n+m}
+$$
+
+Veamos un detalle técnico sobre las raíces. Cuando el contenido tiene profundidad (algo que va por debajo de la línea de base, como la cola de <<g>>), el símbolo de raíz baja (al menos un poco). Observar $\sqrt x\sqrt g$. Para que se ignore la profundidad, se puede usar el comando \verb|\smash[b]|, que es un agregado de amsmath sobre el comando smash de tex. Con esto el resultado es $\sqrt x\sqrt {\smash[b]g}$.
+
+\subsubsection{Fracciones, combinaciones y ordenamiento vertical}
+
+Como ya vimos, las fracciones de hacen con \verb|\frac{}{}|. También está la posibilidad de escribirlas con una barra, como $x/y$, que en algunos casos puede quedar mejor.
+
+Por otra parte, el comando \verb|\binom| es para poner una cosa arriba de otra entre paréntesis, como en las combinaciones. Por ejemplo $\binom nk$.
+
+El comando \verb|\atop| de plain tex sirve para poner una cosa arriba de otra sin nada más, como una fracción sin la barra. También se puede hacer con \verb|\genfrac|, de amsmath, pero es un poco más rebuscado. El funcionamiento de atop es que pone todo lo que viene antes arriba y lo que viene después abajo. Para que no se aplique a toda la fórmula se puede usar agrupamiento. Por ejemplo:
+$$
+x {y\atop z}
+$$
+Usar esto tira un warning (advertencia) de amsmath porque al parecer es mejor usar genfrac. En la sección de macros veremos cómo inventar un comando más fácil a partir de genfrac que haga lo mismo que atop.
 
 \subsubsection{Estilos (y tamaño)}
 
-\subsubsection{Delimitadores}
+En modo matemático hay cuatro estilos: {\bf display}, {\bf texto}, {\bf script} y {\bf scriptscript}. El estilo display es el de modo matemático display, el estilo texto es del des modo matemático usual, el estilo script es para cosas chicas como los subíndices y el scriptscript es para cosas aún más chicas, como subíndices de subíndices. En realidad hay otros 4 más con diferencias sutiles (ver el capítulo \lq\lq More about math\rq\rq{} del Texbook).
 
-\subsubsection{Espaciamiento}
+En una misma fórmula, automáticamente se va cambiando entre los distintos estilos en distintas partes. Los subíndices, supraíndices y las fracciones cambian a estilos menores (salvo que ya se esté en estilo scriptscript). En el capítulo \lq\lq More about math\rq\rq{} del Texbook se explica bien cómo son las reglas automáticas de cambio de estilo.
 
-\subsubsection{Matrices}
+Cuando el estilo decidido automáticamente no es el que deseamos, podemos fijarlo con los comandos \verb|\displaystyle|, \verb|\textstyle|, \verb|\scriptstyle| y \verb|\scriptscriptstyle|. Cada uno de esos comandos hacer que se cambie al estilo correspondiente de ese punto en adelante en el grupo actual. Un ejemplo artificial: $x + \scriptstyle y + \scriptscriptstyle z$ (notar que el cambio de estilo también afecta el tamaño del <<$+$>>).
 
-\subsubsection{Alineamiento}
+Veamos algunso ejemplos en los que el cambio de estilo es útil. Supongamos que queremos poner una fracción de varios niveles. Por defecto queda
+$$a_0+\frac{1}{a_1+\frac{1}{a_2+\frac{1}{a_3+\frac{1}{a_4+1}}}}
+$$
+pero podríamos querer que todos los niveles tengan tamaño normal. Lo podemos hacer poniendo varios \verb|\displaystyle|.
+$$a_0+\frac{\displaystyle\strut1}{\displaystyle a_1+\frac{\displaystyle\strut1}{\displaystyle a_2+\frac{\displaystyle\strut1}{\displaystyle a_3+\frac{\displaystyle\strut1}{\displaystyle a_4+1}}}}
+$$
+Los comandos \verb|\strut| que hay en la fórmula son para ajustar el espacio vertical (sino los 1 quedan muy cerca de las barras), lo veremos en la sección de espaciamiento.
 
-\section{Macros}
+El siguiente ejemplo es una aplicación de \verb|\atop| para un índice en tres líneas. Por defecto el estilo se vuelve scriptscript, pero podría decirse que queda mejor con script. A la izquierda ponemos como queda automáticamente y a la derecha cambiando el estilo.
+$$ 
+\sum_{{1\leq i\leq p \atop 1\leq j\leq q} \atop 1\leq k\leq r}a_{ij}b_{jk}c_{ki}
+% con comentarios podemos dejar una línea sin contenido sin producir un error
+\qquad
+%
+\sum_{{\scriptstyle1\leq i\leq p \atop \scriptstyle1\leq j\leq q} \atop \scriptstyle1\leq k\leq r}a_{ij}b_{jk}c_{ki}
+$$
+De modo un poco más técnico, se puede obtener el mismo resultado usando una caja vertical.
+$$ \sum_
+{
+	\vcenter
+	{
+		\hbox{$\scriptstyle 1\leq i\leq p$}
+		\kern-.5em
+		\hbox{$\scriptstyle 1\leq j\leq q$}
+		\kern-.5em
+		\hbox{$\scriptstyle 1\leq k\leq r$}
+	}
+}
+a_{ij}b_{jk}c_{ki}
+$$
+aquí ajustamos el espacio entre las líneas de subíndice con \verb|\kern| negativo.
+%\subsubsection{Delimitadores}
 
-\section{Funcionalidades de latex}
+%\subsubsection{Espaciamiento}
 
-No veremos la creación de tablas. Para esto lo usual es el entorno {\tt tabular} de latex, el cual se trata en {\sl La introducción no-tan-corta a latex}.
+%\subsubsection{Matrices}
 
-\subsection{Secciones}
+%\subsubsection{Alineamiento}
 
-\subsection{Imágenes}
+%\section{Macros}
+%genfrac \verb|\newcommand\mycom[2]{\genfrac{}{}{0pt}{}{#1}{#2}}|
 
-\subsection{Referencias}
+%\section{Funcionalidades de latex}
+
+%No veremos la creación de tablas. Para esto lo usual es el entorno {\tt tabular} de latex, el cual se trata en {\sl La introducción no-tan-corta a latex}.
+
+%\subsection{Secciones}
+
+%\subsection{Imágenes}
+
+%\subsection{Referencias}
 
 \end{document}
