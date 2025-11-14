@@ -3205,7 +3205,7 @@ Un aspecto que requiere cierta atención es el uso de comillas. Si bien muchas v
 
 \section{Modos}\label{sec-modos}
 
-TeX tiene distintos modos, entre los que va cambiando al procesar el código. Estos son: vertical, horizontal, matemático y {\sl display} matemático. Es importante entenderlos al menos hasta cierto punto, ya que hay funcionalidades que se pueden aplicar solamente en ciertos modos.
+TeX tiene distintos modos, entre los que va cambiando al procesar el código. Hay dos modos \lq\lq normales\rq\rq{} o \lq\lq de texto\rq\rq{} que son el {\bf vertical} y el  {\bf horizontal}, junto con dos modos matemáticos, que son el {\bf matemático} (matemático básico, digamos) y el  {\bf display matemático}. Es importante entenderlos al menos hasta cierto punto, ya que hay funcionalidades que se pueden aplicar solamente en algunos de ellos.
 
 TeX está en modo vertical cuando organiza contenido de modo vertical (una cosa arriba de otra) y en modo horizontal cuando organiza contenido de modo horizontal. En la generación de párrafos comunes y corrientes TeX va alternando entre estos dos modos. Al generar una línea está en modo horizontal, pues está poniendo una letra al lado de otra, mientras que al armar el párrafo a partir de las líneas está en modo vertical, ya que pone una linea arriba de otra. Cuando veamos cajas (en una sección posterior), tendremos una forma de alternar flexiblemente entre estos dos modos y ordenar lo que queramos de modo horizontal o vertical.
 
@@ -3408,7 +3408,26 @@ Para cambiar a modo texto en una fórmula se puede usar \verb|\hbox|, como ya vi
 
 \subsubsection{Subíndices y supraíndices}
 
+Para poner subíndices y supraíndices se usan los símbolos reservados <<\_>> y <<\verb|^|>>. Solo se permiten en modo matemático. El símbolo <<\_>> pone lo que viene después como subíndice de lo que tiene antes y <<\verb|^|>> funciona de modo análogo. El resultado de \verb|x_2| es $x_2$, mientras que el de \verb|x^2| es $x^2$.  No obstante, cuando hay subíndices y supraíndices juntos, el comportamiento es distinto. Al ingresar $x_1\_x_2\verb|^|x_3$ o $x_1\verb|^|x_3\_x_2$, se aplican $x_2$ como subíndice y $x_3$ como supraíndice, ambos a $x_1$. Esto es así para facilitar el ingreso de símbolos con subíndices y supraíndices a la vez. Por ejemplo, \verb|x_0^2| genera $x_0^2$.
+
+Usando agrupamiento se puede poner estructuras más complejas como subíndices o supraíndices. Lo más básico es poner más de un símbolo, pero también se puede poner por ejemplo un subíndice que tenga orto subíndice. Ver los siguientes ejemplos.
+$$
+2^{10}\qquad x_{i_0}\qquad f^{t_*}\qquad e^{\frac{(x-\mu)^2}{2\sigma}}
+$$
+Por otra parte, se puede usar agrupamiento en la base. Esto puede cambiar la posición de los sub/supraíndices. Considerar las siguientes expresiones
+$$
+((x^2)^3)^4\qquad {({(x^2)}^3)}^4
+$$
+En la primera expresión, los supraíndices 3 y 4 se aplican a símbolos <<)>>, por lo que quedan en esa altura. Por otra parte, en la segunda, se ponen grupos para que los supraíndices se coloquen teniendo en cuenta la altura de todo el grupo correspondiente.
+
+Se pueden aplicar sub/supraíndices a grupos vacíos. Esto se puede usar por ejemplo para poner sub/supraíndices a la izquierda de un símbolo, entre otras cosas. Las siguientes expresiones usan sub/supraíndices aplicados a grupos vacíos.
+$$
+{}_4^3x_1^2\qquad \Gamma_i{}^{jk}{}_l
+$$
+
 \subsubsection{raíces, barras, fracciones y corchetes con comentarios}
+
+\subsubsection{Estilos (y tamaño)}
 
 \subsubsection{Delimitadores}
 
