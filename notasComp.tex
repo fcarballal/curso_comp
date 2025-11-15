@@ -3541,7 +3541,19 @@ $$ \sum_
 }
 a_{ij}b_{jk}c_{ki}
 $$
-Aquí ajustamos el espacio entre las líneas del subíndice con \verb|\kern| negativo.
+Aquí ajustamos el espacio entre las líneas del subíndice con \verb|\kern| negativo. Agregando lo siguiente, hacemos también que las desigualdades estén bien alineadas.
+$$ \sum_
+{\vcenter
+	{
+		\hbox{$\scriptstyle 1\leq\hbox to 0.4em{\hfill$\scriptstyle i$\hfill}\leq p$}
+		\kern-.5em
+		\hbox{$\scriptstyle 1\leq\hbox to 0.4em{\hfill$\scriptstyle j$\hfill}\leq q$}
+		\kern-.5em
+		\hbox{$\scriptstyle 1\leq\hbox to 0.4em{\hfill$\scriptstyle k$\hfill}\leq r$}
+	}
+}
+a_{ij}b_{jk}c_{ki}
+$$
 %\subsubsection{Delimitadores}
 
 %falta hablar de prima en la parte de fuentes matemáticas. Está incompleta la parte de acentos
