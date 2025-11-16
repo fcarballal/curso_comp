@@ -3426,7 +3426,7 @@ Dentro de fórmulas se pueden cambiar las fuentes igual que en texto. Por ejempl
 
 Hay fuentes que no hemos mencionado que suelen ser útiles en fórmulas. Una de ellas es \verb|\cal|, la cual funciona con letras mayúsculas, dando resultados como $\cal R$. El paquete {\tt amsfonts} agrega fuentes dadas por los comandos \verb|\mathbb| y \verb|\mathfrak|. Un ejemplo de la primera es $\mathbb{R}$ y uno de la segunda es $\mathfrak{s}$. La primera es solo para mayúsculas. Estos comandos funcionan con parámetros, es decir, aplican esa fuente solamente a lo que venga después. Para aplicarlos a varios símbolos seguidos hay que usar grupos, pero justo con estas fuentes no es común.
 
-Hay ciertos acentos sobre letras que se suelen usar en matemática. En general son con un comando antes de la letra. Por ejemplo \verb|\dot x| da $\dot x$
+En matemática es común que se coloquen distintos símbolos sobre letras, como acentos. En general son con un comando antes de la letra. Por ejemplo \verb|\dot x| da $\dot x$ y \verb|\vec x| da $\vec x$. Ver la lista de símbolos matemáticos de la introducción no-tan-corta a latex, al final del capítulo sobre fórmulas matemáticas. Por otra parte, el símbolo \verb|'| en modo matemático pone {\sl prima} a lo anterior. Por ejemplo \verb|x'| da $x'$ y \verb|x''| da $x''$. También se puede hacer con \verb|x^\prime|.
 
 Para cambiar a modo texto en una fórmula se puede usar \verb|\hbox|, como ya vimos. Hay otro comando que es \verb|\text|, que tiene en cuenta ciertos aspectos del tamaño de fuente (si lo ponemos en un subíndice, el texto queda chico, por ejemplo). Escribir texto adentro de una fórmula no es lo mismo que solamente cambiar la fuente. En el texto los espacios se tienen en cuenta mientras que en las fórmulas no, independientemente de la fuente. Por ejemplo, \verb|$x{\rm tal que }P$| produce $x{\rm tal que }P$ mientras que \verb|$x\text{ tal que }P$| produce $x\text{ tal que }P$.
 
@@ -3554,9 +3554,42 @@ $$ \sum_
 }
 a_{ij}b_{jk}c_{ki}
 $$
-%\subsubsection{Delimitadores}
 
-%falta hablar de prima en la parte de fuentes matemáticas. Está incompleta la parte de acentos
+\subsubsection{Delimitadores}
+
+Con <<delimitadores>> nos referimos a símbolos que se usan para delimitar partes de una fórmula. Algunos son <<$($>>, <<$)$>>, <<$|$>>, <<$\{$>> y <<$\}$>>; en la lista de símbolos matemáticos de la introducción no-tan-corta a latex (al final del capítulo sobre fórmulas matemáticas) hay un cuadro con todos los delimitadores que vienen por defecto.
+
+Un buen uso de delimitadores ayuda a que la estructura de una fórmula sea clara a primera vista. En tex la clave está en el uso de {\bf distintos tamaños}. Tenemos comandos \verb|\big|, \verb|\Big|, \verb|\bigg| y \verb|\Bigg| que permiten aumentar el tamaño del delimitador en distinta medida. Se escribe el comando seguido del delimitador. Lo siguiente son <<(>> y <<|>> con los distintos tamaños.
+$$
+\Bigg(\quad\bigg(\quad\Big(\quad\big(\quad(\quad\Bigg|\quad\bigg|\quad\Big|\quad\big|\quad|
+$$
+Hay versiones de los comandos en las que indicamos si el delimitador es de izquierda, derecha o medio, las cuales se escriben igual pero con una {\tt l}, {\tt r} o {\tt m} al final. Los delimitadores del medio automáticamente agregan espacio a ambos lados.
+
+Por otra parte, están los comandos \verb|\left| y \verb|\right|, que automáticamente ajustan los delimitadores al tamaño de lo que tienen entre medio. Nuevamente los delimitadores a usar se escriben después de los comandos. Es importante que los \verb|\left| y \verb|\right| estén emparejados (o sea, que cada \verb|\left| tenga su \verb|\right|), sino no queda definido el contenido al que se deben ajustar los delimitadores. Más generalmente, deben estar {\sl balanceados} respecto a otros <<entornos>>. Algo como {\tt \{$\cdots\backslash$left($\cdots$\}$\cdots\backslash$right)} da error. Sí podríamos poner {\tt \{$\cdots\backslash$left($\cdots\backslash$right)$\cdots$\}} o {\tt $\backslash$left($\cdots$\{$\cdots$\}$\cdots\backslash$right)}. Si no queda calro, investigar sobre <<paréntesis balanceados>>.
+
+Veamos algunas aplicaciones.
+
+Un primer caso es el de paréntesis anidados. Tomenos como ejemplo $((x+y)z+5)w$. Es bueno de alguna forma diferenciar los paréntesis exteriores de los interiores, de modo que la estructura sea clara a primera vista. Alcanza con usar \verb|\big|: $\bigl((x+y)z+5\bigr)w$. La diferencia es poca, de modo que sigue entrando bien en la línea, pero salta a la vista. Está también la posibilidad de escribir $[(x+y)z+5]w$, pero en general es mejor resolverlo con tamaño de paréntesis (así podemos dejar los corchetes rectos reservados para otras cosas, como intervalos). El mismo principio puede servir también con valores absolutos. Comparar $||x|-|y||$ con $\bigl||x|-|y|\bigr|$. Notar que si usamos \verb|\left| y \verb|\right|, los delimitadores de afuera quedan de igual tamaño que los de adentro.
+
+Otro caso es cuando contenido ocupa más espacio vertical. Comparar las siguientes escrituras de la misma expresión.
+$$
+(x+\frac{y}{2})z\qquad \left(x+\frac{y}{2}\right)z
+$$
+Usamos \verb|\left(| y \verb|\right)| para que tex determine por sí solo el tamaño adecuado.
+
+En algunas situaciones como la de conjuntos definidos por comprensión o probabilidad condicional, tenemos delimitadores con un separador entre ellos. En estos casos conviene usar las versiones <<izquierda>>, <<medio>> y <<derecha>> del comando de algún tamaño, como \verb|\bigl|, \verb|\bigm| y \verb|\bigl|.
+$$
+A=\bigl\{x\in\R\bigm|x^2<3(x+4)\bigr\}\qquad \mathbb{P}\bigl(A\cup B\bigm|C\bigr)
+$$
+Notar que se agrega espacio al rededor de los delimitadores del medio. Para el conjunto, se podría considerar también usar también el tamaño \verb|\Big|.
+
+Como ya se mencionó, los \verb|\left| y \verb|\right| deben estar emparejados. Sin embargo, no hay restricciones sobre los delimitadores que se ponen, es solo para tener un contenido definido al que ajustarlos. Se puede poner algo como \verb|\left)|$\cdots$\verb|\right||. Además, se puede poner delimitador de un solo lado usando como delimitador del otro lado un punto, lo cual tex interpreta como delimitador vacío. Por ejemplo, con \verb|\left\{|$\cdots$\verb|\right.| podemos hacer lo siguiente.
+$$
+\left\{
+\vcenter{\hbox{$x+2y = 1$}\hbox{$x-y=0$}}
+\right.
+$$
+Cabe mencionar que en sistemas como este en general se hace que las igualdades queden alineadas. Una forma de lograrlo fácilmente (sin hacer un trabajo artesanal con tamaños de cajas y {\tt kern}s) es con el entorno {\tt aligned}, que veremos más adelante.
 
 %\subsubsection{Espaciamiento}
 
@@ -3576,5 +3609,8 @@ $$
 %\subsection{Imágenes}
 
 %\subsection{Referencias}
+
+%\section{Cosas que no tratamos}
+%consejos sobre como aprender, entre manuales y buscar en internet
 
 \end{document}
