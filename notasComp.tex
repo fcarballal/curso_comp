@@ -3248,7 +3248,9 @@ Permiten hacer cosas que no sean simplemente agregar al documento lo que escribi
 En caso de que el \tbs sea seguido por un símbolo, como {\tt\tbs\{} o {\tt\tbs\$}, la estructura de control termina con el símbolo, independientemente de los que venga después. En caso de que sea seguido por una palabra, como {\tt\tbs rq} o {\tt\tbs lq}, la estructura de control termina cuando se llega a un símbolo que no sea una letra, como por ejemplo un espacio.
 
 
-Ejemplos de estructuras de control para producir símbolos que ya vimos son {\tt\tbs lq} y {\tt\tbs rq}, para las comillas. Para poner en el documento algunos de los símbolos reservados hay comandos como {\tt\tbs\$} y {\tt\tbs\{}. Hay estructuras de control para letras griegas para fórmulas, las cuales solo se pueden usar en modo matemático o modo display. Es una contrabarra y el nombre de la letra griega. Por ejemplo con {\tt\$\tbs alpha\$} se produce $\alpha$.
+Ejemplos de estructuras de control para producir símbolos que ya vimos son {\tt\tbs lq} y {\tt\tbs rq}, para las comillas. Para poner en el documento algunos de los símbolos reservados hay comandos como {\tt\tbs\$} y {\tt\tbs\{}. Hay estructuras de control para letras griegas para fórmulas, las cuales solo se pueden usar en modo matemático o modo display. Es una contrabarra y el nombre de la letra griega. Por ejemplo, con {\tt\$\tbs alpha\$} se produce $\alpha$.
+
+Al final del capítulo sobre matemática en la introducción no-tan-corta a latex, hay una lista de símbolos matemáticos. En \href{https://ctan.org/pkg/comprehensive}{ctan.org/pkg/comprehensive} se encuentra otra que tiene más de $20000$ símbolos (matemáticos o de uso en texto).
 
 Hay estructuras de control para cambiar la fuente y el tamaño. Estas instrucciones realizan el cambio desde el punto que se escriben en adelante. Por ejemplo, si escribimos {\tt\tbs sl}, de ese punto en adelante se usa una {\sl fuente de letras torcidas}. Si escribimos {\tt\tbs rm} se vuelve a la fuente básica. Con {\tt\tbs bf} se cambia a {\bf en negrita}. Para cambiar el tamaño se pueden usar comandos como {\tt\tbs small}, {\tt\tbs normalsize} o {\tt\tbs large} de modo análogo.
 
@@ -3591,11 +3593,201 @@ $$
 $$
 Cabe mencionar que en sistemas como este en general se hace que las igualdades queden alineadas. Una forma de lograrlo fácilmente (sin hacer un trabajo artesanal con tamaños de cajas y {\tt kern}s) es con el entorno {\tt aligned}, que veremos más adelante.
 
-%\subsubsection{Espaciamiento}
+\subsubsection{Espaciamiento}
 
-%\subsubsection{Matrices}
+Tenemos funcionalidades que permiten ajustar el espaciamiento, tanto horizontalmente como verticalmente. Comenzamos con consideraciones sobre espaciamiento horizontal dentro de una fórmula.
 
-%\subsubsection{Alineamiento}
+Al procesar una fórmula, tex automáticamente coloca distintos espacios entre distintos símbolos (recordar que los espacios y saltos de línea del código son ignorados). Por ejemplo, si detecta que un símbolo es de operación, le agrega espacio a ambos lados y si detecta que es de relación, le agrega más espacio a ambos lados. Considerar $xy+z=w$. Cabe destacar que la forma como se trata un símbolo depende del contexto (lo que tenga a los lados). Notar que en el siguiente caso no se agrega espacios a los lados del símbolo de suma: $f(x+)$. Por otra parte, las comas agregan un poco de espacio después pero no antes y los puntos no agregan ningún espacio: $f(x,y,a.b)$.
+
+En general el espaciamiento automático es bueno, pero hay situaciones en las que no es el ideal, por lo que se puede cambiarlo. Para evitar que se agregue espacio al rededor de algún símbolo alcanza encerrarlo en un grupo. Al hacer esto, pasa a ser tratado como un símbolo normal. Por ejemplo, \verb|x{+}y| da $x{+}y$. Por otra parte, hay comandos específicos para aumentar o disminuir el espaciamiento. Para insertar espacio, de menor a mayor, tenemos los comandos <<\verb|\,|>>, <<\verb|\:|>> y <<\verb|\;|>>. El primero es el espacio automático después de una coma, el segundo (que también puede ser <<\verb|\>|>>) es el de una operación y el tercero es el de una relación. Por otra parte, para sustraer espacio tenemos \verb|\!|. En las siguientes fórmulas se usan (mirar el código fuente).
+$$
+\int_0^xf(t)\,dt\qquad \int\!\!\!\int_D dx\,dy
+$$
+También se puede usar \verb|\kern| con una dimensión positiva o negativa para elegir el espaciamiento con más flexibilidad, pero en general conviene usar los comandos anteriores, ya que son como espacios \lq\lq estandarizados\rq\rq.
+
+Para separar distintas fórmulas dentro de una línea, se suelen usar \verb|\quad| o \verb|\qquad|, siendo el segundo el doble que el primero. Las dos integrales de arriba están separadas por un \verb|\qquad|. Todos los comandos de espaciamiento que mencionamos se pueden usar también fuera del modo matemático (específicamente, en modo horizontal, porque el espaciamiento es horizontal).
+
+Hay un comando bastante particular que afecta tanto al espaciamiento horizontal como vertical. Se trata de \verb|\phantom|, el cual recibe un parámetro y lo que hace es colocar la caja de ese parámetro, pero sin mostrarlo. A efectos de espaciamiento, tanto horizontal como vertical, es como si estuviera, pero no se ve. Sirve cuando queremos poner exactamente el espacio de cierta cosa.
+
+Pasemos ahora a centrarnos en el espaciamiento vertical. Por ejemplo en las fracciones, a veces ocurre que cierto símbolo queda muy cerca de una barra, por ejemplo:
+$$
+\frac{\displaystyle1}{\displaystyle2+\frac{\displaystyle 3}{\displaystyle4}}.
+$$
+Una forma sencilla de arreglarlo, es haciéndole creer a tex que cierta parte de la fórmula es más alta de lo que realmente es. En este caso lo haríamos con el $3$. Una forma de lograrlo sería poner un \verb|\phantom| de un elemento más alto, como un <<(>>, pero esto también agregaría espacio horizontal. Podemos hacer que el fantasma solamente aporte al espacio vertical con \verb|\vphantom|. Si ponemos un \verb|\vphantom(| al lado del $3$, el resultado es
+$$
+\frac{\displaystyle1}{\displaystyle2+\frac{\displaystyle \vphantom(3}{\displaystyle4}}.
+$$
+El comando \verb|\strut| que usamos en la parte sobre estilos es esencialmente \verb|\vphantom(|.
+
+Por otra parte, para quitar espaciamiento vertical tenemos el comando \verb|\smash|, el cual recibe un parámetro y hace que este tenga altura y profundidad nula, sin cambiar cómo se ve. En conjunto con \verb|\vphantom|, permite ingresar cualquier cosa con la altura y profundidad de cualquier otra cosa. Amsmath agrega \verb|\smash[b]|, lo cual en lugar de anular la altura y la profundidad, solamente lo hace con la profundidad. En la sección de raíces vimos una aplicación.
+
+\subsubsection{Matrices}
+
+Para crear matrices tenemos el entorno {\tt matrix}. En plain tex es un comando, que se usa como \verb|\matrix{}|, pero en latex con amsmath pasó a ser un entorno, que se usa con \verb|\begin{matrix}| y \verb|\end{matrix}|. Dentro del entorno se escribe el contenido de la matriz fila por fila. Es decir, primero se escribe la primera fila, luego la segunda y así sucesivamente hasta terminar. Para cambiar de entrada en una misma fila se usa el caracter de alineación {\tt \&} (uno de los caracteres reservados de tex), mientras que para pasar a la siguiente fila se usa \verb|\\| (o \verb|\cr|). Por ejemplo:	
+$$\hbox{$\vcenter
+{
+	\hsize = .3\hsize
+\begin{verbatim}
+\begin{matrix}
+    1 & 2 & 3 \\
+    4 & 5 & 6 \\
+    7 & 8 & 9
+\end{matrix}
+\end{verbatim}
+}$
+\qquad
+$\begin{matrix}
+	1 & 2 & 3 \\
+	4 & 5 & 6 \\
+	7 & 8 & 9 
+\end{matrix}$
+}
+$$
+Notar que para la última fila no hace falta poner \verb|\\|. Por otra parte, el código está escrito de modo que se vea la estructura de la matriz, pero no es obligatorio. Si se quiere se puede poner en una línea como \verb|\begin{matrix}1&2&3\\4&5&6\\7&8&9\end{matrix}|.
+
+El entorno no pone delimitadores a la matriz porque con \verb|\left| y \verb|\right| podemos fácilmente poner los que queramos.
+$$
+\left(
+\begin{matrix}
+	1 & 2 & 3 \\
+	4 & 5 & 6 \\
+	7 & 8 & 9
+\end{matrix}
+\right)
+\qquad
+\left[
+\begin{matrix}
+	1 & 2 & 3 \\
+	4 & 5 & 6 \\
+	7 & 8 & 9
+\end{matrix}
+\right]
+\qquad
+\left|\,
+\begin{matrix}
+	1 & 2 & 3 \\
+	4 & 5 & 6 \\
+	7 & 8 & 9
+\end{matrix}
+\,\right|
+$$
+En el tercer ejemplo se agregaron espacios chicos entre las barras y el contenido porque sin ellos se veía algo apretado. Para el caso de paréntesis se puede usar el entorno {\tt pmatrix} que los agrega solo.
+
+La matriz puede tener una única fila o una única columna, quedando como un vector. Por ejemplo:
+$$
+\begin{pmatrix}
+	1\\2\\3\\4
+\end{pmatrix}
+\qquad
+\begin{pmatrix}
+	1&2&3&4
+\end{pmatrix}
+$$
+
+Si hay más de una fila, todas deben tener la misma cantidad de entradas, o equivalentemente, misma cantidad de \& en el código. Si en una entrada no queremos poner nada, en su lugar del código no ponemos nada, o bien espacios.
+$$
+\begin{pmatrix}
+	1 & 2 & 3 \\
+	4 &   & 6 \\
+	7 & 8 & 9
+\end{pmatrix}
+\qquad
+\begin{pmatrix}
+	1 & 2 &\\
+	& 5 & 6 \\
+	7 && 9
+\end{pmatrix}
+$$
+
+Para hacer matrices o vectores genéricos, están los comandos \verb|\ldots|, \verb|\vdots| y \verb|\ddots|, que producen puntos suspensivos en distintas direcciones. El primero es para horizontales bajos, si se quiere que estén centrados, está \verb|\cdots|.
+$$
+\begin{pmatrix}
+	a_{11}&a_{12}&\ldots&a_{1n}\\
+	a_{21}&a_{22}&\ldots&a_{2n}\\
+	\vdots&\vdots&\ddots&\vdots\\
+	a_{m1}&a_{m2}&\ldots&a_{mn}
+\end{pmatrix}
+\qquad
+\begin{pmatrix}
+	b_1\\
+	b_2\\
+	\vdots\\
+	b_m
+\end{pmatrix}
+$$
+
+El tamaño de las columnas se ajusta automáticamente y las entradas se centran.
+$$
+\begin{pmatrix}
+	1 & x+y & 3 \\
+	4 &  5 & 6 \\
+	7 & 8  & 9
+\end{pmatrix}
+$$
+
+Si se quiere que algunas columnas se justifiquen a la izquierda o derecha, en lugar de estar centradas, se puede usar el entorno {\tt array}. En la introducción no-tan-corta a latex se lo presenta, junto con una aplicación para la definición de funciones por casos.
+
+\subsubsection{Alineamiento}
+
+A veces se requiere separar una fórmula en más de una línea, por ejemplo cuando se debe mostrar una cuenta larga. En estos casos lo estándar es alinear según las igualdades o desigualdades, como en el siguiente ejemplo de cálculo.
+\begin{align*}
+\frac{d}{dx}\left( \int_{\sin(x)}^{x^2+1}h(t)\,dt\right)
+\;&=\;
+h\bigl(x^2+1\bigr)\frac{d}{dx}\big(x^2+1\big) \:-\:
+h\bigl(\sin(x))\frac{d}{dx}\big(\sin(x))\\
+%
+&=\;
+2x\,h\bigl(x^2+1\bigr) \:-\:
+\cos(x)\,h\bigl(\sin(x))
+\end{align*}
+Esto se logra con el entorno {\tt align} o {\tt align*}, siendo la única diferencia entre los dos que el primero numera las líneas y el segundo no. Sirve en general para alinear fórmulas en puntos deseados. La sintaxis es la misma que para las matrices, con {\tt\&} y \verb|\\|, pero el sentido de los símbolos es distinto. Los {\tt\&} se usan para marcar puntos de alineación y los \verb|\\| para pasar a la siguiente línea. Para alinear por igualdades o desigualdades, en cada línea se coloca un {\tt\&} antes del símbolo. En todas las líneas se deben colocar la misma cantidad de {\tt\&}, pero no es obligatorio que hayan cosas entre ellos (al igual que con las matrices). Por otra parte, cabe mencionar que si se pone un \verb|\\| al final, se genera una línea vacía (a diferencia de con las matrices, en las que no cambia el resultado).
+
+Cuando una expresión es muy larga, lo usual es partirla en un símbolo de operación. Se suele hacer de modo que quede más adelante que los símbolos de relación, por ejemplo con \verb|&\qquad|, lo cual agrega espacio después del punto de alineamiento. Complejizemos un poco la cuenta anterior para hacer un ejemplo.
+\begin{align*}
+	\frac{d}{dx}\left( \int_{\sin(x)}^{x^2+1}h(t)\,dt + e^{x^2}\right)
+	\;&=\;
+	h\bigl(x^2+1\bigr)\frac{d}{dx}\big(x^2+1\big) \:-\:
+	h\bigl(\sin(x))\frac{d}{dx}\big(\sin(x))\\
+	&\qquad + 2x\smash{e^{x^2}}\\%smash porque quedaba muy separado por el supraíndice alto
+	%
+	&=\;
+	2x\,h\bigl(x^2+1\bigr) \:-\:
+	\cos(x)\,h\bigl(\sin(x)) \:+\: 2xe^{x^2}
+\end{align*}
+En la segunda línea se usó \verb|\smash| para que la altura del exponente no haga que quede muy separada de la primera. Es un poco discutible si en este caso es necesario separar o si quedaba bien igual con dos líneas; está a modo de ejemplo.
+
+El uso de más de un caracter de alineamiento por línea es para tener más de una cosa alineada por línea, como es de esperarse, pero no es tan directo como que se alineen todos los puntos con caracteres de alineación, sino que los {\tt\&} alternan entre alineación y separación. En el caso de tres caracteres de alineación, el primero y el último se alinean, mientras que el del medio indica en dónde separar las cosas. Esto permite poner varias ecuaciones en la misma línea, como en el siguiente ejemplo, en el que se puso un caracter de alineamiento antes de cada igualdad y otro separando las distintas ecuaciones de cada línea.
+\begin{align*}
+X + Y   &= Z    &     A+B&=C\\
+X' + Y' &= Z'   &   A'+B'&=C'
+\end{align*}
+Una aplicación interesante es la de agregar explicaciones a ciertas líneas.
+\begin{align*}
+	X + Y &= Z && \text{por cierto motivo}\\
+	&= Z' && \text{por cierto otro motivo}
+\end{align*}
+Notar que se deben poner dos caracteres de alineamiento antes de cada texto, uno para la separación con las ecuaciones y otro para que los alinee. En fórmulas con más {\tt\&}, también alternan entre alineamiento y separación.
+
+Este entorno no es para usarse como componente de una fórmula más grande. Para esto está el entorno {\tt aligned}. Un ejemplo de aplicación es el de sistemas de ecuaciones con igualdades alineadas, lo cual es parte de una fórmula más grande, ya que como mínimo tiene el corchete a la izquierda.
+$$
+\left\{
+\begin{aligned}
+	x+y+z&=1\\
+	x-y+2z&=2
+\end{aligned}
+\right.
+$$
+Usando múltiples caracteres de alineación, se puede alinear también las variables. Hay que pensar bien dónde poner los {\tt\&}, que alternan entre alineación y separamiento.
+$$
+\left\{
+\begin{aligned}
+	&x&+&y&+&z&&=1\\
+	&x&-&y&+2&z&&=2
+\end{aligned}
+\right.
+$$
+También se podría optar por alinear los símbolos de operación o hacerlo a la vez con ambas cosas, con distintas cantidades de caracteres de alineación. Ejercicio: hacer que los símbolos de operación también queden alineados agregando solamente un \verb|\phantom|.
+
 
 %\section{Macros}
 %genfrac \verb|\newcommand\mycom[2]{\genfrac{}{}{0pt}{}{#1}{#2}}|
