@@ -3242,8 +3242,8 @@ Conforme vamos agregando cosas más complejas, el uso de esto puede volverse muy
 
 Se pueden delimitar grupos con los símbolos reservados \lq\lq\{\rq\rq{} y \lq\lq\}\rq\rq. Los grupos se pueden usar para tratar su contenido como una unidad y para aislarlo del resto del documento. En seguida veremos varios usos en conjunto con las estructuras de control. Un grupo que puede ser sorprendentemente útil es el grupo vacío \{\}. No produce nada en el documento, pero tiene varias aplicaciones dentro del código.
 
-Las estructuras de control son instrucciones dadas por el símbolo reservado {\tt\tbs} seguido de algún símbolo o palabra en particular.
-Permiten hacer cosas que no sean simplemente agregar al documento lo que escribimos en el código. Hay estructuras de control para escribir ciertos símbolos (en especial símbolos que no están en el teclado) y otras que producen ciertas acciones o alteraciones de partes del documento. Veremos algunos comandos, pero hay muchísimos más.
+Las estructuras de control (también llamadas {\sl comandos}) son instrucciones dadas por el símbolo reservado {\tt\tbs} seguido de algún símbolo o palabra en particular.
+Permiten hacer cosas que no sean simplemente agregar al documento lo que escribimos en el código. Hay estructuras de control para escribir ciertos símbolos (en especial símbolos que no están en el teclado) y otras que producen ciertas acciones o alteraciones de partes del documento. Los comandos pueden ser básicos de tex, estar definidos por latex, provenir de algún paquete importado o ser definidos por el usuario (ver la sección \ref{sec-macros}). Veremos algunos, pero hay muchísimos más
 
 En caso de que el \tbs sea seguido por un símbolo, como {\tt\tbs\{} o {\tt\tbs\$}, la estructura de control termina con el símbolo, independientemente de los que venga después. En caso de que sea seguido por una palabra, como {\tt\tbs rq} o {\tt\tbs lq}, la estructura de control termina cuando se llega a un símbolo que no sea una letra, como por ejemplo un espacio.
 
@@ -3296,7 +3296,7 @@ la salida es:
 	\item Tercer item
 \end{itemize}
 
-Por otra parte, algunos comandos de latex tienen argumentos opcionales que van entre corchetes rectos. Esto significa que pueden ponerse o no. Un ejemplo es \verb|\includegraphics|, un comando para insertar imágenes que veremos más adelante.
+Por otra parte, algunos comandos de latex o paquetes tienen argumentos opcionales que van entre corchetes rectos. Más adelante veremos \verb|\includegraphics[op]{archivo}|, para incluir imágenes. Los argumentos opcionales permiten por ejemplo ajustar el tamaño.
 \subsubsection{Ver la definición de un comando (técnico)}
 
 Algunos comandos son primitivos de tex y otros son definidos a partir de comandos más básicos. Con \verb|\show| podemos ver la definición de un comando. Lo que hay que hacer es ponerlo seguido del comando cuya definición queremos ver y ejecutar desde la terminal. Dentro de la salida que latex produce en la terminal se incluye la definición del comando (ver Texbook p.\ 10, dentro del capítulo 3). 
