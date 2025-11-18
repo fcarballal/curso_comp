@@ -3296,6 +3296,7 @@ la salida es:
 	\item Tercer item
 \end{itemize}
 
+Por otra parte, algunos comandos de latex tienen argumentos opcionales que van entre corchetes rectos. Esto significa que pueden ponerse o no. Un ejemplo es \verb|\includegraphics|, un comando para insertar imágenes que veremos más adelante.
 \subsubsection{Ver la definición de un comando (técnico)}
 
 Algunos comandos son primitivos de tex y otros son definidos a partir de comandos más básicos. Con \verb|\show| podemos ver la definición de un comando. Lo que hay que hacer es ponerlo seguido del comando cuya definición queremos ver y ejecutar desde la terminal. Dentro de la salida que latex produce en la terminal se incluye la definición del comando (ver Texbook p.\ 10, dentro del capítulo 3). 
@@ -3503,7 +3504,7 @@ El comando \verb|\atop| de plain tex sirve para poner una cosa arriba de otra si
 $$
 x {y\atop z}
 $$
-Usar esto tira un warning (advertencia) de amsmath porque al parecer es mejor usar genfrac. En la sección de macros veremos cómo inventar un comando más fácil a partir de genfrac que haga lo mismo que atop.
+Usar esto tira un warning (advertencia) de amsmath porque al parecer es mejor usar genfrac. En la sección \ref{sec-macros} veremos cómo inventar un comando más fácil a partir de genfrac que haga lo mismo que atop.
 
 \subsubsection{Estilos (y tamaño)}
 
@@ -3788,9 +3789,103 @@ $$
 $$
 También se podría optar por alinear los símbolos de operación o hacerlo a la vez con ambas cosas, con distintas cantidades de caracteres de alineación. Ejercicio: hacer que los símbolos de operación también queden alineados agregando solamente un \verb|\phantom|.
 
+\section{Macros}\label{sec-macros}
 
-%\section{Macros}
-%genfrac \verb|\newcommand\mycom[2]{\genfrac{}{}{0pt}{}{#1}{#2}}|
+Tex provee de una funcionalidad de definir nuevos comandos, llamados {\sl macros}. Tanto latex como los distintos paquetes se hacen en base a macros. Por otra parte, cualquier usuario de latex puede definir sus propios comandos y usarlos en sus códigos.
+
+El primer beneficio claro de definir comandos propios es el de simplificar el código. Si hay algo que va a aparecer muchas veces, puede valer la pena definir un comando específico que sea más fácil de escribir.
+
+La forma de definir un nuevo comando en tex es con el comando especial \verb|\def|. Lo más sencillo es escribir un nuevo comando que no tenga parámetros. Para esto se escribe \verb|\def|, luego el nombre del nuevo comando y luego un grupo con la definición del comando. El nuevo comando sirve como una abreviación del contenido del grupo.
+
+Un ejemplo clásico es definir un comando para el conjunto de los números reales. Para generar $\mathbb{R}$ hay que escribir \verb|\mathbb{R}|, lo cual requiere nueve caracteres además de la contrabarra. Podemos crear un comando \verb|\R| que de el mismo resultado mediante:
+$$
+\hbox{\verb|\def\R{\mathbb{R}}|.}
+$$
+Desde ese punto en adelante, podemos usar el nuevo comando \verb|\R| con el mismo resultado que \verb|\mathbb{R}|.
+
+También se puede crear comandos con parámetros. Aquí aparece el último símbolo reservado de tex que nos queda por ver: {\tt\#}. Entre el nombre del comando nuevo y el grupo que lo define se indica la cantidad de parámetros. Si no ponemos nada entre medio, como en el caso de \verb|\R|, no hay parámetros. Para poner un parámetro, en ese lugar se escribe \verb|#1|; para poner dos se escribe \verb|#1#2| y así sucesivamente. Es importante no poner ningún espacio ni nada más entre medio (tex lo interpreta de cierta forma especial; ver el capítulo sobre macros del Texbook). En resumen:
+$$
+\hbox{\verb|\def\comSinParam{...}|\quad\verb|\def\comUnParam#1{...}|\quad\verb|\def\comDosParam#1#2{...}|}
+$$
+Dentro del grupo que define al comando, podemos usar \verb|#1| para el primer parámetro, \verb|#2| para el segundo y así sucesivamente (siempre y cuando estén dentro de los parámetros que se indican para el comando). Veamos algunos ejemplos.
+
+\def\vecg#1#2{(#1_1,\ldots,#1_{#2})}
+Supongamos que queremos un comando \verb|\vecg| con dos parámetros de modo que por ejemplo  \verb|\vecg xn| de $\vecg xn$ y \verb|\vecg ym| de $\vecg ym$. Lo hacemos de la siguiente forma.
+$$
+\hbox{\verb|\def\vecg#1#2{(#1_1,\ldots,#1_{#2})}|}
+$$
+Si queremos que algún parámetro tenga más de un símbolo podemos usar grupos, por ejemplo \verb|\vecg x{n+1}| da $\vecg x{n+1}$. El grupo al rededor del \verb|#2| en la definición del comando es para que funcione bien con subíndices de más de un símbolo. Sin eso, el ejemplo anterior daría $(x_1,\dots,x_n+1)$.
+
+Podemos hacer también un comando de tres parámetros para matrices genéricas.
+\begin{verbatim}
+\def\matg#1#2#3
+{
+	\begin{pmatrix}
+		#1_{11}&#1_{12}&\ldots&#1_{1#3}\\
+		#1_{21}&#1_{22}&\ldots&#1_{2#3}\\
+		\vdots&\vdots&\ddots&\vdots\\
+		#1_{#21}&#1_{#22}&\ldots&#1_{#2#3}
+	\end{pmatrix}
+}
+\end{verbatim}
+Con \verb|\matg xmn| y \verb|\matg ykt| obtenemos lo siguiente.
+\def\matg#1#2#3
+{
+	\begin{pmatrix}
+		#1_{11}&#1_{12}&\ldots&#1_{1#3}\\
+		#1_{21}&#1_{22}&\ldots&#1_{2#3}\\
+		\vdots&\vdots&\ddots&\vdots\\
+		#1_{#21}&#1_{#22}&\ldots&#1_{#2#3}
+	\end{pmatrix}
+}
+$$
+\matg xmn \qquad \matg ykt
+$$
+
+Habiendo visto algunos ejemplos podemos analizar un poco más en qué casos es útil definir comandos y qué ventajas tiene.
+
+Respecto a cuándo definir comandos, depende del documento en cuestión. En un material de álgebra lineal, el comando anterior probablemente sería útil. Por otra parte, en un documento en el que aparece una sola matriz, no valdría la pena definirlo solo para ese caso. En general, tiene sentido definir comandos para cosas que se usan varias veces. Al escribir algo largo, es una buena práctica analizar qué cosas se usarán muchas veces para hacerles comandos.
+
+Hay varias ventajas de definir comandos para cosas que aparecerán varias veces. Una es que agiliza la escritura del código. Otra es que sirve para prevenir errores de tipeo, al ahorrarnos tareas tediosas. Por ejemplo, supongamos que debemos escribir quince matrices genéricas. Si no usamos un comando es más fácil ingresar algo mal en alguna.
+
+Otra ventaja es la uniformización del documento. Siguiendo con el ejemplo de las matrices genéricas, si usamos el comando, todas tendrán la misma estructura de mostrar cuatro elementos arriba a la izquierda, dos arriba a la derecha, dos abajo a la izquierda y uno abajo a la derecha. Si cada vez ingresamos la matriz con el entorno, capaz alguna vez cambiamos un poco la estructura, como en el siguiente ejemplo.
+$$
+\begin{pmatrix}
+	x_{11}&\ldots&x_{1n}\\
+	\vdots&\ddots&\vdots\\
+	x_{m1}&\ldots&x_{mn}
+\end{pmatrix}
+$$
+En general, conviene no hacer cambios de notación con cosas que tienen el mismo sentido.
+
+Una ventaja más, relacionada con la anterior, es la posibilidad de cambiar una notación en todo el documento modificando una sola cosa. Por ejemplo, si usamos matrices genéricas en todo el documento con la estructura del comando dado pero queremos pasar a que sean como la del párrafo anterior, alcanza con modificar el comando al siguiente.
+\begin{verbatim}
+\def\matg#1#2#3
+{
+ \begin{pmatrix}
+  #1_{11}&\ldots&#1_{1#3}\\
+  \vdots&\ddots&\vdots\\
+  #1_{#21}&\ldots&#1_{#2#3}
+ \end{pmatrix}
+}
+\end{verbatim}
+
+Lo anterior es particularmente recomendable cuando manipulamos un concepto para el podrían usarse distintas notaciones. Supongamos que estamos inventando la {\sl cotransformada hiperbólica cuántica} de una función. Al principio, dada una función~$f$ usamos la notación $\mathcal{H}(f)$, por lo que definimos el comando \verb|\def\cothc#1{\mathcal{H}(#1)}|. Sin embargo, más adelante optamos por cambiar a $f^{\mathcal{H}}$. Lo único que debemos hacer es remplazar la definición del comando por \verb|\def\cothc#1{#1^{$\mathcal{H}$}}|.
+
+Si definimos un comando con el nombre de otro anterior, es lo sobrescribe. Por otra parte, si definimos un comando dentro de un grupo, la definición solamente tiene efecto dentro de ese grupo. Si el comando tenía otra definición previa, fuera del grupo vuelve a esa definición. Por lo tanto, si se quiere definir un comando concreto para algo específico, se lo puede hacer dentro de un grupo, sin preocuparse por que afecte al resto del documento. 
+
+Latex provee de otro comando para definir comandos, el cual es \verb|\newcommand|. En este caso la cantidad de parámetros se indica con un número entre corchetes rectos. Por ejemplo el vector genérico sería \verb|\newcommand\vecg[2]{(#1_1,\ldots,#1_{#2})}|. Otra diferencia es que si ya hay un comando con ese nombre, da un error en lugar de sobrescribirlo (tiene sentido, ya que dice {\sl new} command).
+
+Cuando vimos el comando \verb|\atop|, se mencionó que en esta sección veríamos una forma de hacer un comando que hace lo mismo pero a partir de \verb|\genfrac| de amsmath. La situación es que este segundo comando tiene varios parámetros, para permitir cambiar muchas cosas. Lo que hacemos aquí es dejar varios parámetros vacíos y al que indica el grosor de la línea, le ponemos {\tt 0pt}. La definición del comando es la siguiente.
+$$
+\hbox{\verb|\newcommand\amsatop[2]{\genfrac{}{}{0pt}{}{#1}{#2}}|}
+$$
+\newcommand\amsatop[2]{\genfrac{}{}{0pt}{}{#1}{#2}}
+La forma de uso de este comando es como la de \verb|\frac|, con un parámetro para lo de arriba y otro para lo de abajo. En ese sentido se diferencia de \verb|\atop|. Lo probamos para ver si funciona bien.
+$$
+x\amsatop{y}{z}\qquad \sum_{\amsatop{\scriptstyle1\leq i\leq p}{ \amsatop{\scriptstyle1\leq j\leq q}{\scriptstyle1\leq k\leq r}}}a_{ij}b_{jk}c_{ki}
+$$
+Parece que efectivamente funciona bien. Si se quisiera se podría usar \verb|\def| y ponerle como nombre \verb|\atop|, remplazando al otro (cosa que con \verb|\newcommand| no se puede).
 
 %\section{Funcionalidades de latex}
 
