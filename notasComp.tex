@@ -3092,7 +3092,7 @@ Matrix([
 \end{verbatim}
 
 
-\chapter{Introducción a LaTeX}
+\chapter{Fundamentos e introducción de LaTeX}
 
 Latex, escrito de modo estilizado \LaTeX{} o LaTeX, es un lenguaje para generar documentos científicos de alta calidad tipográfica, especialmente aquellos con presencia de fórmulas matemáticas. Aquí el sentido de \lq\lq alta calidad tipográfica\rq\rq{} es que el texto y las fórmulas quedan organizadas de modo fácilmente legible. No es una herramienta que destaque por la posibilidad de hacer cosas {\sl creativas} (aunque sí que se las puede hacer si uno profundiza), sino por la facilidad de generar textos bien ordenados que transmiten la información de modo claro. Que un material se entienda requiere de dos cosas: primero, que el contenido del material sea claro y segundo, que la organización sea prolija. Latex se encarga de la segunda parte.
 
@@ -3155,9 +3155,9 @@ Para hacer un párrafo, uno escribe el texto con las palabras, signos de puntuac
 
 \hbox{\vrule\vbox{Armar el párrafo no es trivial porque se hacen de modo que tanto el borde izquierdo como el derecho del texto sean rectos. Para ilustrar esto, se colocan líneas verticales a los lados de este párrafo. Para lograrlo minimizando la cantidad de palabras que se deben cortar por la mitad, la cantidad de espacio entre las palabras varía de una línea a otra. El algoritmo de TeX elige los puntos en los que terminar las líneas y la sepacación entre las palabras de modo que quede lo mejor posible (evitando tener que separar palabras con guiónes y que los espacios sean demasiado apretados u holgados, entre otras cosas). En este párrafo, la segunda línea tiene espacios un poco más cortos que la tercera.}\vrule}
 
-Como el que se encarga de determinar el espacio entre las palabras es TeX, en el código latex {\bf no se tienen en cuenta espacios múltiples}, es decir, muchos espacios juntos se tratan de modo igual que un espacio solo.
+Como el que se encarga de determinar el espacio entre las palabras es TeX, en el código latex {\bf no se tienen en cuenta espacios múltiples}, es decir, muchos espacios juntos se tratan de modo igual que un espacio solo. Por otra parte, un salto de línea solo se toma como equivalente a un espacio.
 
-Por otra parte, un salto de línea solo se toma como equivalente a un espacio. Para indicar el final de un párrafo se debe dejar una línea en blanco, es decir, dos saltos de línea seguidos. La primera línea de cada párrafo tiene sangría por defecto.
+Para indicar el final de un párrafo se debe dejar una línea en blanco, es decir, dos saltos de línea seguidos. La primera línea de cada párrafo tiene sangría por defecto (se la puede sacar poniendo el comando (ver sec \ref{sec-gruposEstrContr}) \verb|\noindent| al principio).
 
 A modo de ejemplo, lo siguiente es un código de latex a la izquierda con los párrafos generados a la derecha.
 $$
@@ -3201,7 +3201,7 @@ antes del \%.
 
 Los otros símbolos reservados irán apareciendo a lo largo del capítulo.
 
-Un aspecto que requiere cierta atención es el uso de comillas. Si bien muchas veces simplemente escribimos el símbolo \char34, en realidad existen símbolos distintos para comillas de apertura y de  cierre: <<\,\lq\lq\,>> y <<\,\rq\rq\,>>. Esas son de hecho comillas dobles. También tenemos las comillas simples que son <<\,\char96\,>> y <<\,'\,>>. Las comillas simples de apertura y de cierre se escriben en el código con {\tt \char96} y {\tt\char39} respectivamente (acento agudo y apóstrofe). Las doble se escriben con los mismos símbolos dos veces, es decir {\tt \char96\char96} y {\tt\char39\char39}. En caso de que en el teclado falte alguno de los acentos (en los teclados españoles puede no estar el acento agudo), se pueden remplazar con los comandos {\tt \tbs lq} y {\tt \tbs rq} (veremos comandos en una sección posterior). Por otra parte, las comillas españolas \lq\lq\,<<\,\rq\rq{} y \lq\lq\,>>\,\rq\rq{} se generan con dos \char60{} juntos y dos~\char62{} juntos, respectivamente.
+Un aspecto que requiere cierta atención es el uso de comillas. Si bien muchas veces simplemente escribimos el símbolo \char34, en realidad existen símbolos distintos para comillas de apertura y de  cierre: <<\,\lq\lq\,>> y <<\,\rq\rq\,>>. Esas son de hecho comillas dobles. También tenemos las comillas simples que son <<\,\char96\,>> y <<\,'\,>>. Las comillas simples de apertura y de cierre se escriben en el código con {\tt \char96} y {\tt\char39} respectivamente (acento agudo y apóstrofe). Las doble se escriben con los mismos símbolos dos veces, es decir {\tt \char96\char96} y {\tt\char39\char39}. En caso de que en el teclado falte alguno de los acentos (en los teclados españoles puede no estar el acento agudo), se pueden remplazar con los comandos {\tt \tbs lq} y {\tt \tbs rq} (veremos comandos en la sección \ref{sec-gruposEstrContr}). Por otra parte, las comillas españolas \lq\lq\,<<\,\rq\rq{} y \lq\lq\,>>\,\rq\rq{} se generan con dos \char60{} juntos y dos~\char62{} juntos, respectivamente.
 
 \section{Modos}\label{sec-modos}
 
@@ -3210,7 +3210,7 @@ TeX tiene distintos modos, entre los que va cambiando al procesar el código. Ha
 TeX está en modo vertical cuando organiza contenido de modo vertical (una cosa arriba de otra) y en modo horizontal cuando organiza contenido de modo horizontal. En la generación de párrafos comunes y corrientes TeX va alternando entre estos dos modos. Al generar una línea está en modo horizontal, pues está poniendo una letra al lado de otra, mientras que al armar el párrafo a partir de las líneas está en modo vertical, ya que pone una linea arriba de otra. Cuando veamos cajas (en una sección posterior), tendremos una forma de alternar flexiblemente entre estos dos modos y ordenar lo que queramos de modo horizontal o vertical.
 
 El modo matemático es para ingresar fórmulas matemáticas en el medio del texto. Por ejemplo $x+y=z$ y $x - y=z$ son fórmulas hechas con el modo matemático. Las fórmulas se delimitan con símbolos \$. Para generar las anteriores, en el código se escribió {\tt \$x+y=z\$} y {\tt \$x-y=z\$}. 
-Se puede observar que los símbolos se escriben con una fuente distinta. Comparar la fórmula $x+y=z$ con el texto x+y=z, que tiene los mismos símbolos.
+En modo matemático los símbolos se colocan (por defecto) con una fuente distinta. Comparar la fórmula $x+y=z$ con el texto x+y=z.
 
 En modo matemático, el espaciamiento entre los símbolos funciona de modo distinto. Los espacios y saltos de línea que pongamos son ignorados y no se permiten líneas en blanco (da error). Por ejemplo, tanto {\tt\$xy\$} como {\$x~y\$} generan $xy$. Por otra parte, automáticamente se coloca algo de espacio entre símbolos de operación (como {\tt+}) y más espacio entre símbolos de relación (como {\tt=}). Observar la fórmula $xy+z=w$, que tiene los tres espaciamientos. Esta convención de espaciamiento ayuda a entender fácilmente las fórmulas. Más adelante (cuando nos enfoquemos en la escritura de fórmulas) veremos modos de alterar el espaciamiento entre los elementos (aunque en la mayoría de las situaciones no es necesario).
 
@@ -3238,7 +3238,8 @@ $$
 $$
 \end{verbatim}
 Conforme vamos agregando cosas más complejas, el uso de esto puede volverse muy útil. En algunas de las fórmulas posteriores de este capítulo se aplica.
-\section{Grupos y estructuras de control}
+
+\section{Grupos y estructuras de control}\label{sec-gruposEstrContr}
 
 Se pueden delimitar grupos con los símbolos reservados \lq\lq\{\rq\rq{} y \lq\lq\}\rq\rq. Los grupos se pueden usar para tratar su contenido como una unidad y para aislarlo del resto del documento. En seguida veremos varios usos en conjunto con las estructuras de control. Un grupo que puede ser sorprendentemente útil es el grupo vacío \{\}. No produce nada en el documento, pero tiene varias aplicaciones dentro del código.
 
@@ -3735,20 +3736,20 @@ A veces se requiere separar una fórmula en más de una línea, por ejemplo cuan
 \frac{d}{dx}\left( \int_{\sin(x)}^{x^2+1}h(t)\,dt\right)
 \;&=\;
 h\bigl(x^2+1\bigr)\frac{d}{dx}\big(x^2+1\big) \:-\:
-h\bigl(\sin(x))\frac{d}{dx}\big(\sin(x))\\
+h\bigl(\sin(x))\frac{d}{dx}\big(\sin(x)\big)\\
 %
 &=\;
 2x\,h\bigl(x^2+1\bigr) \:-\:
 \cos(x)\,h\bigl(\sin(x))
 \end{align*}
-Esto se logra con el entorno {\tt align} o {\tt align*}, siendo la única diferencia entre los dos que el primero numera las líneas y el segundo no. Sirve en general para alinear fórmulas en puntos deseados. La sintaxis es la misma que para las matrices, con {\tt\&} y \verb|\\|, pero el sentido de los símbolos es distinto. Los {\tt\&} se usan para marcar puntos de alineación y los \verb|\\| para pasar a la siguiente línea. Para alinear por igualdades o desigualdades, en cada línea se coloca un {\tt\&} antes del símbolo. En todas las líneas se deben colocar la misma cantidad de {\tt\&}, pero no es obligatorio que hayan cosas entre ellos (al igual que con las matrices). Por otra parte, cabe mencionar que si se pone un \verb|\\| al final, se genera una línea vacía (a diferencia de con las matrices, en las que no cambia el resultado).
+Esto se logra con el entorno {\tt align} o {\tt align*}, siendo la diferencia entre los dos que el primero numera las líneas y el segundo no (en general en latex se usan asteriscos con el sentido \lq\lq no enumerar\rq\rq). Sirve en general para alinear fórmulas en puntos deseados. La sintaxis es la misma que para las matrices, con {\tt\&} y \verb|\\|, pero el sentido de los símbolos es distinto. Los {\tt\&} se usan para marcar puntos de alineación y los \verb|\\| para pasar a la siguiente línea. Para alinear por igualdades o desigualdades, en cada línea se coloca un {\tt\&} antes del símbolo. En todas las líneas se deben colocar la misma cantidad de {\tt\&}, pero no es obligatorio que hayan cosas entre ellos (al igual que con las matrices). Por otra parte, cabe mencionar que si se pone un \verb|\\| al final, se genera una línea vacía (a diferencia de con las matrices, en las que no cambia el resultado).
 
 Cuando una expresión es muy larga, lo usual es partirla en un símbolo de operación. Se suele hacer de modo que quede más adelante que los símbolos de relación, por ejemplo con \verb|&\qquad|, lo cual agrega espacio después del punto de alineamiento. Complejizemos un poco la cuenta anterior para hacer un ejemplo.
 \begin{align*}
 	\frac{d}{dx}\left( \int_{\sin(x)}^{x^2+1}h(t)\,dt + e^{x^2}\right)
 	\;&=\;
 	h\bigl(x^2+1\bigr)\frac{d}{dx}\big(x^2+1\big) \:-\:
-	h\bigl(\sin(x))\frac{d}{dx}\big(\sin(x))\\
+	h\bigl(\sin(x))\frac{d}{dx}\big(\sin(x)\big)\\
 	&\qquad + 2x\smash{e^{x^2}}\\%smash porque quedaba muy separado por el supraíndice alto
 	%
 	&=\;
@@ -3887,17 +3888,96 @@ x\amsatop{y}{z}\qquad \sum_{\amsatop{\scriptstyle1\leq i\leq p}{ \amsatop{\scrip
 $$
 Parece que efectivamente funciona bien. Si se quisiera se podría usar \verb|\def| y ponerle como nombre \verb|\atop|, remplazando al otro (cosa que con \verb|\newcommand| no se puede).
 
+Cabe mencionar que con \verb|\def| se pueden definir comandos con comportamientos mucho más variados. Por ejemplo, se puede hacer que los parámetros se pasen de muchas formas distintas, o incluir comandos \verb|\if| para que el comportamiento varíe según condiciones. No se suele usar, salvo que se esté trabajando en un paquete, pero es bueno saber que es posible para no sorprenderse al encontrar comandos con funcionamiento complejo o distinto al usual. Para quienes les interese, ver el capítulo sobre macros del Texbook. 
+
 \section{Funcionalidades de latex}
 
-%No veremos la creación de tablas. Para esto lo usual es el entorno {\tt tabular} de latex, el cual se trata en {\sl La introducción no-tan-corta a latex}.
+En esta sección veremos algunas funcionales de latex muy útiles que no están en tex ni plain tex. Se trata del estructuramiento del documento en secciones, el agregado de imágenes y las referencias, tanto internas como a bibliografía.
 
-%\subsection{Secciones}
+\subsection{Secciones}
+
+Latex tiene implementado un sistema de secciones que se suele usar para estructurar el documento. Se trata de los comandos \verb|\section|, \verb|\subsection| y \verb|\subsubsection|, cada uno de los cuales recibe un parámetro que es el título. Dependiendo del tipo de documento (primera línea del archivo), puede usarse también el comando \verb|\chapter| para indicar capítulos. En documentos de tipo {\tt report} o {\tt book} se ponen capítulos, mientras que en los de tipo {\tt article} no.
+
+Se puede crear un índice automáticamente con el comando \verb|\tableofcontents|. A veces puede hacer falta compilar dos veces para que quede bien, sobre todo si se hace con {\tt pdflatex} desde la terminal.
+
+Se puede hacer que una sección (subsección, etc.) no se enumere ni se incluya en el índice poniendo un asterisco entre el comando y el título, es decir \verb|\section*{}|. Estas secciones, además de no enumerarse, no afectan la numeración de las otras. Es bastante estándar en latex que un asterisco tenga el sentido \lq\lq no enumerar\rq\rq.
 
 \subsection{Imágenes}\label{sec-imagenes}
 
-%\subsection{Referencias}
+Las funcionalidades de incluir imágenes vienen de latex y paquetes. Cuando se creó tex (tiempo en el que no existía el formato pdf y tal vez lo más común era imprimir) no se contempló el uso de imágenes. El paquete que vamos a usar es {\tt graphicx}, cuya documentación está en \href{https://ctan.org/pkg/graphicx}{ctan.org/pkg/graphicx} (por algún motivo está junta la documentación del paquete {\tt color}, para cambiar colores).
+
+El comando para incluir una figura en un documento es {\tt \tbs includegraphics\{{\sl archivo}\}}, donde {\sl archivo} es el nombre completo del archivo (por ejemplo \lq\lq diagrama.png\rq\rq). Este comando viene del paquete {\tt graphicx}. Se pueden poner parámetros opcionales entre corchetes rectos. Algunos son {\tt scale} para escalar la imagen y {\tt width} para fijar el ancho. En general puede ser útil usar {\tt width} en relación al ancho del texto, el cual es \verb|\hsize|. Si queremos que el ancho de la imagen sea por ejemplo la mitad del del texto, podemos usar {\tt \tbs includegraphics[width=.5\tbs hsize]\{{\sl archivo}\}}.
+
+El resultado de \verb|\includegraphics| es una caja con la imagen, la cual se puede usar como parte de otras cosas. Por ejemplo, podemos poner una imagen dentro de un modo display para que la muestre centrada y con márgenes arriba y abajo.
+$$
+\includegraphics[width=.5\hsize]{ArqVN.png}
+$$
+
+Tampoco nada nos impide poner una imágen con el texto, por ejemplo \includegraphics[width=.1\hsize]{ArqVN.png}, pero en general no es de mucha utilidad. Parece que la imagen se comporta como contenido de modo horizontal, así como una letra. De hecho, si fuera de un párrafo ponemos una imagen al comienzo de una línea, se toma como que comienza un nuevo párrafo y se le pone la sangría correspondiente antes.
+
+\includegraphics[width=.1\hsize]{ArqVN.png} este párrafo es comenzado por la imagen.
+
+\bigbreak
+\hbox to \hsize
+{	
+	\hfill
+	\includegraphics[width=.4\hsize]{ArqVN.png}
+	\hfill
+	% modo técnico: vamos a medir la imagen para que el párrafo sea de igual altura
+	\setbox0 = \hbox{\includegraphics[width=.4\hsize]{ArqVN.png}}
+	\dimen0 = \ht0 % la altura
+	\advance\dimen0 by \dp0 % le sumamos la profundidad
+	\vbox to \dimen0
+	{
+		\hsize=.4\hsize
+		Como otro ejemplo un poco más técnico, se puede poner un párrafo al lado de una imágen usando cajas. Por otra parte, lograr que se alineen por arriba fue $\underline{\hbox{\sl MUY}}$ técnico.
+	}
+	\hfill
+}
+
+En resumen, con \verb|\includegraphics| se puede insertar una imagen en cualquier parte del documento, con parámetros opcionales que permiten por ejemplo cambiar el tamaño. Sin embargo, lo más usual es usar el entorno {\tt figure} de latex. Haciendo esto, latex se encarga de elegir en dónde poner la imagen de modo que quede bien con el resto del documento. Además, tenemos funcionalidades para ponerle una descripción por debajo y para referenciar la imagen desde el texto.
+
+El modo más usual de usar este entorno es el siguiente
+\begin{verbatim}
+\begin{figure}
+    \centering
+    \includegraphics[width=.5\hsize]{ArqVN.png}
+    \caption{Descripción de la figura.}
+    \label{fig-ArquiVonNeu}
+\end{figure}
+\end{verbatim}
+El primer comando indica que el contenido se centra. El segundo es para insertar la imagen. El tercero es para generar una descripción y el cuarto es para poder referenciarlo desde el texto (el label debe ir luego del caption). Ponemos el entorno dentro del código.
+\begin{figure}
+	\centering
+	\includegraphics[width=.5\hsize]{ArqVN.png}
+	\caption{Descripción de la figura.}
+	\label{fig-ArquiVonNeu}
+\end{figure}
+
+La posición de la figura no tiene por qué ser la misma que la del código. En general se suele preferir que queden en la parte de arriba o de abajo de las hojas. Para hablar sobre la imágen desde el texto, se referencia por el número con frases como \lq\lq en la figura \ref{fig-ArquiVonNeu} hay tres cajas\rq\rq. No hace falta saber el número exacto de la imagen, sino que se usa el {\tt label} definido en el entorno. Al escribir \verb|\ref{fig-ArquiVonNeu}|, automáticamente se coloca el número de la figura con un enlace que si se hace click lleva a ese lugar. Si luego ponemos otra figura antes y el número cambia, las referencias se acomodan solas, lo cual puede ser muy práctico.
+
+Notar que esto de que la imagen se referencie en el texto por su número, sin necesariamente estar en ese mismo lugar, es lo más común en textos científicos y técnicos.
+
+Cabe aclarar que en el entorno {\tt figure} se puede poner cualquier cosa y de hecho no tiene por qué haber una imagen. Observar la figura \ref{fig-aaaaa}. En particular, si se quiere se puede poner más de una imagen, como en la figura \ref{fig-dosimg}.
+
+\begin{figure}[b]
+	\centering
+	aaaaa
+	\caption{Esto también es una figura.}
+	\label{fig-aaaaa}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width=.4\hsize]{ArqVN.png}
+	\includegraphics[width=.4\hsize]{ArqVN.png}
+	\caption{Una figura con dos imágenes. Si fueran distintas, capaz convendría fijar la altura en los parámetros opcionales con {\tt height=x}. El salto de línea entre una imagen y la otra se interpreta como un espacio, por lo que están un poco separadas.}
+	\label{fig-dosimg}
+\end{figure}
+
+\subsection{Referencias}
+
 
 %\section{Cosas que no tratamos}
 %consejos sobre como aprender, entre manuales y buscar en internet
-
+%No veremos la creación de tablas. Para esto lo usual es el entorno {\tt tabular} de latex, el cual se trata en {\sl La introducción no-tan-corta a latex}.
 \end{document}
