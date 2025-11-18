@@ -3296,7 +3296,7 @@ la salida es:
 	\item Tercer item
 \end{itemize}
 
-Por otra parte, algunos comandos de latex o paquetes tienen argumentos opcionales que van entre corchetes rectos. Más adelante veremos \verb|\includegraphics[op]{archivo}|, para incluir imágenes. Los argumentos opcionales permiten por ejemplo ajustar el tamaño.
+Por otra parte, algunos comandos tienen argumentos opcionales que van entre corchetes rectos. Está por ejemplo \verb|\includegraphics[op]{archivo}| para incluir imágenes, cuyos argumentos opcionales permiten entre otras cosas ajustar el tamaño (sección \ref{sec-imagenes}).
 \subsubsection{Ver la definición de un comando (técnico)}
 
 Algunos comandos son primitivos de tex y otros son definidos a partir de comandos más básicos. Con \verb|\show| podemos ver la definición de un comando. Lo que hay que hacer es ponerlo seguido del comando cuya definición queremos ver y ejecutar desde la terminal. Dentro de la salida que latex produce en la terminal se incluye la definición del comando (ver Texbook p.\ 10, dentro del capítulo 3). 
@@ -3887,13 +3887,13 @@ x\amsatop{y}{z}\qquad \sum_{\amsatop{\scriptstyle1\leq i\leq p}{ \amsatop{\scrip
 $$
 Parece que efectivamente funciona bien. Si se quisiera se podría usar \verb|\def| y ponerle como nombre \verb|\atop|, remplazando al otro (cosa que con \verb|\newcommand| no se puede).
 
-%\section{Funcionalidades de latex}
+\section{Funcionalidades de latex}
 
 %No veremos la creación de tablas. Para esto lo usual es el entorno {\tt tabular} de latex, el cual se trata en {\sl La introducción no-tan-corta a latex}.
 
 %\subsection{Secciones}
 
-%\subsection{Imágenes}
+\subsection{Imágenes}\label{sec-imagenes}
 
 %\subsection{Referencias}
 
