@@ -692,7 +692,7 @@ else:
 print("Gracias.") #Esto siempre se ejecuta al final.
 \end{verbatim}
 
-\begin{ejercicio}
+\begin{ejercicio}\label{ejer-ifs}
 	Escribir la siguiente instrucción usando cuatro ifs seguidos (sin meter un if adentro del cuerpo de otro).
 \begin{verbatim}
 if cond1:
@@ -704,7 +704,6 @@ elif cond3:
 else:
     instr4
 \end{verbatim}
-
 \end{ejercicio}
 
 \section{Iteraciones}
@@ -3960,7 +3959,7 @@ Notar que esto de que la imagen se referencie en el texto por su número, sin ne
 
 Cabe aclarar que en el entorno {\tt figure} se puede poner cualquier cosa y de hecho no tiene por qué haber una imagen. Observar la figura \ref{fig-aaaaa}. En particular, si se quiere se puede poner más de una imagen, como en la figura \ref{fig-dosimg}.
 
-\begin{figure}[b]
+\begin{figure}[b] %el parámetro opcional [b] hace que quede abajo en la carilla
 	\centering
 	aaaaa
 	\caption{Esto también es una figura.}
@@ -3970,14 +3969,59 @@ Cabe aclarar que en el entorno {\tt figure} se puede poner cualquier cosa y de h
 	\centering
 	\includegraphics[width=.4\hsize]{ArqVN.png}
 	\includegraphics[width=.4\hsize]{ArqVN.png}
-	\caption{Una figura con dos imágenes. Si fueran distintas, capaz convendría fijar la altura en los parámetros opcionales con {\tt height=x}. El salto de línea entre una imagen y la otra se interpreta como un espacio, por lo que están un poco separadas.}
+	\caption{Una figura con dos imágenes. Si fueran distintas, capaz convendría fijar la altura en los parámetros opcionales con {\tt height=x}. El salto de línea y la tabulación entre una imagen y la otra se interpretan como un espacio, por lo que están un poco separadas.}
 	\label{fig-dosimg}
 \end{figure}
 
-\subsection{Referencias}
+\subsection{Referencias}\label{sec-referencias}
 
+Latex provee de funcionalidades muy prácticas para referencias cosas dentro del documento. Se trata de los comandos \verb|\label| y \verb|\ref|, que ya vimos aplicados a referenciar figuras en la sección~\ref{sec-imagenes}. Estos comandos también se pueden usar para referenciar secciones y ecuaciones, entre otras cosas. La ventaja que tiene esto es que si agregamos cosas antes y la enumeración se modifica, las referencias se ajustan automáticamente. El funcionamiento siempre es que con \verb|\label| definimos una etiqueta asociada a algo, la cual conviene que tenga alguna lógica, y luego podemos referenciar esa cosa con \verb|\ref| pasando la etiqueta como parámetro. Esto funciona tanto si el \verb|\ref| está después de la cosa como si está antes. 
 
+Para referenciar una sección (o capítulo, o subsección, etc.) se pone un \verb|\label| con alguna etiqueta para la sección y luego usando \verb|\ref| con esa etiqueta queda la referencia. La etiqueta puede estar después de la definición de la sección. Por ejemplo, al lado de la definición de la subsección, escribimos  \verb|\label{sec-referencias}|, lo cual parece una elección clara de etiqueta. Luego podemos referirnos a la sección con \verb|\ref{sec-referencias}|, en cualquier parte del documento, ya sea antes o después. Por ejemplo, podemos afirmar que estamos en la subsección \ref{sec-referencias}.
+
+También se pueden poner etiquetas a ecuaciones. Para eso, hay que usar el entorno {\tt equation}, el cual activa el modo matemático display (al igual que {\tt\$\$}) y además genera un número para la ecuación, que se muestra a la derecha. Dentro de ese entorno podemos poner un \verb|\label| y luego referenciar con \verb|\ref|. Por ejemplo, creamos la ecuación
+\begin{equation}\label{ec-Eins}
+	E = mc^2
+\end{equation}
+con la etiqueta \verb|\label{ec-Eins}| y luego la referenciamos con \verb|\ref{ec-Eins}|, diciendo por ejemplo que la ecuación \ref{ec-Eins} se debe a Einstein. Si luego agregáramos otra ecuación antes y el número de esta pasara a ser (5.2), la referencia se ajustaría sola. Por otra parte, con el entorno {\tt align} (sin asterisco), se asigna un número a cada fila y para referenciarlo hay que poner un label en la misma fila. Por ejemplo, aquí adelante tenemos las ecuaciones \ref{ec-multi1} y \ref{ec-multi2} (notar que las referencias pueden ir antes en el documento).
+\begin{align}
+	x+y &= 2 \label{ec-multi1}\\
+	x-y &= 0 \label{ec-multi2}
+\end{align}
+
+Otros elementos de latex que se pueden referenciar son entornos de teorema, lema, definición, ejercicio, etc. y tablas. En este documento tenemos entornos de ejercicio. Podemos por ejemplo referenciar el ejercicio \ref{ejer-ifs}. No entramos en detalle sobre los entornos tipo teorema, pero sí cabe mencionar que el entorno de ejercicios usado está definido en el preámbulo del documento con las líneas:
+\begin{verbatim}
+\theoremstyle{definition}
+\newtheorem{ejercicio}{Ejercicio}[section]
+\end{verbatim}
+donde la primera hace que el estilo sea como de definición (esto afecta la fuente que se usa) y la segunda define el nombre del entorno junto con cosas respecto a la numeración. Ver la sección \lq\lq Lemas, teoremas, corolarios, $\dots$\rq\rq{} de la introducción no-tan-corta a latex.
+
+Respecto a las tablas, en este documento no aparece ninguna y tampoco entraremos en detalle. Ver la sección 2.11.6 \lq\lq Tablas\rq\rq{} de la introducción no-tan-corta a latex, en la que se habla del entorno {\tt tabular}.
+
+\medbreak
+Vemos ahora cómo hacer una bibliografía, con la que manejar referencias a otros documentos. Un enfoque bastante usual es el de utilizar bibtex. Se tiene un archivo aparte con terminación {\tt .bib} en el que se guardan las distintas entradas de la bibliografía. Por ejemplo, para el texbook podríamos tener una entrada
+\begin{verbatim}
+@book{texbook,
+	author = {Donald E. Knuth},
+	year = {1986},
+	title = {The {\TeX} Book},
+	publisher = {Addison-Wesley Professional}
+}
+\end{verbatim}
+donde el {\tt texbook} de la primera líenea es el identificador para usar dentro del documento y el resto son datos. Para poner la referencia en el documento había que poner \verb|\cite{texbook}|. El comando \verb|\cite| es el análogo de \verb|\ref| para referencias bibliográficas.
+
+Por último, en el punto en que queremos colocar la bibliografía (normalmente, al final del documento), debemos indicar el estilo y el nombre del archivo {\tt .bib}. Si queremos usar el estilo básico y nuestro archivo de referencias bibliográficas se llama {\tt biblio.bib}, ponemos al final del documento (antes del \verb|\end{document}|) lo siguiente.
+\begin{verbatim}
+\bibliographystyle{plain}
+\bibliography{biblio}
+\end{verbatim}
+Teniendo en la misma carpeta que el {\tt .tex} al archivo {\tt biblio.bib} en el que ingresamos la entrada para el texbook, ponemos las dos líneas antes del \verb|\end{document}| y podemos referenciar al texbook \cite{texbook}.
+
+En general, para libros o artículos académicos se puede conseguir en internet la entrada en formato de bibtex para poner en el archivo {\tt .bib}.
 %\section{Cosas que no tratamos}
 %consejos sobre como aprender, entre manuales y buscar en internet
 %No veremos la creación de tablas. Para esto lo usual es el entorno {\tt tabular} de latex, el cual se trata en {\sl La introducción no-tan-corta a latex}.
+
+\bibliographystyle{plain}
+\bibliography{biblio}
 \end{document}
