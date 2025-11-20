@@ -1,7 +1,5 @@
 \documentclass[a4paper, 12pt]{report}
 
-
-\usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[spanish]{babel} 
 \usepackage{graphicx}
@@ -49,6 +47,7 @@
 
 \begin{document}
 
+\begin{titlepage}
 \phantom{a}
 
 \vfill
@@ -67,12 +66,21 @@
 \centerline{\Large 2025}
 \vfill
 \hbox to \hsize{\hfill \large Francisco Carballal}
+\end{titlepage}
 
-\newpage
+{\large\bf\noindent Prefacio}
+\bigbreak
+Este documento consta de apuntes escritos para la edición 2025 del curso \lq\lq Computación\rq\rq{} de la Facultad de Ciencias de la Universidad de la República. Dentro de los dos cursos de computación dictados por el Centro de matemática, se trata del básico.
 
-Este documento consta de apuntes escritos para la edición 2025 del curso \lq\lq Introducción a la computación\rq\rq{} de la Facultad de Ciencias de la Universidad de la República.
+En el capítulo 1 se introducen conceptos de computación, incluyendo modelación matemática, hardware, software, lenguajes de programación y compiladores. Para entender el resto del documento, alcanza con la idea \lq\lq por arriba\rq\rq.
 
-En el capítulo 1 se introducen conceptos de computación, incluyendo modelación matemática, hardware, software, lenguajes de programación y compiladores. El objetivo es introducir algunos conceptos básicos y de motivación para el curso. No hace falta entender profundamente para continuar con el resto.
+En el capítulo 2 se presentan los conceptos básicos de programación en python, sin asumir conocimientos ni experiencia previa. Se trata de un material bastante autocontenido, con explicaciones y ejemplos además de las definiciones.
+
+En el capítulo 3 estudiamos la programación de funciones recursivas con enteros y listas y hacemos una pequeña introducción al estudio de eficiencia de algoritmos. Es el capítulo con más formalismo matemático.
+
+En el capítulo 4 se introduce el concepto de modularidad y vemos varias bibliotecas de python, con especial énfasis en algunas de computación científica. Aquí el enfoque es más de aprovechar cosas provistas que programar algoritmos desde cero.
+
+En el capítulo 5 se introducen TeX y LaTeX. Al tratarse TeX, hay cosas que no se consideran buenas prácticas en LaTeX. El objetivo no es solo introducir LaTeX de modo práctico, sino también aportar a la comprensión de su funcionamiento.
 
 \newpage
 
@@ -580,7 +588,7 @@ print("Hola.")
 x = input("Ingrese su numero favorito por favor: ")
 print("Su numero favorito es " + x) #Notar que x es un string.
 
-xNum = int(x) #Con esta instruccion, el string x se convierte en un entero.
+xNum = int(x) #Con esta instruccion, el string x se convierte en entero.
 print("El doble de su numero favorito es", 2*xNum)
 #Se puede imprimir mas de una cosa separando con comas.
 \end{verbatim}
@@ -867,11 +875,11 @@ while i < len(s): #iteramos mientras no se termina el string
                   # termina la palabra
         while j < len(s) and s[j] != " ": # la palabra todavía no terminó
             j = j + 1
-        i = j # en este punto j es el primer espacio después de la palabra
-              # o es el final de la lista. Continuamos ahí
+        i = j # en este punto j es el primer espacio después de la
+              # palabra o es el final de la lista. Continuamos ahí
 print(cont)       
 \end{verbatim}
-Hay una aclaración a hacer sobre la línea {\tt while j < len(s) and s[j] != `` ''}. En python cuando se calcula un {\tt and}, no siempre se evalúan ambos lados. Esto se llama {\bf evaluación de circuito corto}. Lo que ocurre es que primero se evalúa el lado izquierdo y solo en caso de que este de {\tt True}, luego se evalúa el derecho. El motivo es que si el lado izquierdo da {\tt False}, sabemos que el resultado del {\tt and} será {\tt False}, independientemente del valor del otro lado. Esta característica es importante para que este código funcione bien. Notar que si {\tt j} vale {\tt len(l)}, entonces si intentamos evaluar {\tt s[j]} ocurre un error de índice, pues el último índice válido es {\tt len(l)-1}. Debido a la evaluación de circuito corto, cuando {\tt j} vale {\tt len(l)}, como la parte izquierda {\tt j < len(l)} da {\tt False}, la parte derecha no se evalúa y por lo tanto se evita el error.
+Hay una aclaración a hacer sobre la línea {\tt while j < len(s) and s[j] != `` ''}. En py\-thon cuando se calcula un {\tt and}, no siempre se evalúan ambos lados. Esto se llama {\bf evaluación de circuito corto}. Lo que ocurre es que primero se evalúa el lado izquierdo y solo en caso de que este de {\tt True}, luego se evalúa el derecho. El motivo es que si el lado izquierdo da {\tt False}, sabemos que el resultado del {\tt and} será {\tt False}, independientemente del valor del otro lado. Esta característica es importante para que este código funcione bien. Notar que si {\tt j} vale {\tt len(l)}, entonces si intentamos evaluar {\tt s[j]} ocurre un error de índice, pues el último índice válido es {\tt len(l)-1}. Debido a la evaluación de circuito corto, cuando {\tt j} vale {\tt len(l)}, como la parte izquierda {\tt j < len(l)} da {\tt False}, la parte derecha no se evalúa y por lo tanto se evita el error.
 
 Otro uso de los while es el de hacer un programa que pueda repetirse tantas veces como el usuario quiera. Para esto lo que podemos hacer es:
 \begin{verbatim}
@@ -1389,8 +1397,8 @@ def suma(lista):
         #La lista es vacía, por lo tanto la suma es 0
         return 0
     else:
-        # Comenzamos separando guardando el primer elemento en una variable
-        # y el resto de la lista en otra variable
+        # Comenzamos separando guardando el primer elemento en 
+        # una variable y el resto de la lista en otra variable
         x = lista[0]
         resto = lista[1:len(lista)]
         # como el resto es una lista más chica, hacemos recursión
@@ -1539,7 +1547,7 @@ La estructura se puede flexibilizar, por ejemplo haciendo el caso base con lista
 
 En el caso base debemos resolverlo para el caso de la lista vacía. Claramente la lista vacía invertida es también la lista vacía, así que hacemos {\tt return []}.
 
-En el caso recursivo, tenemos {\tt l} una lista de largo {\tt len(l)>0}. Debemos calcular la función para {\tt l} pudiendo hacer llamadas recursivas para cualquier lista {\tt lp} con {\tt len(lp)<len(l)}, asumiendo que para esas listas la función hace lo que tiene que hacer (retorna su inversión). Vamos a aplicar recursión con la lista {\tt resto=l[1:len(l)]}, a la que llamamos de esa forma porque es el resto de {\tt l} después de el primer elemento. Notar que {\tt len(resto)=len(l)-1}. Supongamos que {\tt l} es $[x_1,x_2,\dots,x_n]$. En este caso, {\tt resto} es $[x_2,\dots x_n]$. Por recursión, podemos asumir que {\tt f(resto)} ya calcula lo que debe calcular, es decir, que da $[x_n,\dots x_2]$. Por lo tanto, para obtener la inversión de {\tt l}, lo único que hay que hacer es agregar $x_1$ al final de {\tt f(resto)}, lo cual se puede hacer con la instrucción {\tt append}.
+En el caso recursivo, tenemos {\tt l} una lista de largo {\tt len(l)>0}. Debemos calcular la función para {\tt l}, pudiendo hacer llamadas recursivas para cualquier lista {\tt lp} que cumpla {\tt len(lp)<len(l)}, asumiendo que para esas listas la función hace lo que tiene que hacer (retorna su inversión). Vamos a aplicar recursión con la lista {\tt resto=l[1:len(l)]}, a la que llamamos de esa forma porque es el resto de {\tt l} después de el primer elemento. Notar que {\tt len(resto)=len(l)-1}. Supongamos que {\tt l} es $[x_1,x_2,\dots,x_n]$. En este caso, {\tt resto} es $[x_2,\dots x_n]$. Por recursión, podemos asumir que {\tt f(resto)} ya calcula lo que debe calcular, es decir, que da $[x_n,\dots x_2]$. Por lo tanto, para obtener la inversión de {\tt l}, lo único que hay que hacer es agregar $x_1$ al final de {\tt f(resto)}, lo cual se puede hacer con la instrucción {\tt append}.
 
 En base al razonamiento anterior, escribimos la siguiente función.
 \begin{verbatim}
@@ -1592,7 +1600,7 @@ def insert(x,l):
             return [l[0]] + rec
 \end{verbatim}
 
-La siguiente función es una que ordena listas de enteros. La definimos como {\tt ordenar(l)}. El parámetro {\tt l} es una lista de enteros. La función retorna una lista con los mismos elementos que {\tt l} pero en orden. Para escribir esta función utilizaremos la que ya programamos.
+La siguiente función es una que ordena listas de enteros. La definimos {\tt ordenar(l)}. El parámetro {\tt l} es una lista de enteros. La función retorna una lista con los mismos elementos que {\tt l} pero en orden. Para escribir esta función utilizaremos la que ya programamos.
 \begin{verbatim}
 def ordenar(l):
     if len(l) == 0:
@@ -2633,7 +2641,7 @@ np.int64(2)
 >>> matriz[1,0]
 np.int64(3)
 \end{verbatim}
-El valor {\tt np.int64(2)} es el número 2 con su tipo indicado. Análogamente con {\tt np.int64(3)}. También se puede realizar asignaciones para cambiar el valor de alguna entrada del arreglo.
+El valor {\tt np.int64(2)} es el número 2 con su tipo indicado. Ídem con {\tt np.int64(3)}. También se puede realizar asignaciones para cambiar el valor de alguna entrada del arreglo.
 \begin{verbatim}
 >>> vector
 array([1, 2, 3, 4])
@@ -3243,7 +3251,7 @@ En modo matemático los símbolos se colocan (por defecto) con una fuente distin
 En modo matemático, el espaciamiento entre los símbolos funciona de modo distinto. Los espacios y saltos de línea que pongamos son ignorados y no se permiten líneas en blanco (da error). Por ejemplo, tanto {\tt\$xy\$} como {\$x~y\$} generan $xy$. Por otra parte, automáticamente se coloca algo de espacio entre símbolos de operación (como {\tt+}) y más espacio entre símbolos de relación (como {\tt=}). Observar la fórmula $xy+z=w$, que tiene los tres espaciamientos. Esta convención de espaciamiento ayuda a entender fácilmente las fórmulas. Más adelante (cuando nos enfoquemos en la escritura de fórmulas) veremos modos de alterar el espaciamiento entre los elementos (aunque en la mayoría de las situaciones no es necesario).
 
 El modo display matemático es para mostrar una fórmula centrada y con margen arriba y abajo. Se hace escribiendo la fórmula delimitada con dos \$ juntos de cada lado o con \verb|\[| y \verb|\]|. Por ejemplo con {\tt\$\$x+y=z\$\$} o \verb|\[x+y=z\]| se genera $$x+y=z$$
-y si seguimos escribiendo después continúa el párrafo. En Latex se recomienda \verb|\[| y \verb|\]|; los dobles son la forma de Tex y a veces no funcionan bien con ciertas cosas de latex.
+y si seguimos escribiendo después continúa el párrafo. En Latex se recomienda \verb|\[| y \verb|\]|; los dobles \$ son la forma de Tex y a veces no funcionan bien con ciertas cosas de Latex.
 
 Si ponemos una línea en blanco antes de la fórmula, esta comienza un párrafo nuevo, lo cual aumenta el espacio en blanco. Por otra parte, una línea en blanco después de la fórmula hace que lo que viene después comience un párrafo nuevo.
 
@@ -3298,12 +3306,12 @@ Si queremos que la acción se realice con algo más grande que un solo símbolo,
 \centerline{Introducción}
 \noindent y si hacemos {\tt\$\$\tbs frac \{x+y\}\{2\}\$\$} obtenemos:$$\frac{x+y}{2}$$
 
-Las estructuras de control de cambio de fuente tienen versiones con parámetros que son las más usadas en latex. Por ejemplo, se puede poner una palabra en negrita con \verb|\textbf{palabra}|. En el capítulo <<fundiciones y tamaños>> de La introducción no-tan-corta a latex \cite{manual2014} se presentan varias fuentes y tamaños.
+Los comandos de cambio de fuente tienen versiones con parámetros que son los recomendadas en Latex (los de dos letras, como \verb|\bf| son de plain tex). Por ejemplo, se puede poner una palabra en negrita con \verb|\textbf{palabra}|. En el capítulo <<fundiciones y tamaños>> de La introducción no-tan-corta a latex \cite{manual2014} se presentan varias fuentes.
 
 Hay estructuras de control que solamente se pueden usar en ciertos modos. Por ejemplo, el comando {\tt\tbs hrule} es para hacer una línea horizontal y solamente se puede usar en modo vertical. Se se pone ese comando dentro de modo horizontal, tex pasa a modo vertical y lo que venga después lo toma como un nuevo párrafo. Por otra parte, el comando {\tt \tbs vrule} es para hacer una linea vertical y solo funciona en modo horizontal. Hay también estructuras de control cuyo comportamiento cambia según el modo. Por ejemplo, {\tt\tbs kern} agrega o quita espacio dado por una medida que le pongamos después (por ejemplo {\tt 1cm, 0.3cm} para agregar o {\tt -1cm, -0.3cm} para quitar), pero si ese espacio es horizontal o vertical depende del modo actual. Hay muchas estructuras de control específicas para el modo matemático, de las cuales veremos algunas más adelante.
 
 
-Latex introduce otras estructuras de control que son entornos dados por {\tt\tbs begin\{nombre\}} y {\tt \tbs end\{nombre\}}. Hay este tipo de entornos para hacer cosas muy variadas. Por ejemplo, el entorno {\tt itemize} permite hacer listas, poniendo adentro el comando {\tt\tbs item} para cada elemento. Por ejemplo, si escribimos lo siguiente:
+Latex introduce otro tipo de estructuras de control que son los entornos, dados por {\tt\tbs begin\{nombre\}} y {\tt \tbs end\{nombre\}}. Hay entornos para hacer cosas muy variadas. Por ejemplo, el entorno {\tt itemize} permite hacer listas, poniendo adentro el comando {\tt\tbs item} para cada elemento. Por ejemplo, si escribimos lo siguiente:
 $$
 \hbox
 {
@@ -3961,6 +3969,7 @@ Tampoco nada nos impide poner una imágen con el texto, por ejemplo \includegrap
 	{
 		\hsize=.4\hsize
 		Como otro ejemplo un poco más técnico, se puede poner un párrafo al lado de una imágen usando cajas. Por otra parte, lograr que se alineen por arriba fue $\underline{\hbox{\sl MUY}}$ técnico.
+		\vfill
 	}
 	\hfill
 }
