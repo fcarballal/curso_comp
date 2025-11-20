@@ -29,6 +29,9 @@
 \usepackage{xcolor}
 \usepackage{listings}
 
+\usepackage{biblatex}
+\addbibresource{biblio.bib}
+
 \newcommand{\Ra}{\Rightarrow}
 \newcommand{\ra}{\rightarrow}
 \newcommand{\N}{\mathbb{N}}
@@ -39,6 +42,8 @@
 
 \theoremstyle{definition}
 \newtheorem{ejercicio}{Ejercicio}[section]
+
+
 
 \def\tbs{\textbackslash}
 
@@ -3091,7 +3096,7 @@ Matrix([
 \end{verbatim}
 
 
-\chapter{Fundamentos e introducción de LaTeX}
+\chapter{Introducción a TeX y LaTeX}
 
 Latex, escrito de modo estilizado \LaTeX{} o LaTeX, es un lenguaje para generar documentos científicos de alta calidad tipográfica, especialmente aquellos con presencia de fórmulas matemáticas. Aquí el sentido de \lq\lq alta calidad tipográfica\rq\rq{} es que el texto y las fórmulas quedan organizadas de modo fácilmente legible. No es una herramienta que destaque por la posibilidad de hacer cosas {\sl creativas} (aunque sí que se las puede hacer si uno profundiza), sino por la facilidad de generar textos bien ordenados que transmiten la información de modo claro. Que un material se entienda requiere de dos cosas: primero, que el contenido del material sea claro y segundo, que la organización sea prolija. Latex se encarga de la segunda parte.
 
@@ -3213,8 +3218,8 @@ En modo matemático los símbolos se colocan (por defecto) con una fuente distin
 
 En modo matemático, el espaciamiento entre los símbolos funciona de modo distinto. Los espacios y saltos de línea que pongamos son ignorados y no se permiten líneas en blanco (da error). Por ejemplo, tanto {\tt\$xy\$} como {\$x~y\$} generan $xy$. Por otra parte, automáticamente se coloca algo de espacio entre símbolos de operación (como {\tt+}) y más espacio entre símbolos de relación (como {\tt=}). Observar la fórmula $xy+z=w$, que tiene los tres espaciamientos. Esta convención de espaciamiento ayuda a entender fácilmente las fórmulas. Más adelante (cuando nos enfoquemos en la escritura de fórmulas) veremos modos de alterar el espaciamiento entre los elementos (aunque en la mayoría de las situaciones no es necesario).
 
-El modo display matemático es para mostrar una fórmula centrada y con margen arriba y abajo. Se hace escribiendo la fórmula delimitada con dos \$ juntos de cada lado. Por ejemplo con {\tt\$\$x+y=z\$\$} se genera $$x+y=z$$
-y si seguimos escribiendo después continúa el párrafo.
+El modo display matemático es para mostrar una fórmula centrada y con margen arriba y abajo. Se hace escribiendo la fórmula delimitada con dos \$ juntos de cada lado o con \verb|\[| y \verb|\]|. Por ejemplo con {\tt\$\$x+y=z\$\$} o \verb|\[x+y=z\]| se genera $$x+y=z$$
+y si seguimos escribiendo después continúa el párrafo. En Latex se recomienda \verb|\[| y \verb|\]|; los dobles son la forma de Tex y a veces no funcionan bien con ciertas cosas de latex.
 
 Si ponemos una línea en blanco antes de la fórmula, esta comienza un párrafo nuevo, lo cual aumenta el espacio en blanco. Por otra parte, una línea en blanco después de la fórmula hace que lo que viene después comience un párrafo nuevo.
 
@@ -3996,10 +4001,12 @@ Otros elementos de latex que se pueden referenciar son entornos de teorema, lema
 \end{verbatim}
 donde la primera hace que el estilo sea como de definición (esto afecta la fuente que se usa) y la segunda define el nombre del entorno junto con cosas respecto a la numeración. Ver la sección \lq\lq Lemas, teoremas, corolarios, $\dots$\rq\rq{} de la introducción no-tan-corta a latex.
 
-Respecto a las tablas, en este documento no aparece ninguna y tampoco entraremos en detalle. Ver la sección 2.11.6 \lq\lq Tablas\rq\rq{} de la introducción no-tan-corta a latex, en la que se habla del entorno {\tt tabular}.
+Respecto a las tablas, en este documento no aparece ninguna y tampoco entraremos en detalle. Ver la sección 2.11.6 \lq\lq Tablas\rq\rq{} de \cite{manual2014}, en la que se habla del entorno {\tt tabular}.
 
 \medbreak
-Vemos ahora cómo hacer una bibliografía, con la que manejar referencias a otros documentos. Un enfoque bastante usual es el de utilizar bibtex. Se tiene un archivo aparte con terminación {\tt .bib} en el que se guardan las distintas entradas de la bibliografía. Por ejemplo, para el texbook podríamos tener una entrada
+Vemos ahora cómo hacer una bibliografía (referencias a otros documentos). Hay varias formas. La más básica es con el entorno {\tt thebibliography}. Ver la  sección 4.2 \lq\lq Bibliografía\rq\rq{} de \cite{manual2014}. Por otra parte, está la herramienta {\bf bibtex}, que permite poner los datos de la bibliografía en otro archivo, de formato {\tt .bib}. Finalmente, está {\bf biblatex}: una versión más actual de bibtex con funcionamiento similar pero varias mejoras. Para la bibliografía de este documento usamos esta última opción. Aquí veremos un poco como funciona, ejemplificando con este mismo documento, pero está explicado más detalladamente en el capítulo \lq\lq Bibliographies\rq\rq{} de \cite{Oetiker2025}.
+
+En el archivo {\tt.bib} se escriben entradas para las distintos documentos que queremos referenciar. Para este documento usamos el archivo {\tt biblio.bib}. Algunas de sus entradas son las siguientes dos.
 \begin{verbatim}
 @book{texbook,
 	author = {Donald E. Knuth},
@@ -4007,21 +4014,47 @@ Vemos ahora cómo hacer una bibliografía, con la que manejar referencias a otro
 	title = {The {\TeX} Book},
 	publisher = {Addison-Wesley Professional}
 }
+@book{Oetiker2025,
+	author = {Oetiker, Tobias and ... and Schlegl, Elisabeth},
+	title = {The Not So Short Introduction to LaTeX},
+	year = {2025},
+	url = {https://tobi.oetiker.ch/lshort/lshort.pdf},
+	note = {Version 7.0}
+}
 \end{verbatim}
-donde el {\tt texbook} de la primera líenea es el identificador para usar dentro del documento y el resto son datos. Para poner la referencia en el documento había que poner \verb|\cite{texbook}|. El comando \verb|\cite| es el análogo de \verb|\ref| para referencias bibliográficas.
 
-Por último, en el punto en que queremos colocar la bibliografía (normalmente, al final del documento), debemos indicar el estilo y el nombre del archivo {\tt .bib}. Si queremos usar el estilo básico y nuestro archivo de referencias bibliográficas se llama {\tt biblio.bib}, ponemos al final del documento (antes del \verb|\end{document}|) lo siguiente.
-\begin{verbatim}
-\bibliographystyle{plain}
-\bibliography{biblio}
-\end{verbatim}
-Teniendo en la misma carpeta que el {\tt .tex} al archivo {\tt biblio.bib} en el que ingresamos la entrada para el texbook, ponemos las dos líneas antes del \verb|\end{document}| y podemos referenciar al texbook \cite{texbook}.
+Cada entrada comienza con un arroba y una palabra que indica el tipo de documento. Como ambos son libros, las entradas comienzan con {\tt @book}. Si hubiera también un artículo, empezaría con {\tt @article}. Luego entre corchetes hay un identificador (que podemos elegir libremente), con el que referenciaremos al documento en cuestión, seguido de distintos datos. Dentro de estos datos hay campos obligatorios y opcionales, que dependen del tipo de documento. Por ejemplo para libros los obligatorios son el autor, el título y la fecha.
 
-En general, para libros o artículos académicos se puede conseguir en internet la entrada en formato de bibtex para poner en el archivo {\tt .bib}.
-%\section{Cosas que no tratamos}
-%consejos sobre como aprender, entre manuales y buscar en internet
-%No veremos la creación de tablas. Para esto lo usual es el entorno {\tt tabular} de latex, el cual se trata en {\sl La introducción no-tan-corta a latex}.
+Para usar biblatex, en el preámbulo se incluye el paquete {\tt biblatex} y se ejecuta el comando \verb|\addbibresource| para indicar el archivo {\tt.bib} a usar. En nuestro caso son las siguientes dos líneas.
+$$
+\vbox{\hbox{\verb|\usepackage{biblatex}|
+		}\hbox{\verb|\addbibresource{biblio.bib}|}}
+$$
 
-\bibliographystyle{plain}
-\bibliography{biblio}
+Después de eso, en el documento se puede hacer referencias bibliográficas con el comando \verb|\cite|, el cual recibe el identificador como parámetro. Para que funcione bien, el identificador que ponemos debe coincidir con el de una de las entradas en el archivo {\tt.bib}. Por ejemplo, con \verb|\cite{texbook}| podemos citar al Texbook \cite{texbook}.
+
+Finalmente, hay que indicar en qué parte del documento queremos que quede la bibliografía. Eso se hace con el comando \verb|\printbibliography|, el cual ponemos antes del \verb|\end{document}| para que quede al final, como es usual.
+
+Un detalle importante para el uso de {\tt biblatex}. Para armar la bibliografía se usa un programa llamado {\tt biber}, el cual viene dentro de MikTeX. Para que funcione bien, es importante que se use ese programa en lugar del de bibtex. Al usar un entorno de desarrollo, como TeXstudio, puede haber  que elegir se use {\tt biber} en la configuración (menú \lq\lq Opciones\rq\rq y {\lq\lq Configurar TeXstudio\rq\rq}). Ver la figura \ref{fig-biber}.
+\begin{figure}
+	\centering
+	\includegraphics[width = .9\hsize]{biber.png}
+	\caption{Configuración de biiber como herramienta por defecto.}
+	\label{fig-biber}
+\end{figure}
+
+Cabe mencionar que si hay bibliografía es más complejo compilar desde la terminal. Hay que ejecutar una vez el compilador de latex, luego una vez biber y finalmente dos veces más el compilador. Para este archivo el orden de instrucciones sería: {\tt pdflatex notasComp.tex}, {\tt biber notasComp}, {\tt pdflatex notasComp.tex}, {\tt pdflatex notasComp.tex}.
+
+\section{Cosas que no tratamos y comentarios finales}
+
+Algunas cosas particularmente útiles que no vimos (o solo mencionamos) son los entornos de teoremas y las tablas. Ambos se tratan en \cite{manual2014}.
+
+Por otra parte, hay un paquete muy potente para generar gráficos: {\tt tikz}. Se recomienda aprender a usarlo. Entendiendo los principios de tex y latex, se puede encarar leyendo documentación, viendo ejemplos y practicando. Documentación: \href{https://tikz.dev/}{tikz.dev/} o \href{https://ctan.org/pkg/pgf}{ctan.org/pkg/pgf}.
+
+Cabe resaltar que este capítulo no trata solo sobre Latex, sino sobre Tex y Latex. Algunas de las cosas que vimos se desalienta usarlas en latex, ya sea porque se considere que son más difíciles de entender, porque no sigan la filosofía de Latex de que el contenido y el estilo se traten por separado, porque no interactúen bien con otras funcionalidades nuevas, o directamente porque hayan nuevas alternativas mejores (en algún sentido). Por ejemplo, el uso de \$\$ para modo display se desalienta, recomendándose remplazarlo por \verb|\[| y \verb|\]| o el entorno {\tt equation*}. Por otra parte, los cambios de fuente con los comandos de dos letras, como \verb|\tt| y \verb|\bf|, también se desalientan, recomendando usar en su lugar comandos como \verb|\texttt| y \verb|\textbf|. De todos modos, tras enterarse de tales situaciones, en general es muy sencillo cambiar por la alternativa recomendada (al menos en las situaciones donde afecta). Cabe mencionar que las consideras \lq\lq buenas prácticas\rq\rq{} de Latex, en general buscan facilitar la escritura del documento, fomentando el uso de elementos intuitivos de alto nivel. Por otra parte, alguien perfectamente puede ponerse a trabajar con cosas técnicas (como cajas de Tex) si así lo desea (aunque se reduce bastante la cantidad de personas que entendería el código). Se espera que lo visto aquí aporte a un entendimiento más o menos sólido del funcionamiento de Tex y Latex, lo cual a lo mejor puede ser interesante de por sí y junto con práctica ayudar a llegar a un muy buen manejo.
+
+Para aprender cosas nuevas, al igual que con conceptos de programación, se recomienda usar tanto libros y documentación como cosas que se encuentren en internet o textos generados por modelos del lenguaje. Cada cosa tiene sus ventajas. Los sitios de preguntas y respuestas como {\sl Stack Exchange} o {\sl Stack Overflow} pueden ser de particular utilidad.
+
+
+\printbibliography
 \end{document}
