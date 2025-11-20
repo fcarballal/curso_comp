@@ -102,7 +102,7 @@ Todas las componentes de la computadora se construyen con circuitos electrónico
 
 \begin{figure}
 	\centering
-	\includegraphics[scale=0.3]{ArqVN.png}
+	\includegraphics[scale=0.3]{fig/ArqVN.png}
 	\caption{Esquema de los componentes de la arquitectura de Von Neumann.}
 	\label{fig-ArqVN}
 \end{figure}
@@ -149,7 +149,7 @@ Cabe resaltar que este es un ejemplo muy sencillo. Hay otros tipos de instruccio
 
 \begin{figure}
 	\centering
-	\includegraphics[scale=0.33]{ArqVNEjProg.png}
+	\includegraphics[scale=0.33]{fig/ArqVNEjProg.png}
 	\caption{Esquema de una computadora con un programa.}
 	\label{fig-ArqVNEjProg}
 \end{figure}
@@ -197,7 +197,7 @@ En el sistema operativo linux, en general python ya viene instalado por defecto.
 
 \begin{figure}
 	\centering
-	\includegraphics[scale=0.5]{InstallPython.png}
+	\includegraphics[scale=0.5]{fig/InstallPython.png}
 	\caption{Es importante marcar la opción <<Add python.exe to PATH>>.}
 	\label{fig-InstallPython}
 \end{figure}
@@ -210,7 +210,7 @@ Al escribir python, lo que se hace es ejecutar el intérprete. Para que esto fun
 
 \begin{figure}
 	\centering
-	\includegraphics[scale=0.5]{cmdPython.png}
+	\includegraphics[scale=0.5]{fig/cmdPython.png}
 	\caption{Ventana de comandos con el intérprete de python.}
 	\label{fig-cmdPython}
 \end{figure}
@@ -221,7 +221,7 @@ Para todo lo que mencionamos en esta sección, buscando en internet (motores de 
 
 \begin{figure}
 	\centering
-	\includegraphics[scale=0.4]{ejecPython.png}
+	\includegraphics[scale=0.4]{fig/ejecPython.png}
 	\caption{A la izquierda visual studio code con el código del archivo llamado programa.py. Al centro se ve la carpeta llamada ejemplo en la que está el archivo. Dentro de esa carpeta se abre la terminal. A la derecha se ve la terminal en la que se escrie <<python programa.py>>. Antes del símbolo >, a la izquierda de <<python>>, se indica la carpeta en la que está la terminal. Si al hacer click derecho en la carpeta no aparece la opción <<abrir en terminal>>, puede aparecer al hacer click derecho manteniendo apretado mayus/shift (recordar que powershell también es una terminal). En todo caso, para problemas como este se recomienda buscar en internet, con lo cual se suele encontrar alguna solución rápidamente. También se puede abrir una terminal en cualquier sitio y cambiar la ubicación con instrucciones específicas, como {\tt cd} (buscar en internet en caso de que haya interés).}
 	\label{fig-ejecPython}
 \end{figure}
@@ -235,7 +235,7 @@ Los booleanos conforman un tipo de datos que representa valores de verdad. Tiene
 
 \begin{figure}
 	\centering
-	\includegraphics[scale=0.6]{ejemploBool.png}
+	\includegraphics[scale=0.6]{fig/ejemploBool.png}
 	\caption{Ejemplos de operaciones con booleanos.}
 	\label{fig-ejemploBool}
 \end{figure}
@@ -246,14 +246,14 @@ Se trata de un tipo de datos para representar enteros naturales. Los objetos son
 
 \begin{figure}
 	\centering
-	\includegraphics[scale=0.6]{ejemploInt.png}
+	\includegraphics[scale=0.6]{fig/ejemploInt.png}
 	\caption{Operaciones aritméticas básicas. Lo que está escrito después de los \# son comentarios. Los comentarios son ignorados por el intérprete, la función que cumplen es de aclaraciones para personas que lo leen.}
 	\label{fig-ejemploInt}
 \end{figure}
 
 \begin{figure}
 	\centering
-	\includegraphics[scale=0.6]{ejemploComp.png}
+	\includegraphics[scale=0.6]{fig/ejemploComp.png}
 	\caption{Comparaciones entre enteros. }
 	\label{fig-ejemploComp}
 \end{figure}
@@ -270,14 +270,14 @@ En general se pueden realizar operaciones aritméticas entre enteros y números 
 
 \begin{figure}
 	\centering
-	\includegraphics[scale=0.6]{ejemploFloat.png}
+	\includegraphics[scale=0.6]{fig/ejemploFloat.png}
 	\caption{Ejemplos de números de punto flotante.}
 	\label{fig-ejemploFloat}
 \end{figure}
 
 \begin{figure}
 	\centering
-	\includegraphics[scale=0.6]{ejemploMath.png}
+	\includegraphics[scale=0.6]{fig/ejemploMath.png}
 	\caption{Ejemplos de operaciones de la biblioteca math.}
 	\label{fig-ejemploMath}
 \end{figure}
@@ -506,7 +506,7 @@ De hecho los dos ejemplos que presentamos son muy distintos. La asignación {\tt
 
 \begin{figure}
 	\centering
-	\includegraphics[scale=0.3]{ejemploVarMem.png}
+	\includegraphics[scale=0.3]{fig/ejemploVarMem.png}
 	\caption{Ilustración de ejemplo presentado en la sección \ref{sec-memoriaCompartida}}
 	\label{fig-ejemploVarMem}
 \end{figure}
@@ -2886,7 +2886,7 @@ plt.show() # si queremos que lo muestre
 En la figura \ref{fig-ejMPL} vemos la gráfica que se genera. De aquí en más, se incentiva al lector a ejecutar los códigos para generarlas por si mismo.
 \begin{figure}
 	\centering
-	\includegraphics[scale=0.7]{ejemploGrafMPL.png}
+	\includegraphics[scale=0.7]{fig/ejemploGrafMPL.png}
 	\caption{Ejemplo con matplotlib}
 	\label{fig-ejMPL}
 \end{figure}
@@ -3914,21 +3914,21 @@ El comando para incluir una figura en un documento es {\tt \tbs includegraphics\
 
 El resultado de \verb|\includegraphics| es una caja con la imagen, la cual se puede usar como parte de otras cosas. Por ejemplo, podemos poner una imagen dentro de un modo display para que la muestre centrada y con márgenes arriba y abajo.
 $$
-\includegraphics[width=.5\hsize]{ArqVN.png}
+\includegraphics[width=.5\hsize]{fig/ArqVN.png}
 $$
 
-Tampoco nada nos impide poner una imágen con el texto, por ejemplo \includegraphics[width=.1\hsize]{ArqVN.png}, pero en general no es de mucha utilidad. Parece que la imagen se comporta como contenido de modo horizontal, así como una letra. De hecho, si fuera de un párrafo ponemos una imagen al comienzo de una línea, se toma como que comienza un nuevo párrafo y se le pone la sangría correspondiente antes.
+Tampoco nada nos impide poner una imágen con el texto, por ejemplo \includegraphics[width=.1\hsize]{fig/ArqVN.png}, pero en general no es de mucha utilidad. Parece que la imagen se comporta como contenido de modo horizontal, así como una letra. De hecho, si fuera de un párrafo ponemos una imagen al comienzo de una línea, se toma como que comienza un nuevo párrafo y se le pone la sangría correspondiente antes.
 
-\includegraphics[width=.1\hsize]{ArqVN.png} este párrafo es comenzado por la imagen.
+\includegraphics[width=.1\hsize]{fig/ArqVN.png} este párrafo es comenzado por la imagen.
 
 \bigbreak
 \hbox to \hsize
 {	
 	\hfill
-	\includegraphics[width=.4\hsize]{ArqVN.png}
+	\includegraphics[width=.4\hsize]{fig/ArqVN.png}
 	\hfill
 	% modo técnico: vamos a medir la imagen para que el párrafo sea de igual altura
-	\setbox0 = \hbox{\includegraphics[width=.4\hsize]{ArqVN.png}}
+	\setbox0 = \hbox{\includegraphics[width=.4\hsize]{fig/ArqVN.png}}
 	\dimen0 = \ht0 % la altura
 	\advance\dimen0 by \dp0 % le sumamos la profundidad
 	\vbox to \dimen0
@@ -3945,7 +3945,7 @@ El modo más usual de usar este entorno es el siguiente
 \begin{verbatim}
 \begin{figure}
     \centering
-    \includegraphics[width=.5\hsize]{ArqVN.png}
+    \includegraphics[width=.5\hsize]{fig/ArqVN.png}
     \caption{Descripción de la figura.}
     \label{fig-ArquiVonNeu}
 \end{figure}
@@ -3953,7 +3953,7 @@ El modo más usual de usar este entorno es el siguiente
 El primer comando indica que el contenido se centra. El segundo es para insertar la imagen. El tercero es para generar una descripción y el cuarto es para poder referenciarlo desde el texto (el label debe ir luego del caption). Ponemos el entorno dentro del código.
 \begin{figure}
 	\centering
-	\includegraphics[width=.5\hsize]{ArqVN.png}
+	\includegraphics[width=.5\hsize]{fig/ArqVN.png}
 	\caption{Descripción de la figura.}
 	\label{fig-ArquiVonNeu}
 \end{figure}
@@ -3972,8 +3972,8 @@ Cabe aclarar que en el entorno {\tt figure} se puede poner cualquier cosa y de h
 \end{figure}
 \begin{figure}
 	\centering
-	\includegraphics[width=.4\hsize]{ArqVN.png}
-	\includegraphics[width=.4\hsize]{ArqVN.png}
+	\includegraphics[width=.4\hsize]{fig/ArqVN.png}
+	\includegraphics[width=.4\hsize]{fig/ArqVN.png}
 	\caption{Una figura con dos imágenes. Si fueran distintas, capaz convendría fijar la altura en los parámetros opcionales con {\tt height=x}. El salto de línea y la tabulación entre una imagen y la otra se interpretan como un espacio, por lo que están un poco separadas.}
 	\label{fig-dosimg}
 \end{figure}
@@ -4038,7 +4038,7 @@ Finalmente, hay que indicar en qué parte del documento queremos que quede la bi
 Un detalle importante para el uso de {\tt biblatex}. Para armar la bibliografía se usa un programa llamado {\tt biber}, el cual viene dentro de MikTeX. Para que funcione bien, es importante que se use ese programa en lugar del de bibtex. Al usar un entorno de desarrollo, como TeXstudio, puede haber  que elegir se use {\tt biber} en la configuración (menú \lq\lq Opciones\rq\rq y {\lq\lq Configurar TeXstudio\rq\rq}). Ver la figura \ref{fig-biber}.
 \begin{figure}
 	\centering
-	\includegraphics[width = .9\hsize]{biber.png}
+	\includegraphics[width = .9\hsize]{fig/biber.png}
 	\caption{Configuración de biiber como herramienta por defecto.}
 	\label{fig-biber}
 \end{figure}
