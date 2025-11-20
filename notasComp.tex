@@ -49,8 +49,32 @@
 
 \begin{document}
 
-\centerline{\Huge\bf Apuntes de Introducción a la Computación}
+\phantom{a}
 
+\vfill
+\hrule
+\kern.2em
+\centerline{\Huge \textsc{Introducción a la computación}}
+\kern 1em
+\centerline{\Huge \textsc{Apuntes de teórico}}
+\kern.2em
+\hrule
+\kern 3em
+\centerline{\Large Universidad de la República}
+\kern .5em
+\centerline{\Large Facultad de Ciencias}
+\kern .5em
+\centerline{\Large 2025}
+\vfill
+\hbox to \hsize{\hfill \large Francisco Carballal}
+
+\newpage
+
+Este documento consta de apuntes escritos para la edición 2025 del curso \lq\lq Introducción a la computación\rq\rq{} de la Facultad de Ciencias de la Universidad de la República.
+
+En el capítulo 1 se introducen conceptos de computación, incluyendo modelación matemática, hardware, software, lenguajes de programación y compiladores. El objetivo es introducir algunos conceptos básicos y de motivación para el curso. No hace falta entender profundamente para continuar con el resto.
+
+\newpage
 
 
 \tableofcontents
@@ -3102,7 +3126,7 @@ Latex, escrito de modo estilizado \LaTeX{} o LaTeX, es un lenguaje para generar 
 
 Los materiales de este curso están hechos con latex. Se puede acceder a los archivos fuente en \href{https://github.com/fcarballal/curso_comp}{https://github.com/fcarballal/curso\_comp}.
 
-Latex está basado en \TeX, el cual es un lenguaje más elemental (aunque muy potente) para generación de documentos que puede extenderse con elementos llamados {\sl macros}. De hecho, LaTeX es TeX junto con un conjunto de macros que simplifica la creación de documentos. Las cosas de LaTeX son elementos básicos de TeX o macros definidos por LaTeX.
+Latex está basado en \TeX, el cual es un lenguaje más elemental (aunque muy potente) para generación de documentos que puede extenderse con elementos llamados {\sl macros}. De hecho, LaTeX es TeX junto con un conjunto de macros que simplifica la creación de documentos.
 
 Tex fue hecho por Donald Knuth y Latex por Leslie Lamport algunos años después. Tras hacer tex, Knuth creó un conjunto de macros llamado \lq\lq plain tex\rq\rq{}, que facilita el uso.
 $$
@@ -3110,12 +3134,12 @@ $$
 $$
 Latex (que se creó después) incluye la mayoría de los macros de plain tex, pero no todos. Aparte de eso tiene muchas más cosas y una gran cantidad de paquetes con los que se puede extender (análogamente al uso de bibliotecas en python). Los paquetes de latex suelen tener documentación en \href{https://ctan.org}{ctan.org}
 
-Respecto a materiales para estudiar latex, considerar los siguientes:
+Respecto a materiales de referencia, considerar los siguientes:
 \begin{enumerate}
-	\item {\sl La introducción no-tan-corta a latex}. Se puede acceder a la versión en español en la página {\href{https://ctan.org/pkg/lshort-spanish}{ctan.org/pkg/lshort-spanish}}. Introduce los conceptos y además explica y ejemplifica los elementos que se usan comúnmente.
-	\item {\sl The Texbook} por Donald Knuth. Es el manual de tex y plain tex escrito por el autor del sistema. A pesar de ser un manual, es muy didáctico y agradable de leer, al menos para quien escribe estos apuntes. Además de explicar tex, tiene muchos comentarios sobre buenas prácticas de tipografía.
+	\item {\sl La introducción no-tan-corta a latex} \cite{manual2014}. Introduce los conceptos y además explica y ejemplifica los elementos que se usan comúnmente. La versión en inglés \cite{Oetiker2025} es más nueva. Se trata de material disponible en internet. Ver los enlaces en la bibliografía.
+	\item {\sl The Texbook} \cite{texbook}. Es el manual de tex y plain tex escrito por el autor del sistema. A pesar de ser un manual, es muy didáctico y agradable de leer, al menos para quien escribe estos apuntes. Además de explicar tex, tiene muchos comentarios de tipografía, tanto en general como específica de textos con matemática.
+	\item {\sl Latex, a documento preparation system} \cite{latex2e}. Manual de Latex por el autor.
 \end{enumerate}
-Por otra parte, en internet se puede encontrar mucha información al respecto.
 
 \section{Instalación y uso de latex}
 
@@ -3255,7 +3279,7 @@ En caso de que el \tbs sea seguido por un símbolo, como {\tt\tbs\{} o {\tt\tbs\
 
 Ejemplos de estructuras de control para producir símbolos que ya vimos son {\tt\tbs lq} y {\tt\tbs rq}, para las comillas. Para poner en el documento algunos de los símbolos reservados hay comandos como {\tt\tbs\$} y {\tt\tbs\{}. Hay estructuras de control para letras griegas para fórmulas, las cuales solo se pueden usar en modo matemático o modo display. Es una contrabarra y el nombre de la letra griega. Por ejemplo, con {\tt\$\tbs alpha\$} se produce $\alpha$.
 
-Al final del capítulo sobre matemática en la introducción no-tan-corta a latex, hay una lista de símbolos matemáticos. En \href{https://ctan.org/pkg/comprehensive}{ctan.org/pkg/comprehensive} se encuentra otra que tiene más de $20000$ símbolos (matemáticos o de uso en texto).
+Al final del capítulo sobre matemática en la introducción no-tan-corta a latex \cite{manual2014}, hay una lista de símbolos matemáticos. En \href{https://ctan.org/pkg/comprehensive}{ctan.org/pkg/comprehensive} se encuentra otra que tiene más de $20000$ símbolos (matemáticos o de uso en texto).
 
 Hay estructuras de control para cambiar la fuente y el tamaño. Estas instrucciones realizan el cambio desde el punto que se escriben en adelante. Por ejemplo, si escribimos {\tt\tbs sl}, de ese punto en adelante se usa una {\sl fuente de letras torcidas}. Si escribimos {\tt\tbs rm} se vuelve a la fuente básica. Con {\tt\tbs bf} se cambia a {\bf en negrita}. Para cambiar el tamaño se pueden usar comandos como {\tt\tbs small}, {\tt\tbs normalsize} o {\tt\tbs large} de modo análogo.
 
@@ -3274,7 +3298,7 @@ Si queremos que la acción se realice con algo más grande que un solo símbolo,
 \centerline{Introducción}
 \noindent y si hacemos {\tt\$\$\tbs frac \{x+y\}\{2\}\$\$} obtenemos:$$\frac{x+y}{2}$$
 
-Las estructuras de control de cambio de fuente tienen versiones con parámetros que son las más usadas en latex. Por ejemplo, se puede poner una palabra en negrita con \verb|\textbf{palabra}|. En el capítulo <<fundiciones y tamaños>> de <<La introducción no-tan-corta a latex>> se presentan varias fuentes y tamaños.
+Las estructuras de control de cambio de fuente tienen versiones con parámetros que son las más usadas en latex. Por ejemplo, se puede poner una palabra en negrita con \verb|\textbf{palabra}|. En el capítulo <<fundiciones y tamaños>> de La introducción no-tan-corta a latex \cite{manual2014} se presentan varias fuentes y tamaños.
 
 Hay estructuras de control que solamente se pueden usar en ciertos modos. Por ejemplo, el comando {\tt\tbs hrule} es para hacer una línea horizontal y solamente se puede usar en modo vertical. Se se pone ese comando dentro de modo horizontal, tex pasa a modo vertical y lo que venga después lo toma como un nuevo párrafo. Por otra parte, el comando {\tt \tbs vrule} es para hacer una linea vertical y solo funciona en modo horizontal. Hay también estructuras de control cuyo comportamiento cambia según el modo. Por ejemplo, {\tt\tbs kern} agrega o quita espacio dado por una medida que le pongamos después (por ejemplo {\tt 1cm, 0.3cm} para agregar o {\tt -1cm, -0.3cm} para quitar), pero si ese espacio es horizontal o vertical depende del modo actual. Hay muchas estructuras de control específicas para el modo matemático, de las cuales veremos algunas más adelante.
 
@@ -3304,11 +3328,11 @@ la salida es:
 Por otra parte, algunos comandos tienen argumentos opcionales que van entre corchetes rectos. Está por ejemplo \verb|\includegraphics[op]{archivo}| para incluir imágenes, cuyos argumentos opcionales permiten entre otras cosas ajustar el tamaño (sección \ref{sec-imagenes}).
 \subsubsection{Ver la definición de un comando (técnico)}
 
-Algunos comandos son primitivos de tex y otros son definidos a partir de comandos más básicos. Con \verb|\show| podemos ver la definición de un comando. Lo que hay que hacer es ponerlo seguido del comando cuya definición queremos ver y ejecutar desde la terminal. Dentro de la salida que latex produce en la terminal se incluye la definición del comando (ver Texbook p.\ 10, dentro del capítulo 3). 
+Algunos comandos son primitivos de tex y otros son definidos a partir de comandos más básicos. Con \verb|\show| podemos ver la definición de un comando. Lo que hay que hacer es ponerlo seguido del comando cuya definición queremos ver y ejecutar desde la terminal. Dentro de la salida que latex produce en la terminal se incluye la definición del comando (ver Texbook \cite{texbook} p.\ 10, dentro del capítulo 3). 
 
 \section{Cajas y pegamento}
 
-Las cajas y el pegamento son conceptos de bajo nivel fundamentales en TeX. Todos los elementos visibles del archivo resultante se procesan con cajas y para determinar los espacios vacíos entre algunos de estos elementos se utiliza pegamento. En general no los manipulemos a mano, pero los comandos que utilizamos funcionan en base a estos conceptos. Por lo tanto, para entender bien el funcionamiento de TeX, hay que saber al menos lo básico sobre cajas y pegamento. Por otra parte, el uso directo de cajas puede ser útil para hacer algunas cosas muy específicas, como el diagrama de la sección \ref{sec-estrArchivoTex}. Para una buena explicación detallada, ver los capítulos \lq\lq Boxes\rq\rq{} y \lq\lq Glue\rq\rq{} del Texbook.
+Las cajas y el pegamento son conceptos de bajo nivel fundamentales en TeX. Todos los elementos visibles del archivo resultante se procesan con cajas y para determinar los espacios vacíos entre algunos de estos elementos se utiliza pegamento. En general no los manipulemos a mano, pero los comandos que utilizamos funcionan en base a estos conceptos. Por lo tanto, para entender bien el funcionamiento de TeX, hay que saber al menos lo básico sobre cajas y pegamento. Por otra parte, el uso directo de cajas puede ser útil para hacer algunas cosas muy específicas, como el diagrama de la sección \ref{sec-estrArchivoTex}. Para una buena explicación detallada, ver los capítulos \lq\lq Boxes\rq\rq{} y \lq\lq Glue\rq\rq{} del Texbook \cite{texbook}.
 
 Las cajas delimitan (al menos conceptualmente) cierto elemento que va a ir en el documento. Cada caja contiene una lista de elementos, que pueden ser otras cajas. Las cajas pueden ser horizontales o verticales, según cómo se organizan sus elementos. Cada letra conforma una caja básica. Cada palabra es una caja horizontal formada por sus letras. Cada línea es una caja horizontal formada por las palabras y los espacios. Cada párrafo es una caja vertical formada por sus líneas y el espacio entre ellas. En general una página es una caja vertical formada por distintos elementos, que pueden ser líneas, fórmulas matemáticas, o espacios vacíos, entre otros.
 
@@ -3330,7 +3354,7 @@ Cada símbolo (por ejemplo una letra) es un elemento básico. Otros elementos b�
 Las reglas son líneas, las cuales pueden ser verticales u horizontales. Las líneas verticales se generan con \verb|\vrule|, por ejemplo <<\vrule>>. Se pueden usar solamente como parte de cajas horizontales y la longitud se determina a partir de la altura de la caja a la que pertenecen (en le ejemplo anterior, la caja horizontal a la que pertenece es el renglón). Las líneas horizontales, por el contrario, se generan con con \verb|\hrule| y solamente pueden formar parte de cajas verticales. La longitud de la linea es el ancho de la caja vertical a la que pertenece. Después de este párrafo hay una línea horizontal, que pertenece a la caja vertical que forma la página.\hrule
 \smallbreak 
 Hay distintas formas de poner espacios fijos en una caja. Uno de ellos es el comando \verb|\kern| seguido por una dimensión. El resultado es la cantidad dada por la magnitud de espacio en blanco. Dentro de una caja vertical, el espacio es vertical, mientras que dentro de una caja horizontal, el espacio es horizontal.
-Las dimensiones son números con la parte fraccionaria separada por un punto seguidos de una unidad, la cual puede ser {\tt cm}, {\tt in} o {\tt em}, entre otras (ver el capítulo \lq\lq Dimensions\rq\rq{} del Texbook). Si el número es {\tt 0.d}, se puede omitir el cero, por ejemplo en \verb|\kern .3em|.
+Las dimensiones son números con la parte fraccionaria separada por un punto seguidos de una unidad, la cual puede ser {\tt cm}, {\tt in} o {\tt em}, entre otras (ver el capítulo \lq\lq Dimensions\rq\rq{} del Texbook \cite{texbook}). Si el número es {\tt 0.d}, se puede omitir el cero, por ejemplo en \verb|\kern .3em|.
 
 La dimensión puede tener signo negativo, lo cual hace que se quite espacio. En otras palabras, acerca lo que tiene antes y lo que tiene después, pudiendo llegar a hacer que se superpongan. Un ejemplo es \verb|\kern -.3em|.
 
@@ -3406,9 +3430,9 @@ $$
 
 \subsubsection{Usos de registros de cajas (técnico)}
 
-Tex tiene registros en los que se pueden guardar cajas para ciertos usos. Son como variables de un lenguaje de programación. En el capítulo \lq\lq How TeX Makes Lines into pages\rq\rq{} del Texbook se explican los registros de modo detallado. Los registros de cajas permiten ver cómo es la estructura interna de la caja y acceder a sus dimensiones.
+Tex tiene registros en los que se pueden guardar cajas para ciertos usos. Son como variables de un lenguaje de programación. En el capítulo \lq\lq How TeX Makes Lines into pages\rq\rq{} del Texbook \cite{texbook} se explican los registros de modo detallado. Los registros de cajas permiten ver cómo es la estructura interna de la caja y acceder a sus dimensiones.
 
-Para ingresar una caja en el registro 0 alcanza \verb|\setebox0 = caja|. Luego de hacer esto, podemos por ejemplo acceder a su ancho con \verb|\wd0|. Para ver la estructura de la caja, hay que poner primero el comando \verb|\showoutput|, luego \verb|\showbox0| y ejecutar desde la terminal. En el texto de salida de la terminal se incluye la estructura interna de la caja. En el capítulo \lq\lq Boxes\rq\rq{} del Texbook hay un ejemplo.
+Para ingresar una caja en el registro 0 alcanza \verb|\setebox0 = caja|. Luego de hacer esto, podemos por ejemplo acceder a su ancho con \verb|\wd0|. Para ver la estructura de la caja, hay que poner primero el comando \verb|\showoutput|, luego \verb|\showbox0| y ejecutar desde la terminal. En el texto de salida de la terminal se incluye la estructura interna de la caja. En el capítulo \lq\lq Boxes\rq\rq{} del Texbook \cite{texbook} hay un ejemplo.
 
 Conocer el ancho de una caja puede ser útil para hacer que otra caja tenga exactamente el mismo. Considerar el siguiente ejemplo.
 \setbox0 = \hbox{Línea más grande}
@@ -3424,7 +3448,7 @@ Lo que acabamos de introducir en esta sección son elementos básicos del funcio
 
 En esta sección veremos funcionalidades del modo matemático y el modo display. Lo que explicaremos son funcionalidades básicas de tex, cosas de latex y cosas agregadas por paquetes, en particular por {\tt amsmath}, que es un paquete muy común para escritura matemática (documentación: \href{https://ctan.org/pkg/amsmath}{ctan.org/pkg/amsmath}).
 
-Los capítulos \lq\lq Typing Math Formulas\rq\rq, \lq\lq More about Math\rq\rq, \lq\lq Fine Points of Mathematical Typing\rq\rq{} y \lq\lq Displayed Equations\rq\rq{} del Texbook tienen lo central que se presenta aquí con explicaciones menos escuetas, varios ejemplos y ejercicios (cuyas soluciones están en un apéndice), por lo que puede aportar mucho.
+Los capítulos \lq\lq Typing Math Formulas\rq\rq, \lq\lq More about Math\rq\rq, \lq\lq Fine Points of Mathematical Typing\rq\rq{} y \lq\lq Displayed Equations\rq\rq{} del Texbook \cite{texbook} tienen lo central que se presenta aquí con explicaciones menos escuetas, varios ejemplos y ejercicios (cuyas soluciones están en un apéndice), por lo que puede aportar mucho.
 Un detalle a tener en cuenta es que algunas cosas, como las matrices y las ecuaciones alineadas, en latex con el paquete amsmath se escriben distinto, pero la idea de cómo funcionan es análoga.
 
 
@@ -3434,7 +3458,7 @@ Dentro de fórmulas se pueden cambiar las fuentes igual que en texto. Por ejempl
 
 Hay fuentes que no hemos mencionado que suelen ser útiles en fórmulas. Una de ellas es \verb|\cal|, la cual funciona con letras mayúsculas, dando resultados como $\cal R$. El paquete {\tt amsfonts} agrega fuentes dadas por los comandos \verb|\mathbb| y \verb|\mathfrak|. Un ejemplo de la primera es $\mathbb{R}$ y uno de la segunda es $\mathfrak{s}$. La primera es solo para mayúsculas. Estos comandos funcionan con parámetros, es decir, aplican esa fuente solamente a lo que venga después. Para aplicarlos a varios símbolos seguidos hay que usar grupos, pero justo con estas fuentes no es común.
 
-En matemática es común que se coloquen distintos símbolos sobre letras, como acentos. En general son con un comando antes de la letra. Por ejemplo \verb|\dot x| da $\dot x$ y \verb|\vec x| da $\vec x$. Ver la lista de símbolos matemáticos de la introducción no-tan-corta a latex, al final del capítulo sobre fórmulas matemáticas. Por otra parte, el símbolo \verb|'| en modo matemático pone {\sl prima} a lo anterior. Por ejemplo \verb|x'| da $x'$ y \verb|x''| da $x''$. También se puede hacer con \verb|x^\prime|.
+En matemática es común que se coloquen distintos símbolos sobre letras, como acentos. En general son con un comando antes de la letra. Por ejemplo \verb|\dot x| da $\dot x$ y \verb|\vec x| da $\vec x$. Ver la lista de símbolos matemáticos de la introducción no-tan-corta a latex \cite{manual2014}, al final del capítulo sobre fórmulas matemáticas. Por otra parte, el símbolo \verb|'| en modo matemático pone {\sl prima} a lo anterior. Por ejemplo \verb|x'| da $x'$ y \verb|x''| da $x''$. También se puede hacer con \verb|x^\prime|.
 
 Para cambiar a modo texto en una fórmula se puede usar \verb|\hbox|, como ya vimos. Hay otro comando que es \verb|\text|, que tiene en cuenta ciertos aspectos del tamaño de fuente (si lo ponemos en un subíndice, el texto queda chico, por ejemplo). Escribir texto adentro de una fórmula no es lo mismo que solamente cambiar la fuente. En el texto los espacios se tienen en cuenta mientras que en las fórmulas no, independientemente de la fuente. Por ejemplo, \verb|$x{\rm tal que }P$| produce $x{\rm tal que }P$ mientras que \verb|$x\text{ tal que }P$| produce $x\text{ tal que }P$.
 
@@ -3513,9 +3537,9 @@ Usar esto tira un warning (advertencia) de amsmath porque al parecer es mejor us
 
 \subsubsection{Estilos (y tamaño)}
 
-En modo matemático hay cuatro estilos: {\bf display}, {\bf texto}, {\bf script} y {\bf scriptscript}. El estilo display es el de modo matemático display, el estilo texto es del des modo matemático usual, el estilo script es para cosas chicas como los subíndices y el scriptscript es para cosas aún más chicas, como subíndices de subíndices. En realidad hay otros 4 más con diferencias sutiles (ver el capítulo \lq\lq More about math\rq\rq{} del Texbook).
+En modo matemático hay cuatro estilos: {\bf display}, {\bf texto}, {\bf script} y {\bf scriptscript}. El estilo display es el de modo matemático display, el estilo texto es del des modo matemático usual, el estilo script es para cosas chicas como los subíndices y el scriptscript es para cosas aún más chicas, como subíndices de subíndices. En realidad hay otros 4 más con diferencias sutiles (ver el capítulo \lq\lq More about math\rq\rq{} del Texbook \cite{texbook}).
 
-En una misma fórmula, automáticamente se va cambiando entre los distintos estilos en distintas partes. Los subíndices, supraíndices y las fracciones cambian a estilos menores (salvo que ya se esté en estilo scriptscript). En el capítulo \lq\lq More about math\rq\rq{} del Texbook se explica bien cómo son las reglas automáticas de cambio de estilo.
+En una misma fórmula, automáticamente se va cambiando entre los distintos estilos en distintas partes. Los subíndices, supraíndices y las fracciones cambian a estilos menores (salvo que ya se esté en estilo scriptscript). En el capítulo \lq\lq More about math\rq\rq{} del Texbook~\cite{texbook} se explica bien cómo son las reglas automáticas de cambio de estilo.
 
 Cuando el estilo decidido automáticamente no es el que deseamos, podemos fijarlo con los comandos \verb|\displaystyle|, \verb|\textstyle|, \verb|\scriptstyle| y \verb|\scriptscriptstyle|. Cada uno de esos comandos hacer que se cambie al estilo correspondiente de ese punto en adelante en el grupo actual. Un ejemplo artificial: $x + \scriptstyle y + \scriptscriptstyle z$ (notar que el cambio de estilo también afecta el tamaño del <<$+$>>).
 
@@ -3565,7 +3589,7 @@ $$
 
 \subsubsection{Delimitadores}
 
-Con <<delimitadores>> nos referimos a símbolos que se usan para delimitar partes de una fórmula. Algunos son <<$($>>, <<$)$>>, <<$|$>>, <<$\{$>> y <<$\}$>>; en la lista de símbolos matemáticos de la introducción no-tan-corta a latex (al final del capítulo sobre fórmulas matemáticas) hay un cuadro con todos los delimitadores que vienen por defecto.
+Con <<delimitadores>> nos referimos a símbolos que se usan para delimitar partes de una fórmula. Algunos son <<$($>>, <<$)$>>, <<$|$>>, <<$\{$>> y <<$\}$>>; en la lista de símbolos matemáticos de la introducción no-tan-corta a latex \cite{manual2014} (al final del capítulo sobre fórmulas matemáticas) hay un cuadro con todos los delimitadores que vienen por defecto.
 
 Un buen uso de delimitadores ayuda a que la estructura de una fórmula sea clara a primera vista. En tex la clave está en el uso de {\bf distintos tamaños}. Tenemos comandos \verb|\big|, \verb|\Big|, \verb|\bigg| y \verb|\Bigg| que permiten aumentar el tamaño del delimitador en distinta medida. Se escribe el comando seguido del delimitador. Lo siguiente son <<(>> y <<|>> con los distintos tamaños.
 $$
@@ -3731,7 +3755,7 @@ $$
 \end{pmatrix}
 $$
 
-Si se quiere que algunas columnas se justifiquen a la izquierda o derecha, en lugar de estar centradas, se puede usar el entorno {\tt array}. En la introducción no-tan-corta a latex se lo presenta, junto con una aplicación para la definición de funciones por casos.
+Si se quiere que algunas columnas se justifiquen a la izquierda o derecha, en lugar de estar centradas, se puede usar el entorno {\tt array}. En la introducción no-tan-corta a latex \cite{manual2014} se lo presenta, junto con una aplicación para la definición de funciones por casos.
 
 \subsubsection{Alineamiento}
 
@@ -3808,7 +3832,7 @@ $$
 $$
 Desde ese punto en adelante, podemos usar el nuevo comando \verb|\R| con el mismo resultado que \verb|\mathbb{R}|.
 
-También se puede crear comandos con parámetros. Aquí aparece el último símbolo reservado de tex que nos queda por ver: {\tt\#}. Entre el nombre del comando nuevo y el grupo que lo define se indica la cantidad de parámetros. Si no ponemos nada entre medio, como en el caso de \verb|\R|, no hay parámetros. Para poner un parámetro, en ese lugar se escribe \verb|#1|; para poner dos se escribe \verb|#1#2| y así sucesivamente. Es importante no poner ningún espacio ni nada más entre medio (tex lo interpreta de cierta forma especial; ver el capítulo sobre macros del Texbook). En resumen:
+También se puede crear comandos con parámetros. Aquí aparece el último símbolo reservado de tex que nos queda por ver: {\tt\#}. Entre el nombre del comando nuevo y el grupo que lo define se indica la cantidad de parámetros. Si no ponemos nada entre medio, como en el caso de \verb|\R|, no hay parámetros. Para poner un parámetro, en ese lugar se escribe \verb|#1|; para poner dos se escribe \verb|#1#2| y así sucesivamente. Es importante no poner ningún espacio ni nada más entre medio (tex lo interpreta de cierta forma especial; ver el capítulo sobre macros del Texbook \cite{texbook}). En resumen:
 $$
 \hbox{\verb|\def\comSinParam{...}|\quad\verb|\def\comUnParam#1{...}|\quad\verb|\def\comDosParam#1#2{...}|}
 $$
@@ -3892,7 +3916,7 @@ x\amsatop{y}{z}\qquad \sum_{\amsatop{\scriptstyle1\leq i\leq p}{ \amsatop{\scrip
 $$
 Parece que efectivamente funciona bien. Si se quisiera se podría usar \verb|\def| y ponerle como nombre \verb|\atop|, remplazando al otro (cosa que con \verb|\newcommand| no se puede).
 
-Cabe mencionar que con \verb|\def| se pueden definir comandos con comportamientos mucho más variados. Por ejemplo, se puede hacer que los parámetros se pasen de muchas formas distintas, o incluir comandos \verb|\if| para que el comportamiento varíe según condiciones. No se suele usar, salvo que se esté trabajando en un paquete, pero es bueno saber que es posible para no sorprenderse al encontrar comandos con funcionamiento complejo o distinto al usual. Para quienes les interese, ver el capítulo sobre macros del Texbook. 
+Cabe mencionar que con \verb|\def| se pueden definir comandos con comportamientos mucho más variados. Por ejemplo, se puede hacer que los parámetros se pasen de muchas formas distintas, o incluir comandos \verb|\if| para que el comportamiento varíe según condiciones. No se suele usar, salvo que se esté trabajando en un paquete, pero es bueno saber que es posible para no sorprenderse al encontrar comandos con funcionamiento complejo o distinto al usual. Para quienes les interese, ver el capítulo sobre macros del Texbook~\cite{texbook}. 
 
 \section{Funcionalidades de latex}
 
@@ -4001,7 +4025,7 @@ Otros elementos de latex que se pueden referenciar son entornos de teorema, lema
 \theoremstyle{definition}
 \newtheorem{ejercicio}{Ejercicio}[section]
 \end{verbatim}
-donde la primera hace que el estilo sea como de definición (esto afecta la fuente que se usa) y la segunda define el nombre del entorno junto con cosas respecto a la numeración. Ver la sección \lq\lq Lemas, teoremas, corolarios, $\dots$\rq\rq{} de la introducción no-tan-corta a latex.
+donde la primera hace que el estilo sea como de definición (esto afecta la fuente que se usa) y la segunda define el nombre del entorno junto con cosas respecto a la numeración. Ver la sección \lq\lq Lemas, teoremas, corolarios, $\dots$\rq\rq{} de la introducción no-tan-corta a latex~\cite{manual2014}.
 
 Respecto a las tablas, en este documento no aparece ninguna y tampoco entraremos en detalle. Ver la sección 2.11.6 \lq\lq Tablas\rq\rq{} de \cite{manual2014}, en la que se habla del entorno {\tt tabular}.
 
@@ -4053,9 +4077,17 @@ Algunas cosas particularmente útiles que no vimos (o solo mencionamos) son los 
 
 Por otra parte, hay un paquete muy potente para generar gráficos: {\tt tikz}. Se recomienda aprender a usarlo. Entendiendo los principios de tex y latex, se puede encarar leyendo documentación, viendo ejemplos y practicando. Documentación: \href{https://tikz.dev/}{tikz.dev/} o \href{https://ctan.org/pkg/pgf}{ctan.org/pkg/pgf}.
 
+También está la posibilidad de hacer diapositivas con latex, usando el tipo de documento {\tt beamer}. En la sección 5.4 \lq\lq Creating Presentations\rq\rq{} de \cite{Oetiker2025} hay una introducción.
+
 Cabe resaltar que este capítulo no trata solo sobre Latex, sino sobre Tex y Latex. Algunas de las cosas que vimos se desalienta usarlas en latex, ya sea porque se considere que son más difíciles de entender, porque no sigan la filosofía de Latex de que el contenido y el estilo se traten por separado, porque no interactúen bien con otras funcionalidades nuevas, o directamente porque hayan nuevas alternativas mejores (en algún sentido). Por ejemplo, el uso de \$\$ para modo display se desalienta, recomendándose remplazarlo por \verb|\[| y \verb|\]| o el entorno {\tt equation*}. Por otra parte, los cambios de fuente con los comandos de dos letras, como \verb|\tt| y \verb|\bf|, también se desalientan, recomendando usar en su lugar comandos como \verb|\texttt| y \verb|\textbf|. De todos modos, tras enterarse de tales situaciones, en general es muy sencillo cambiar por la alternativa recomendada (al menos en las situaciones donde afecta). Cabe mencionar que las consideras \lq\lq buenas prácticas\rq\rq{} de Latex, en general buscan facilitar la escritura del documento, fomentando el uso de elementos intuitivos de alto nivel. Por otra parte, alguien perfectamente puede ponerse a trabajar con cosas técnicas (como cajas de Tex) si así lo desea (aunque se reduce bastante la cantidad de personas que entendería el código). Se espera que lo visto aquí aporte a un entendimiento más o menos sólido del funcionamiento de Tex y Latex, lo cual a lo mejor puede ser interesante de por sí y junto con práctica ayudar a llegar a un muy buen manejo.
 
 Para aprender cosas nuevas, al igual que con conceptos de programación, se recomienda usar tanto libros y documentación como cosas que se encuentren en internet o textos generados por modelos del lenguaje. Cada cosa tiene sus ventajas. Los sitios de preguntas y respuestas como {\sl Stack Exchange} o {\sl Stack Overflow} pueden ser de particular utilidad.
+
+En internat hay disponible material (en ingles) sobre un curso de escritura matemática dado por Donald Knuth (el autor de Tex), titulado {\sl mathematical writing} \cite{mathwriting}. Se recomeinda mirarlo, pues tiene consideraciones que pueden ayudar a mejorar la calidad de escritura.
+
+Por último, se recomienda aprender a usar {\tt git}, que es una herramienta muy buena para gestión de versiones. Tanto el repositorio de este material como los de las bibliotecas de python vistas funcionan en base a git. Material para aprender desde cero (cómo usarlo pero también qué es): \href{https://git-scm.com/learn}{git-scm.com/learn}.
+
+
 
 
 \printbibliography
