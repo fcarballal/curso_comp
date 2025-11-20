@@ -1,53 +1,39 @@
 \documentclass[a4paper, 12pt]{report}
 
 \usepackage[T1]{fontenc}
-\usepackage[spanish]{babel} 
+\usepackage[spanish]{babel}
+\usepackage{csquotes}
+\usepackage{fullpage}
+
 \usepackage{graphicx}
+\usepackage{hyperref}
+
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{mathtools}
 \usepackage{amsthm}
-\usepackage{bbm}
-%\usepackage[shortlabels]{enumitem}
-\usepackage{enumerate}
-\usepackage{array,tabularx}
-\usepackage{float}
-\usepackage{wrapfig}
-\usepackage[export]{adjustbox}
-\usepackage[rightcaption]{sidecap}
-\usepackage{multirow}
-\usepackage{subfig}
-\usepackage{capt-of}
-\usepackage{captdef}
-\usepackage{color}
-\usepackage{soul}
-\usepackage{hyperref}
-\usepackage{stmaryrd}
-\usepackage{fullpage}
-\usepackage{xcolor}
+
 \usepackage{listings}
 
 \usepackage{biblatex}
 \addbibresource{biblio.bib}
 
+%definición de comando con def
+\def\tbs{\textbackslash}
+
+%definición de comandos con newcommand
 \newcommand{\Ra}{\Rightarrow}
-\newcommand{\ra}{\rightarrow}
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\te}{\text}
-\newcommand{\Lra}{\Leftrightarrow}
-\newcommand{\lra}{\leftrightarrow}
 
 \theoremstyle{definition}
 \newtheorem{ejercicio}{Ejercicio}[section]
 
 
 
-\def\tbs{\textbackslash}
-
 \begin{document}
 
-\begin{titlepage}
+%\begin{titlepage}
 \phantom{a}
 
 \vfill
@@ -56,7 +42,7 @@
 \centerline{\Huge \textsc{Introducción a la computación}}
 \kern 1em
 \centerline{\Huge \textsc{Apuntes de teórico}}
-\kern.2em
+\kern.3em
 \hrule
 \kern 3em
 \centerline{\Large Universidad de la República}
@@ -66,8 +52,9 @@
 \centerline{\Large 2025}
 \vfill
 \hbox to \hsize{\hfill \large Francisco Carballal}
-\end{titlepage}
-
+\addtocounter{page}{-1}
+%\end{titlepage}
+\newpage
 {\large\bf\noindent Prefacio}
 \bigbreak
 Este documento consta de apuntes escritos para la edición 2025 del curso \lq\lq Computación\rq\rq{} de la Facultad de Ciencias de la Universidad de la República. Dentro de los dos cursos de computación dictados por el Centro de matemática, se trata del básico.
@@ -80,7 +67,7 @@ En el capítulo 3 estudiamos la programación de funciones recursivas con entero
 
 En el capítulo 4 se introduce el concepto de modularidad y vemos varias bibliotecas de python, con especial énfasis en algunas de computación científica. Aquí el enfoque es más de aprovechar cosas provistas que programar algoritmos desde cero.
 
-En el capítulo 5 se introducen TeX y LaTeX. Al tratarse TeX, hay cosas que no se consideran buenas prácticas en LaTeX. El objetivo no es solo introducir LaTeX de modo práctico, sino también aportar a la comprensión de su funcionamiento.
+En el capítulo 5 se introducen TeX y LaTeX. Como es en parte sobre TeX, hay cosas que no se consideran buenas prácticas en LaTeX. El objetivo no es solo introducir LaTeX de modo práctico, sino también aportar a la comprensión de su funcionamiento.
 
 \newpage
 
@@ -212,7 +199,7 @@ El lenguaje {\tt c} (así como {\tt pascal}) es un lenguaje de relativamente baj
 Por otra parte, el lenguaje {\tt python}, que es el que usaremos en el curso, es de muy alto nivel. Esto significa que tiene abstracciones muy complejas por sobre el lenguaje máquina, las cuales hacen que se pueda programar en base a razonamientos intuitivos sin saber cómo se haría en lenguaje de máquina. De hecho puede ocurrir que una sola línea de código en {\tt python} corresponda a cientos de instrucciones del procesador, con lo que se resuelven automáticamente detalles técnicos y se le ahorra trabajo al programador. En general usar un lenguaje de programación de alto nivel es más fácil que usar uno de bajo nivel. La desventaja que tienen es que las abstracciones pueden hacer que el programa no sea lo más eficiente posible. En general un programa escrito en {\tt c} es mucho más rápido que uno equivalente en {\tt python} (pero mucho más difícil de escribir).
 
 
-\chapter{Programación (en python)}\label{cap-prog}
+\chapter{Programación en python}\label{cap-prog}
 
 
 En este capítulo se presentan los conceptos básicos para programar en el lenguaje python. Si bien se trata de un lenguaje específico, los conceptos se aplican de forma muy similar en otros.
@@ -3102,7 +3089,7 @@ exp(x)
 >>> sympy.integrate(sympy.exp(-x**2),(x,-sympy.oo,sympy.oo)) #impropia
 sqrt(pi)
 \end{verbatim}
-También podemos trabajar con matrices, por ejemplo hallando valores propios, forma diagonal y forma de Jordan.
+Además, podemos trabajar con matrices, por ejemplo hallando valores propios, forma diagonal y forma de Jordan. Cabe mencionar que el último es un problema numéricamente inestable, porque dada una matriz con forma de Jordan no diagonal, si modificamos un poquito alguna de las entradas, es común que se vuelva diagonalizable. Esto hace que no sea adecuado para tratarse con métodos numéricos aproximados, por lo que no está en {\tt numpy} ni {\tt scipy}. En {\tt sympy}, que en su lugar funciona simbólicamente, sí se puede hacer.
 \begin{verbatim}
 >>> m = sympy.Matrix([[1,1,1],[1,1,0],[0,0,1]])
 >>> m
@@ -3289,7 +3276,7 @@ Ejemplos de estructuras de control para producir símbolos que ya vimos son {\tt
 
 Al final del capítulo sobre matemática en la introducción no-tan-corta a latex \cite{manual2014}, hay una lista de símbolos matemáticos. En \href{https://ctan.org/pkg/comprehensive}{ctan.org/pkg/comprehensive} se encuentra otra que tiene más de $20000$ símbolos (matemáticos o de uso en texto).
 
-Hay estructuras de control para cambiar la fuente y el tamaño. Estas instrucciones realizan el cambio desde el punto que se escriben en adelante. Por ejemplo, si escribimos {\tt\tbs sl}, de ese punto en adelante se usa una {\sl fuente de letras torcidas}. Si escribimos {\tt\tbs rm} se vuelve a la fuente básica. Con {\tt\tbs bf} se cambia a {\bf en negrita}. Para cambiar el tamaño se pueden usar comandos como {\tt\tbs small}, {\tt\tbs normalsize} o {\tt\tbs large} de modo análogo.
+Hay estructuras de control de plain tex para cambiar la fuente y el tamaño. Estas instrucciones realizan el cambio desde el punto que se escriben en adelante. Por ejemplo, si escribimos {\tt\tbs sl}, de ese punto en adelante se usa una {\sl fuente de letras torcidas}. Si escribimos {\tt\tbs rm} se vuelve a la fuente básica. Con {\tt\tbs bf} se cambia a {\bf en negrita}. Para cambiar el tamaño se pueden usar comandos como {\tt\tbs small}, {\tt\tbs normalsize} o {\tt\tbs large} de modo análogo.
 
 Con las estructuras de control que cambian algo de ese punto en adelante, como las de las fuentes, si se pone adentro de un grupo, solo tiene efecto dentro del grupo. Por lo tanto, una forma de hacer que una sola palabra quede en negrita es con {\tt\{\tbs bf palabra\}}.
 
@@ -3306,7 +3293,7 @@ Si queremos que la acción se realice con algo más grande que un solo símbolo,
 \centerline{Introducción}
 \noindent y si hacemos {\tt\$\$\tbs frac \{x+y\}\{2\}\$\$} obtenemos:$$\frac{x+y}{2}$$
 
-Los comandos de cambio de fuente tienen versiones con parámetros que son los recomendadas en Latex (los de dos letras, como \verb|\bf| son de plain tex). Por ejemplo, se puede poner una palabra en negrita con \verb|\textbf{palabra}|. En el capítulo <<fundiciones y tamaños>> de La introducción no-tan-corta a latex \cite{manual2014} se presentan varias fuentes.
+Los comandos de cambio de fuente tienen versiones con parámetros que son las recomendadas en Latex (los de dos letras, como \verb|\bf| son de plain tex). Por ejemplo, se puede poner una palabra en negrita con \verb|\textbf{palabra}|. En el capítulo <<fundiciones y tamaños>> de La introducción no-tan-corta a latex \cite{manual2014} se presentan varias fuentes.
 
 Hay estructuras de control que solamente se pueden usar en ciertos modos. Por ejemplo, el comando {\tt\tbs hrule} es para hacer una línea horizontal y solamente se puede usar en modo vertical. Se se pone ese comando dentro de modo horizontal, tex pasa a modo vertical y lo que venga después lo toma como un nuevo párrafo. Por otra parte, el comando {\tt \tbs vrule} es para hacer una linea vertical y solo funciona en modo horizontal. Hay también estructuras de control cuyo comportamiento cambia según el modo. Por ejemplo, {\tt\tbs kern} agrega o quita espacio dado por una medida que le pongamos después (por ejemplo {\tt 1cm, 0.3cm} para agregar o {\tt -1cm, -0.3cm} para quitar), pero si ese espacio es horizontal o vertical depende del modo actual. Hay muchas estructuras de control específicas para el modo matemático, de las cuales veremos algunas más adelante.
 
