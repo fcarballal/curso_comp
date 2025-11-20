@@ -3912,6 +3912,8 @@ Las funcionalidades de incluir imágenes vienen de latex y paquetes. Cuando se c
 
 El comando para incluir una figura en un documento es {\tt \tbs includegraphics\{{\sl archivo}\}}, donde {\sl archivo} es el nombre completo del archivo (por ejemplo \lq\lq diagrama.png\rq\rq). Este comando viene del paquete {\tt graphicx}. Se pueden poner parámetros opcionales entre corchetes rectos. Algunos son {\tt scale} para escalar la imagen y {\tt width} para fijar el ancho. En general puede ser útil usar {\tt width} en relación al ancho del texto, el cual es \verb|\hsize|. Si queremos que el ancho de la imagen sea por ejemplo la mitad del del texto, podemos usar {\tt \tbs includegraphics[width=.5\tbs hsize]\{{\sl archivo}\}}.
 
+Las imágenes se buscan en la carpeta donde está el {\tt .tex} (tal vez en el fondo por ser la carpeta donde se ejecuta el compilador). Se puede entrar a otra carpeta con su nombre y una barra. Por ejemplo, para este documento tenemos las imágenes en una carpeta llamada {\tt fig}, por lo que escribimos {\tt fig/nombre.png} en los {\tt includegraphics}. En general, conviene tener una carpeta para las imágenes, de modo que el proyecto quede ordenado mejor.
+
 El resultado de \verb|\includegraphics| es una caja con la imagen, la cual se puede usar como parte de otras cosas. Por ejemplo, podemos poner una imagen dentro de un modo display para que la muestre centrada y con márgenes arriba y abajo.
 $$
 \includegraphics[width=.5\hsize]{fig/ArqVN.png}
