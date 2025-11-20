@@ -1,0 +1,83 @@
+\documentclass[a4paper,12pt]{book}
+\usepackage{etex}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fullpage}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{txfonts}
+\usepackage{latexsym}
+\usepackage{stmaryrd}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{hyperref}
+%\usepackage[all]{xy}
+\usepackage{proof}
+\usepackage[sans]{dsfont}
+\usepackage[spanish]{babel}
+
+
+\newcommand{\Ra}{\Rightarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\te}{\text}
+\newcommand{\Lra}{\Leftrightarrow}
+\newcommand{\lra}{\leftrightarrow}
+
+
+%%%
+\theoremstyle{definition}
+\newtheorem{ejercicio}{Ejercicio}
+\outer\long\def\COUIC#1{}
+\outer\long\def\Solucion#1{\par
+	{\sl\small\noindent\textbf{Solución:}\quad#1\par}}
+%%% Comentar la siguiente línea para mostrar las soluciones
+\outer\long\def\Solucion#1{}
+
+\begin{document}
+	
+	\noindent
+	\centerline{\sc
+		Facultad de Ciencias\hfill---\hfill
+		Computación\hfill---\hfill
+		Segundo semestre de 2025}\smallbreak\hrule
+	
+	\bigbreak
+	\centerline{\Large\textbf{Tarea 2: Bibliotecas matemáticas}}
+	\bigbreak
+	
+	\begin{enumerate}
+		\item (Mínimos cuadrados.) Supongamos dado un conjunto de datos $\{(t_i,y_i)\}_{i\leq n}$.
+		
+		\begin{enumerate}
+			\item Explicar en qué consiste el problemas de mínimos cuadrados para hallar la recta $y=\alpha t + \beta$ que mejor los aproxima, indicando la forma de las matrices y vectores que aparecen. Usando {\tt numpy.linalg.lstsqr}, resolver para los datos
+			$$(0,1)\quad(1,3)\quad(2,2)\quad(3,3)\quad(4,7)\quad(5,6)
+			$$
+			y mostrar los resultados, en particular con una gráfica que incluya los datos y la recta hallada.
+			\item Repetir la parte anterior ahora con una parábola, $y=\alpha t^2 + \beta t + \gamma$. Nuevamente, primero explicar las formas de las matrices y vectores para datos genéricos. Luego resolver para los mismos datos y graficar estos datos junto con la parábola obtenida.
+		\end{enumerate}
+		
+		\item Para las siguientes funciones, determinar cuánto valen en $5$ y gráficarlas en el intervalo $[0,5]$. Se debe hacer usando las funcionalidades de {\tt scipy} vistas en el curso.
+		\begin{enumerate}
+			\item $f(x) = \cos\left(e^{\sqrt x}\right)\sin\left(x^2\right)$.
+			\item $F(x) = \int_0^xf(t)dt$ \quad siendo $f$ la función de la parte anterior.
+			\item $y(t)$ solución a la ecuación diferencial $y'= ty\sin(t+y)$ con $y(0) = 1$.
+		\end{enumerate}
+		
+		\item
+		\begin{enumerate}
+			\item Usando {\tt sympy}, determine la derivada de $f(x) = \cos\left(e^{\sqrt x}\right)\sin\left(x^2\right)$. En el informe mostrar la fórmula resultante en modo display.
+			
+			\item Usando {\tt sympy}, hacer el polinomio de Taylor de orden 3 de $f$ centrado en $x=1$. Usando {\tt evalf} para obtener valores en punto flotante, graficar la función junto con el polinomio en algún intervalo que contenga al $1$.
+			
+			\item Escribir una función {\tt taylor(f,x,x0,n,a,b)}, que dada una función sympy {\tt f} que depende de la variable {\tt x}, un punto {\tt x0}, un entero positivo {\tt n} y dos números {\tt a $<$ b}, grafica en el intervalo [{\tt a,b}] a la función {\tt f} y al su polinomio de Taylor de orden {\tt n} centrado en {\tt x0}.
+			
+			\item Experimentar con la función de la parte anterior. En el informe explicar lo que se hizo, presentar los resultados y hacer algunos comentarios (por ejemplo, si parece andar bien o no, qué tanto tiempo le lleva).
+		\end{enumerate}
+		
+	\end{enumerate}
+
+	
+\end{document}
+
