@@ -1,0 +1,115 @@
+\documentclass[a4paper,12pt]{book}
+\usepackage{etex}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fullpage}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{txfonts}
+\usepackage{latexsym}
+\usepackage{stmaryrd}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{hyperref}
+%\usepackage[all]{xy}
+\usepackage{proof}
+\usepackage[sans]{dsfont}
+\usepackage[spanish]{babel}
+
+
+\newcommand{\Ra}{\Rightarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\te}{\text}
+\newcommand{\Lra}{\Leftrightarrow}
+\newcommand{\lra}{\leftrightarrow}
+
+
+%%%
+\theoremstyle{definition}
+\newtheorem{ejercicio}{Ejercicio}
+\outer\long\def\COUIC#1{}
+\outer\long\def\Solucion#1{\par
+	{\sl\small\noindent\textbf{Solución:}\quad#1\par}}
+%%% Comentar la siguiente línea para mostrar las soluciones
+\outer\long\def\Solucion#1{}
+
+\begin{document}
+	
+	\noindent
+	\centerline{\sc
+		Facultad de Ciencias\hfill---\hfill
+		Computación\hfill---\hfill
+		Segundo semestre de 2025}\smallbreak\hrule
+	
+	\bigbreak
+	\centerline{\Large\textbf{Parcial}}
+	\bigbreak
+	
+	\begin{ejercicio} (4 + 4 + 2 = 10 puntos).
+		\begin{enumerate}\parskip-.5ex
+			\item Consideramos el siguiente código.
+\begin{verbatim}
+x = 2
+y = 3
+x = y
+y = x
+z = "2"
+w = z + z
+\end{verbatim}
+			¿Qué valores tienen las variables \tt x, y, z, w \rm después de ejecutarlo?
+			\item Considerar la siguiente función, donde la entrada es un entero no negativo.
+\begin{verbatim}
+def f(n):
+    encontre = False
+    i = 0
+    while not encontre and i <= n:
+        if i*i == n:
+            encontre = True
+        else:
+            i = i + 1
+    return encontre
+\end{verbatim}
+			¿Para qué enteros no negativos {\tt n} la función retorna {\tt True}?
+		
+		
+		\item Considerar la siguiente variación de la función anterior.
+\begin{verbatim}
+def f(n):
+    encontre = False
+    i = 0
+    while not encontre:
+        if i*i == n:
+            encontre = True
+        else:
+            i = i + 1
+    return encontre
+\end{verbatim}	
+	
+		¿Qué ocurre si la ejecutamos por ejemplo con {\tt n = 2}?
+		\end{enumerate}
+	\end{ejercicio}
+	
+	\begin{ejercicio} (5+5 = 10 puntos).
+		\begin{enumerate}\parskip-.5ex
+			\item Escribir una función con un entero no negativo {\tt n} como entrada que retorne un booleano que indica si el número es primo o no. Recordar que un número positivo es primo si y solo si su cantidad de divisores positivos es exactamente dos.
+			\item Utilizando la función anterior, escribir otra que dado un entero no negativo {\tt n} retorne la cantidad de primos menores a {\tt n}.
+		\end{enumerate}
+	\end{ejercicio}
+	
+	\begin{ejercicio} (10 puntos).
+		Escribir una función que dado un texto formado por letras y espacios determine la cantidad de palabras de largo impar. Puede haber más de un espacio entre una palabra y la siguiente, así como espacios antes de la primera palabra y después de la última.
+	\end{ejercicio}
+	
+	\begin{ejercicio} (5+5 = 10 puntos).
+		\begin{enumerate}
+			\item Escribir una función por recursión de búsqueda en una lista de enteros ordenada, cuyo tiempo de ejecución sea $O(\log(n))$, siendo $n$ el largo de la lista. La función tiene dos parámetros de entrada: la lista de enteros ordenada y el número que queremos determinar si pertenece o no. Se retorna un booleano.
+			
+			\item Supongamos que tenemos una función {\tt merge(l1,l2)} que dadas dos listas ordenadas {\tt l1} y {\tt l2}, realiza el merge ordenado con orden $O(n_1+n_2)$, siendo $n_1$ y $n_2$ los largos de las listas de entrada. Usando {\tt merge(l1,l2)}, escribir una función que ordene una lista de enteros con orden $O(n\log(n))$.
+			
+			Se recuerda que el merge de dos listas ordenadas es una lista ordenada que junta los elementos de ambas. Por ejemplo, el merge de {\tt [1,4,7]} y {\tt [2,4,6]} es {\tt [1,2,4,4,6,7]}.
+		\end{enumerate}
+	\end{ejercicio}
+\end{document}
+
