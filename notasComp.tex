@@ -3180,7 +3180,7 @@ Para hacer un párrafo, uno escribe el texto con las palabras, signos de puntuac
 
 Como el que se encarga de determinar el espacio entre las palabras es TeX, en el código latex {\bf no se tienen en cuenta espacios múltiples}, es decir, muchos espacios juntos se tratan de modo igual que un espacio solo. Por otra parte, un salto de línea solo se toma como equivalente a un espacio.
 
-Para indicar el final de un párrafo se debe dejar una línea en blanco, es decir, dos saltos de línea seguidos. La primera línea de cada párrafo tiene sangría por defecto (se la puede sacar poniendo el comando (ver sec \ref{sec-gruposEstrContr}) \verb|\noindent| al principio).
+Para indicar el final de un párrafo se debe dejar una línea en blanco. La primera línea de cada párrafo tiene sangría por defecto (se la puede sacar poniendo el comando (ver sec \ref{sec-gruposEstrContr}) \verb|\noindent| al principio).
 
 A modo de ejemplo, lo siguiente es un código de latex a la izquierda con los párrafos generados a la derecha.
 $$
@@ -3210,7 +3210,7 @@ $$
 }
 $$
 
-Hay algunos símbolos que tienen usos especiales en TeX, que si los escribimos en el código, en lugar de agregar el símbolo al documento resultante, ser toman como algún tipo de comando. Son los siguientes:
+Hay algunos símbolos que tienen usos especiales en TeX, que si los escribimos en el código, en lugar de agregar el símbolo al documento resultante, se toman como algún tipo de comando. Son los siguientes:
 $$
 \hbox{\large\tt \tbs\quad\{\quad\}\quad\$\quad\&\quad\#\quad\char94 \quad \_ \quad\%\quad \char126}
 $$
@@ -3276,7 +3276,7 @@ Ejemplos de estructuras de control para producir símbolos que ya vimos son {\tt
 
 Al final del capítulo sobre matemática en la introducción no-tan-corta a latex \cite{manual2014}, hay una lista de símbolos matemáticos. En \href{https://ctan.org/pkg/comprehensive}{ctan.org/pkg/comprehensive} se encuentra otra que tiene más de $20000$ símbolos (matemáticos o de uso en texto).
 
-Hay estructuras de control de plain tex para cambiar la fuente y el tamaño. Estas instrucciones realizan el cambio desde el punto que se escriben en adelante. Por ejemplo, si escribimos {\tt\tbs sl}, de ese punto en adelante se usa una {\sl fuente de letras torcidas}. Si escribimos {\tt\tbs rm} se vuelve a la fuente básica. Con {\tt\tbs bf} se cambia a {\bf en negrita}. Para cambiar el tamaño se pueden usar comandos como {\tt\tbs small}, {\tt\tbs normalsize} o {\tt\tbs large} de modo análogo.
+Hay estructuras de control para cambiar la fuente  y el tamaño (las primeras de plain tex). Estas instrucciones realizan el cambio desde el punto que se escriben en adelante. Por ejemplo, si escribimos {\tt\tbs sl}, de ese punto en adelante se usa {\sl fuente de letras torcidas}. Si escribimos {\tt\tbs rm} se vuelve a la fuente básica. Con {\tt\tbs bf} se cambia a {\bf en negrita}. Para cambiar el tamaño hay comandos como {\tt\tbs small}, {\tt\tbs normalsize} o {\tt\tbs large}~de~modo~análogo.
 
 Con las estructuras de control que cambian algo de ese punto en adelante, como las de las fuentes, si se pone adentro de un grupo, solo tiene efecto dentro del grupo. Por lo tanto, una forma de hacer que una sola palabra quede en negrita es con {\tt\{\tbs bf palabra\}}.
 
@@ -3284,7 +3284,7 @@ Para una estructura de control dada por una palabra, tex interpreta los espacios
 
 En el caso anterior, que los espacios después de estructuras de control no vayan al documento vino bien, pero hay casos en los que quisiéramos tener un espacio. Por ejemplo, entre la comilla de cierre y la siguiente palabra queremos que haya un espacio. Si escribimos {\tt \tbs lq hola \tbs rq dijo Juan}, el resultado es <<\lq hola\rq dijo Juan>>, que tiene el defecto de que la comilla de cierre y la palabra <<dijo>> están pegadas. Si agregamos más espacios entre {\tt\tbs rq} y {\tt dijo} el problema no se soluciona, ya que tex trata espacios múltiples como uno solo. Una forma de resolverlo es poner un grupo vacío después del comando, el cual no agrega nada al documento, y luego un espacio. Este grupo vacío cumple la función de separar la estructura de control del espacio posterior, por lo que este se trata como un espacio normal. El código es {\tt \tbs lq hola \tbs rq\{\} dijo Juan} y la salida <<\lq hola\rq{} dijo Juan>>.
 
-Hay estructuras de control que funcionan con uno o más parámetros. Por ejemplo, {\tt\tbs centerline} recibe un parámetro y lo que hace es poner ese parámetro centrado, mientras que {\tt\tbs frac} recibe dos parámetros y los pone en una fracción. En caso de un solo parámetro, el valor es lo primero que viene después de la estructura de control excepto espacios. En caso de dos parámetros, los valores son las primeras dos y así sucesivamente con más parámetros. Por ejemplo, si escribimos {\tt\tbs centerline A} la salida es:
+Hay estructuras de control que funcionan con uno o más parámetros. Por ejemplo, {\tt\tbs centerline} (comando remanente de plain tex) recibe un parámetro y lo pone centrado en una línea, mientras que {\tt\tbs frac} recibe dos parámetros y los pone en una fracción. En caso de un solo parámetro, el valor es lo primero que viene después de la estructura de control excepto espacios. En caso de dos parámetros, los valores son las primeras dos y así sucesivamente con más parámetros. Por ejemplo, {\tt\tbs centerline A} produce:
 \centerline A
 mientras que si escribimos {\tt\$\$\tbs frac xy\$\$} la salida es:
 $$\frac xy$$
