@@ -57,9 +57,11 @@
 \newpage
 {\large\bf\noindent Prefacio}
 \bigbreak
-Este documento consta de apuntes escritos para la edición 2025 del curso \lq\lq Computación\rq\rq{} de la Facultad de Ciencias de la Universidad de la República. Dentro de los dos cursos de computación dictados por el Centro de matemática, se trata del básico.
+Este documento consta de material teórico para la edición 2025 del curso \lq\lq Computación\rq\rq{} de la Facultad de Ciencias de la Universidad de la República. Dentro de los dos cursos de computación dictados por el Centro de matemática, es el básico.
 
-En el capítulo 1 se introducen conceptos de computación, incluyendo modelación matemática, hardware, software, lenguajes de programación y compiladores. Para entender el resto del documento, alcanza con la idea \lq\lq por arriba\rq\rq.
+
+
+En el capítulo 1 se introducen conceptos de computación, incluyendo formalización matemática, hardware, software, lenguajes de programación y compiladores. Para entender el resto del documento, alcanza con la idea \lq\lq por arriba\rq\rq.
 
 En el capítulo 2 se presentan los conceptos básicos de programación en python, sin asumir conocimientos ni experiencia previa. Se trata de un material bastante autocontenido, con explicaciones y ejemplos además de las definiciones.
 
@@ -69,6 +71,11 @@ En el capítulo 4 se introduce el concepto de modularidad y vemos varias bibliot
 
 En el capítulo 5 se introducen TeX y LaTeX. Como es en parte sobre TeX, hay cosas que no se consideran buenas prácticas en LaTeX. El objetivo no es solo introducir LaTeX de modo práctico, sino también aportar a la comprensión de su funcionamiento.
 
+
+
+
+
+
 \newpage
 
 
@@ -76,12 +83,14 @@ En el capítulo 5 se introducen TeX y LaTeX. Como es en parte sobre TeX, hay cos
 
 \chapter{Introducción}
 
- En este curso planteo a grandes rasgos tres objetivos. El primero es que aprendan las bases de la programación. 
-Otro objetivo es que desarrollen la capacidad de utilizar las computadoras con fines matemáticos, como por ejemplo para determinar si un número es primo, o aproximar numéricamente el valor de una integral, o generar gráficas de distintos tipos.
-El otro objetivo es que desarrollen la capacidad de entender la computación como un concepto abstracto matemático, para desarrollar programas en base a razonamiento matemático y además poder demostrar matemáticamente propiedades sobre estos programas.
-De modo sintético, este curso se trata de programación, de computación para matemática y de matemática para computación.
+Este es un curso sobre computación con una introducción a TeX y LaTeX al final. Aparte de ese último tema, a grandes rasgos se plantean tres objetivos.
+%Este curso de computación tiene a grandes rasgos tres objetivos (aparte del último capítulo sobre LaTeX).
+El primero es que aprendan las bases de la programación. 
+El segundo es que desarrollen la capacidad de utilizar las computadoras con fines matemáticos/científicos, como por ejemplo para determinar si un número es primo, o aproximar numéricamente el valor de una integral, o generar gráficas de distintos tipos.
+El tercero es que desarrollen la capacidad de entender la computación como un concepto matemático abstracto, para desarrollar programas en base a razonamiento matemático y además poder demostrar propiedades sobre estos programas.
+De modo sintético, se incluyen programación, computación para matemática y matemática para computación.
 
-En este capítulo el objetivo principal es dar una idea básica de qué es la computación, cómo funcionan las computadoras y qué son los lenguajes de programación.
+El objetivo principal de este capítulo es transmitir una idea básica de qué es la computación, cómo funcionan las computadoras y qué son los lenguajes de programación.
 
 
 
@@ -96,7 +105,7 @@ A una operación definida por reglas precisas que opera con datos y termina en f
 
 Una buena analogía consta de las recetas de cocina. Sin embargo, hay una diferencia importante. En las recetas de cocina, por la naturaleza de la situación, pueden haber ciertas ambigüedades, o puntos en los que hay que tomar una decisión, de modo que si dos personas realizan la misma receta el resultado puede ser distinto, sin que ninguno de los dos lo haya hecho mal. Pueden haber frases como <<un poquito de sal>> que según la persona se traduzcan a distintas cantidades. En computación, un algoritmo bien ejecutado debe tener un único resultado correcto, como ocurre con la suma. Que las reglas sean precisas significa que no hay margen de variabilidad en lo que se debe hacer, ni puntos en los que un ser con voluntad propia deba pensar y tomar una decisión. Esto es importante por dos motivos. Primero, asegura que si se realiza por una persona, hay un único resultado correcto. Segundo (y tal vez más importante), es necesario para que pueda ser realizado automáticamente por una computadora, que en lugar de un ser con pensamiento y voluntad es una cosa.
 
-Como los algoritmos deben estar bien definidos y no puede haber ninguna ambigüedad, son en esencia conceptos matemáticos. De hecho, la computación teórica es una rama de la matemática.
+Como los algoritmos deben estar bien definidos y no puede haber ambigüedad, son en esencia conceptos matemáticos ---la computación teórica es una rama de la matemática.
 \subsection{Bases de la formalización matemática}
 
 Una forma de representar algoritmos en computación teórica es mediante funciones $f:\N\to\N$, donde la idea es que si $n$ es la entrada del programa, entonces $f(n)$ es la salida. Como se trata de un algoritmo, no puede ser cualquier función, sino una que puede calcularse en finitos pasos con reglas precisas. A primera vista puede parecer que usar solamente números naturales es una restricción, pero de hecho alcanza para hablar de todo lo que se puede programar. De hecho, dentro de la computadora todos los distintos tipos de datos  se representan con secuencias de bits (\emph{binary digits}, es decir dígitos binarios: 0 o 1) y cualquier secuencia de bits se puede interpretar también como un número escrito en binario. Por lo tanto, todos los datos finitos se pueden representar con números (en general muy grandes). Debido a esto, un programa que recibe como entrada una imagen y retorna la imagen con alguna modificación, por ejemplo, se puede ver como una función $f:\N\to\N$ que recibe el número que codifica la imagen original y retorna el número que codifica la imagen modificada.
@@ -112,7 +121,7 @@ La arquitectura de Von Neumann es un modelo para computadoras físicas, a difere
 
 Primero sería bueno decidir qué consideramos como una computadora. Digamos que es un dispositivo físico que puede automáticamente calcular funciones computables y que tiene mecanismos para interactuar con el entorno. Podemos pensar que es una caja negra que de alguna forma calcula funciones computables y además tiene algún mecanismo por el cual podemos ingresar información (por ejemplo con un teclado) y algún mecanismo por el cual puede devolver información (por ejemplo con una pantalla).
 
-La arquitectura de Von Neumann define que la computadora tiene tres componentes principales que interactúan entre sí: un {\bf procesador }(CPU), una {\bf memoria} y un subsistema de {\bf entrada y salida} (figura \ref{fig-ArqVN}). A la conexión entre las distintas componentes se le llama {\bf bus}. El procesador es un dispositivo con la capacidad de ejecutar un conjunto finito de operaciones básicas, llamadas  instrucciones. La idea es que un programa está dado por una secuencia finita de instrucciones. Si bien las instrucciones son finitas (y en general bastante sencillas), al usarlas de forma secuencial se puede implementar cualquier función computable. Tanto la secuencia de instrucciones que conforma un programa como los datos con los que este opera se guardan en la memoria. El subsistema de entrada y salida permite que la computadora interactúe con el entorno (por ejemplo con un usuario que ingresa datos y observa resultados o con otra computadora dentro de una red).
+La arquitectura de Von Neumann define que la computadora tiene tres componentes principales que interactúan entre sí: un {\bf procesador }(CPU), una {\bf memoria} y un subsistema de {\bf entrada y salida} (figura \ref{fig-ArqVN}). A la conexión entre las distintas componentes se le llama {\bf bus}. El procesador es un dispositivo con la capacidad de ejecutar un conjunto finito de operaciones básicas, llamadas  instrucciones. Un programa está dado por una secuencia (finita) de instrucciones ---la idea es que aunque las instrucciones sean finitas, al usarlas de forma secuencial se pueda implementar cualquier función computable. Tanto la secuencia de instrucciones que conforma un programa como los datos con los que este opera se guardan en la memoria. El subsistema de entrada y salida permite que la computadora interactúe con el entorno (por ejemplo con un usuario que ingresa datos y observa resultados o con otra computadora dentro de una red). Se le llama {\bf hardware} a los componentes físicos de la computadora y {\bf software} a los programas.
 
 Todas las componentes de la computadora se construyen con circuitos electrónicos y usando la abstracción del {\sl bit}, que significa dígito binario, es decir {\tt 0} o {\tt 1}. Claramente el bit es un concepto abstracto que no existe de por sí en los circuitos eléctricos. Lo que se hace es tomar una convención, como que si circula corriente significa 1 y si no significa 0, o que cierto voltaje significa 1 y cierto voltaje significa 0. Sea cual sea la convención, lo importante es que se pueden construir circuitos con entrada y salida que implementen cualquier operación finita. Por ejemplo, se puede armar un circuito con 4 bits de entrada, $a_0,a_1,b_0,b_1$ y tres bits de salida $c_0,c_1,c_2$ tal que si tomamos la entrada como la codificación en binario de dos números entre $0$ y $3$, la salida sea la codificación en binario de la suma. En general, para cada función $f:\{0,1\}^n\to\{0,1\}^m$ se puede construir un circuito con $n$ bits de entrada y $m$ bits de salida que implementa la función~$f$. A estos se les llama {\sl circuitos combinatorios}. Junto con otro tipo de circuitos llamados {\sl secuenciales} (que funcionan por etapas y además de la entrada actual dependen de las entradas anteriores, o de un estado que puede ir variando), son un elemento base de las computadoras, tal vez el principal.
 
@@ -3117,7 +3126,7 @@ Matrix([
 
 \chapter{Introducción a TeX y LaTeX}
 
-Latex, escrito de modo estilizado \LaTeX{} o LaTeX, es un lenguaje para generar documentos científicos de alta calidad tipográfica, especialmente aquellos con presencia de fórmulas matemáticas. Aquí el sentido de \lq\lq alta calidad tipográfica\rq\rq{} es que el texto y las fórmulas quedan organizadas de modo fácilmente legible. No es una herramienta que destaque por la posibilidad de hacer cosas {\sl creativas} (aunque sí que se las puede hacer si uno profundiza), sino por la facilidad de generar textos bien ordenados que transmiten la información de modo claro. Que un material se entienda requiere de dos cosas: primero, que el contenido del material sea claro y segundo, que la organización sea prolija. Latex se encarga de la segunda parte.
+Latex, escrito de modo estilizado \LaTeX{} o LaTeX, es un lenguaje para generar documentos de alta calidad tipográfica, especialmente de tipo científico con presencia de fórmulas matemáticas. Aquí el sentido de \lq\lq alta calidad tipográfica\rq\rq{} es que los distintos elementos (texto, fórmulas , etc.) quedan organizados de modo fácilmente legible. No es una herramienta que destaque por la posibilidad de hacer cosas {\sl creativas} (aunque sí que se las puede hacer si uno profundiza), sino por la facilidad de generar textos bien ordenados que transmiten la información de modo claro. Que un material se entienda requiere de dos cosas: primero, que el contenido sea claro y segundo, que esté bien organizado y prolijo. Latex es una herramienta para lograr lo segundo.
 
 Los materiales de este curso están hechos con latex. Se puede acceder a los archivos fuente en \href{https://github.com/fcarballal/curso_comp}{https://github.com/fcarballal/curso\_comp}.
 
